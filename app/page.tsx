@@ -1,5 +1,12 @@
+import BookBtn from '@/components/BookBtn'
+import Navbar from '@/components/Navbar'
 const Home = () => {
-    return <h1 className="text-4xl">Next.js test</h1>
+    return (
+        <>
+            <Navbar />
+            <BookBtn />
+        </>
+    )
 }
 
 export default Home
