@@ -1,5 +1,6 @@
 'use client'
 
+import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 
 const InstructorIntro = () => {
@@ -27,9 +28,10 @@ const InstructorIntro = () => {
                 </p>
                 <Link
                     href="/about"
-                    className="mt-2 w-fit bg-btn text-white px-6 py-3 rounded-lg transition-opacity hover:opacity-90 mx-auto"
+                    className="mt-2 w-fit bg-btn text-white px-5 py-3 rounded-lg transition-opacity hover:opacity-90 mx-auto flex items-center gap-2"
                 >
                     Läs mer om mig
+                    <ArrowRight size={18} />
                 </Link>
             </div>
         </section>
