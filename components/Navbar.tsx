@@ -13,11 +13,11 @@ const Navbar = () => {
 
     return (
         <nav
-            className={` bg-warm w-full flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 transition-all duration-500 z-50 ${'py-4 md:py-6'}`}
+            className={` bg-warm w-full flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 transition-all duration-500 z-50 py-4 md:py-3`}
         >
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 font-extrabold">
-                Pilates
+                <img src="/images/logo.png" alt="logo" width={55} />
             </Link>
 
             {/* Desktop Nav */}
