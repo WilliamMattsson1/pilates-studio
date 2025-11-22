@@ -6,7 +6,7 @@ import TitleHeader from './TitleHeader'
 
 const InstructorIntro = () => {
     return (
-        <section className="w-full">
+        <section className="w-full py-13">
             <TitleHeader
                 title="Meet Your Instructor"
                 subtitle="Certified Pilates Expert"
