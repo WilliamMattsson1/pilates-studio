@@ -13,7 +13,7 @@ const Navbar = () => {
 
     return (
         <nav
-            className={` bg-warm w-full flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 transition-all duration-500 z-50 py-4 md:py-3`}
+            className={` bg-white w-full flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 transition-all duration-500 z-50 py-4 md:py-3`}
         >
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 font-extrabold">
@@ -32,12 +32,12 @@ const Navbar = () => {
                     >
                         {link.name}
                         <div
-                            className={`bg-white h-0.5 w-0 group-hover:w-full transition-all duration-300`}
+                            className={`bg-black h-0.5 w-0 group-hover:w-full transition-all duration-300`}
                         />
                     </a>
                 ))}
                 <button
-                    className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer ${'text-white'} transition-all`}
+                    className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all`}
                 >
                     <Link href="/book">Book Now</Link>
                 </button>
@@ -47,7 +47,7 @@ const Navbar = () => {
             <div className="hidden md:flex items-center gap-4">
                 {/* Lägg till profil här. Antingen vänster om login eller höger */}
                 <button
-                    className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 ${'bg-white text-black'}`}
+                    className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 bg-black text-white`}
                 >
                     Login
                 </button>

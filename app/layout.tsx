@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Roboto, Geist_Mono } from 'next/font/google'
 import './globals.css'
-import Navbar from '@/components/Navbar'
 
 const roboto = Roboto({
     variable: '--font-roboto',

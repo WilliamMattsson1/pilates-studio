@@ -14,7 +14,7 @@
 
     /* Test färger */
     --color-bg: #faf7f2; /* mycket ljus beige — bakgrund */
-    --color-surface: #f2ede6; /* ljus varm kort — bg ekker kort, paneler */
+    --color-surface: #eae4df; /* ljus varm kort — bg ekker kort, paneler */
     --color-text: #2b2b27; /* mörk brun — huvudtext */
     --color-muted: #7a6f63; /* mellanbrun — sekundär text */
     --color-primary: #c96f4e; /* terracotta — primär accent, knappar */
