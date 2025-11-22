@@ -1,0 +1,64 @@
+'use client'
+
+import { User, Heart, Clock } from 'lucide-react'
+import TitleHeader from './TitleHeader'
+
+const benefits = [
+    {
+        icon: <User size={62} className="text-btn/70" />,
+        title: 'Personalized Training',
+        description:
+            'Tailored exercises for all levels, so everyone can progress safely.'
+    },
+    {
+        icon: <Heart size={62} className="text-btn/70" />,
+        title: 'Improve Well-being',
+        description:
+            'Build strength, flexibility, and overall health through Pilates.'
+    },
+    {
+        icon: <Clock size={62} className="text-btn/70" />,
+        title: 'Flexible Scheduling',
+        description:
+            'Book classes when it suits you, with easy online management.'
+    },
+    {
+        icon: <User size={62} className="text-btn/70" />,
+        title: 'Expert Guidance',
+        description:
+            'Learn from a certified instructor with years of experience.'
+    }
+]
+
+const PilatesBenefits = () => {
+    return (
+        <section
+            className="w-full bg-white
+          px-6 py-2"
+        >
+            <TitleHeader
+                title="Why Choose Pilates?"
+                subtitle="Discover the benefits of practicing with us"
+                alignment="center"
+            />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {benefits.map((benefit, i) => (
+                    <div
+                        key={i}
+                        className="bg-bg flex flex-col items-center text-center gap-3 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                    >
+                        {benefit.icon}
+                        <h3 className="text-2xl font-semibold">
+                            {benefit.title}
+                        </h3>
+                        <p className="text-gray-800 text-md">
+                            {benefit.description}
+                        </p>
+                    </div>
+                ))}
+            </div>
+        </section>
+    )
+}
+
+export default PilatesBenefits
