@@ -47,7 +47,7 @@ const Navbar = () => {
             <div className="hidden md:flex items-center gap-4">
                 {/* Lägg till profil här. Antingen vänster om login eller höger */}
                 <button
-                    className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 bg-black text-white`}
+                    className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 bg-btn text-white`}
                 >
                     Login
                 </button>
@@ -105,7 +105,7 @@ const Navbar = () => {
                     <Link href="book">Book Now</Link>
                 </button>
 
-                <button className="bg-black text-white px-8 py-2.5 rounded-full transition-all duration-500">
+                <button className="bg-btn text-white px-8 py-2.5 rounded-full transition-all duration-500">
                     Login
                 </button>
             </div>
