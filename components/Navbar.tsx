@@ -23,18 +23,16 @@ const Navbar = () => {
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-4 lg:gap-8">
                 {navLinks.map((link, i) => (
-                    <a
+                    <Link
                         key={i}
                         href={link.path}
-                        className={`group flex flex-col gap-0.5
-                               'text-white'
-                            `}
+                        className="group flex flex-col gap-0.5"
                     >
                         {link.name}
                         <div
                             className={`bg-black h-0.5 w-0 group-hover:w-full transition-all duration-300`}
                         />
-                    </a>
+                    </Link>
                 ))}
                 <button
                     className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all`}
