@@ -1,5 +1,11 @@
+import ClassesHero from '@/components/classes/ClassesHero'
+
 const Classes = () => {
-    return <div>Classes</div>
+    return (
+        <div>
+            <ClassesHero />
+        </div>
+    )
 }
 
 export default Classes

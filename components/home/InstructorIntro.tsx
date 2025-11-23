@@ -2,7 +2,7 @@
 
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import TitleHeader from './TitleHeader'
+import TitleHeader from '../shared/TitleHeader'
 
 const InstructorIntro = () => {
     return (

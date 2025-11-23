@@ -1,7 +1,7 @@
 import { User, Heart, Clock } from 'lucide-react'
-import TitleHeader from './TitleHeader'
+import TitleHeader from '../shared/TitleHeader'
+import SectionDivider from '../shared/ui/SectionDivider'
 import Testimonials from './Testimonials'
-import SectionDivider from './ui/SectionDivider'
 
 const benefits = [
     {

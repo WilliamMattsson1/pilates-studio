@@ -1,7 +1,7 @@
-import PilatesBenefits from '@/components/Benefits'
-import Hero from '@/components/Hero'
-import InstructorIntro from '@/components/InstructorIntro'
-import UpcomingClassesPreview from '@/components/UpcomingClassesPreview'
+import PilatesBenefits from '@/components/home/Benefits'
+import Hero from '@/components/home/Hero'
+import InstructorIntro from '@/components/home/InstructorIntro'
+import UpcomingClassesPreview from '@/components/home/UpcomingClassesPreview'
 
 const Home = () => {
     return (

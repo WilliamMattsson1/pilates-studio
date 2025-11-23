@@ -1,8 +1,8 @@
 'use client'
 
 import { ArrowRight } from 'lucide-react'
-import TitleHeader from './TitleHeader'
 import Link from 'next/link'
+import TitleHeader from '../shared/TitleHeader'
 
 interface ClassItem {
     id: number
