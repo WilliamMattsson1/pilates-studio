@@ -13,7 +13,7 @@ const Navbar = () => {
 
     return (
         <nav
-            className={`sticky top-0 bg-bg w-full flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 transition-all duration-500 z-50 py-4 md:py-3`}
+            className={`sticky top-0 bg-secondary-bg w-full flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 transition-all duration-500 z-50 py-4 md:py-3`}
         >
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 font-extrabold">
@@ -69,7 +69,7 @@ const Navbar = () => {
 
             {/* Mobile Menu */}
             <div
-                className={`fixed top-0 left-0 w-full h-screen bg-bg text-base flex flex-col md:hidden items-center justify-center gap-6 font-medium text-gray-800 transition-all duration-500 ${
+                className={`fixed top-0 left-0 w-full h-screen bg-secondary-bg text-base flex flex-col md:hidden items-center justify-center gap-6 font-medium text-gray-800 transition-all duration-500 ${
                     isMenuOpen ? 'translate-x-0' : '-translate-x-full'
                 }`}
             >

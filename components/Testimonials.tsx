@@ -22,7 +22,7 @@ const Testimonials = () => {
                         key={i}
                         className="
                             relative
-                            bg-bg/40
+                            bg-secondary-bg/40
                             shadow-md rounded-md p-8
                             flex flex-col gap-6
                         "

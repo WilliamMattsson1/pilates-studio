@@ -65,7 +65,7 @@ const UpcomingClassesPreview = () => {
                         {classes.map((cls) => (
                             <div
                                 key={cls.id}
-                                className="relative w-full sm:w-[48%] bg-bg rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow"
+                                className="relative w-full sm:w-[48%] bg-secondary-bg rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow"
                             >
                                 {cls.spotsLeft <= 3 && (
                                     <span className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-red-400 text-white text-xs font-semibold px-2 py-1 rounded-full">

@@ -45,7 +45,7 @@ const PilatesBenefits = () => {
                 {benefits.map((benefit, i) => (
                     <div
                         key={i}
-                        className="bg-bg/40 flex flex-col items-center text-center gap-3 p-6 rounded-md shadow-md hover:shadow-lg transition-shadow"
+                        className="bg-secondary-bg/40 flex flex-col items-center text-center gap-3 p-6 rounded-md shadow-md hover:shadow-lg transition-shadow"
                     >
                         {benefit.icon}
                         <h4 className="text-2xl font-semibold">

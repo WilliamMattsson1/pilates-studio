@@ -13,8 +13,8 @@
     --color-btn-primary: orange;
 
     /* Test färger */
-    --color-bg: #eae4df; /* mycket ljus beige — bakgrund */
-    --color-surface: #eae4df; /* ljus varm kort — bg ekker kort, paneler */
+    --color-secondary-bg: #eae4df; /* mycket ljus beige — bakgrund */
+    --color-secondary: #eae4df; /* ljus varm kort — bg ekker kort, paneler */
     --color-btn: #704f44; /* buttons */
 
     --color-text: #2b2b27; /* mörk brun — huvudtext */
@@ -27,6 +27,6 @@
 }
 
 body {
-    background: var(--color-bg);
+    background: var(--color-primary-bg);
     font-family: Roboto, sans-serif;
 }
