@@ -73,9 +73,9 @@ const UpcomingClassesPreview = () => {
                                     </span>
                                 )}
 
-                                <h4 className="font-semibold text-lg mb-2">
+                                <h5 className="font-semibold text-lg mb-2">
                                     {cls.title}
-                                </h4>
+                                </h5>
 
                                 <div className="flex items-center gap-1 mb-2">
                                     <p className="text-gray-700 text-sm font-medium">

@@ -48,9 +48,9 @@ const PilatesBenefits = () => {
                         className="bg-bg/40 flex flex-col items-center text-center gap-3 p-6 rounded-md shadow-md hover:shadow-lg transition-shadow"
                     >
                         {benefit.icon}
-                        <h3 className="text-2xl font-semibold">
+                        <h4 className="text-2xl font-semibold">
                             {benefit.title}
-                        </h3>
+                        </h4>
                         <p className="text-gray-800 text-md">
                             {benefit.description}
                         </p>
@@ -58,7 +58,6 @@ const PilatesBenefits = () => {
                 ))}
             </div>
 
-            {/* <div className="w-[65%] h-[4px] bg-btn/60 mt-14 mb-14 rounded-full mx-auto" /> */}
             <SectionDivider />
 
             <Testimonials />
