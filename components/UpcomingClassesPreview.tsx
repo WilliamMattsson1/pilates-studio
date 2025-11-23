@@ -48,7 +48,7 @@ const classes: ClassItem[] = [
 
 const UpcomingClassesPreview = () => {
     return (
-        <section className="w-full bg-white py-8 px-6 md:px-16 lg:px-24">
+        <section className="w-full bg-white py-2 px-6 md:px-16 lg:px-24">
             <TitleHeader
                 title="Upcoming Classes"
                 subtitle="Plan your next session"

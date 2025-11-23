@@ -1,7 +1,6 @@
-'use client'
-
 import { User, Heart, Clock } from 'lucide-react'
 import TitleHeader from './TitleHeader'
+import Testimonials from './Testimonials'
 
 const benefits = [
     {
@@ -45,7 +44,7 @@ const PilatesBenefits = () => {
                 {benefits.map((benefit, i) => (
                     <div
                         key={i}
-                        className="bg-bg flex flex-col items-center text-center gap-3 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                        className="bg-bg/40 flex flex-col items-center text-center gap-3 p-6 rounded-md shadow-md hover:shadow-lg transition-shadow"
                     >
                         {benefit.icon}
                         <h3 className="text-2xl font-semibold">
@@ -57,6 +56,7 @@ const PilatesBenefits = () => {
                     </div>
                 ))}
             </div>
+            <Testimonials />
         </section>
     )
 }
