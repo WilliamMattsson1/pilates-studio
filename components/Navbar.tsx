@@ -34,9 +34,7 @@ const Navbar = () => {
                         />
                     </Link>
                 ))}
-                <button
-                    className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all`}
-                >
+                <button className="border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all duration-300 hover:bg-btn hover:text-white">
                     <Link href="/book">Book Now</Link>
                 </button>
             </div>
