@@ -13,7 +13,7 @@ const testimonials = [
     }
 ]
 
-export default function Testimonials() {
+const Testimonials = () => {
     return (
         <div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full md:max-w-6xl mx-auto mt-8">
@@ -56,3 +56,5 @@ export default function Testimonials() {
         </div>
     )
 }
+
+export default Testimonials

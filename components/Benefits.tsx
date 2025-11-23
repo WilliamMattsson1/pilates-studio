@@ -1,6 +1,7 @@
 import { User, Heart, Clock } from 'lucide-react'
 import TitleHeader from './TitleHeader'
 import Testimonials from './Testimonials'
+import SectionDivider from './ui/SectionDivider'
 
 const benefits = [
     {
@@ -56,6 +57,9 @@ const PilatesBenefits = () => {
                     </div>
                 ))}
             </div>
+
+            {/* <div className="w-[65%] h-[4px] bg-btn/60 mt-14 mb-14 rounded-full mx-auto" /> */}
+            <SectionDivider />
 
             <Testimonials />
         </section>
