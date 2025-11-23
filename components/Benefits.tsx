@@ -56,6 +56,7 @@ const PilatesBenefits = () => {
                     </div>
                 ))}
             </div>
+
             <Testimonials />
         </section>
     )

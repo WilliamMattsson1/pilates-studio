@@ -15,8 +15,8 @@ const testimonials = [
 
 export default function Testimonials() {
     return (
-        <section className="w-full px-6 ">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mt-8">
+        <div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full md:max-w-6xl mx-auto mt-8">
                 {testimonials.map((t, i) => (
                     <div
                         key={i}
@@ -27,18 +27,15 @@ export default function Testimonials() {
                             flex flex-col gap-6
                         "
                     >
-                        {/* Quote icon in corner */}
                         <Quote
                             size={42}
                             className="absolute top-4 right-4 text-btn/50"
                         />
 
-                        {/* Testimonial text */}
-                        <p className="text-gray-800 text-lg italic leading-relaxed">
+                        <p className="text-gray-800 text-lg italic leading-relaxed pr-6">
                             “{t.text}”
                         </p>
 
-                        {/* Footer with avatar */}
                         <div className="flex items-center gap-2 mt-2">
                             <div
                                 className="
@@ -56,6 +53,6 @@ export default function Testimonials() {
                     </div>
                 ))}
             </div>
-        </section>
+        </div>
     )
 }
