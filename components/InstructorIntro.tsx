@@ -37,7 +37,7 @@ const InstructorIntro = () => {
                             href="/about"
                             className="mt-2 w-fit bg-btn text-white px-5 py-3 rounded-lg transition-opacity hover:opacity-90 flex items-center gap-2"
                         >
-                            Läs mer om mig
+                            Read more about me
                             <ArrowRight size={18} />
                         </Link>
                     </div>
