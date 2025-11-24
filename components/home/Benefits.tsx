@@ -58,7 +58,7 @@ const PilatesBenefits = () => {
                 ))}
             </div>
 
-            <SectionDivider />
+            <SectionDivider className="my-14 bg-btn/60 h-1 w-[65%]" />
 
             <Testimonials />
         </section>
