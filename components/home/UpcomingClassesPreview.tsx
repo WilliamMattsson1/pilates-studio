@@ -3,15 +3,7 @@
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import TitleHeader from '../shared/TitleHeader'
-
-interface ClassItem {
-    id: number
-    title: string
-    date: string
-    time: string
-    maxSpots: number
-    bookedSpots: number
-}
+import ClassCard, { ClassItem } from '../shared/ui/ClassCard'
 
 const mockClasses: ClassItem[] = [
     {
@@ -50,7 +42,7 @@ const mockClasses: ClassItem[] = [
 
 const UpcomingClassesPreview = () => {
     return (
-        <section className="w-full bg-white py-8 px-6 md:px-10">
+        <section className="w-full bg-white py-8 md:px-10 px-6">
             <TitleHeader
                 title="Upcoming Classes"
                 subtitle="Plan your next session"
@@ -59,51 +51,11 @@ const UpcomingClassesPreview = () => {
 
             <div className="flex flex-col lg:flex-row items-start gap-8 mt-8">
                 {/* Left: Class cards */}
-                <div className="flex flex-col lg:w-[60%] mx-auto">
+                <div className="flex flex-col lg:w-[60%] w-full mx-auto">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 justify-items-center lg:justify-items-start">
-                        {mockClasses.map((cls) => {
-                            const spotsLeft = cls.maxSpots - cls.bookedSpots
-                            return (
-                                <div
-                                    key={cls.id}
-                                    className="min-w-[250px] w-full relative bg-secondary-bg rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow flex flex-col "
-                                >
-                                    {spotsLeft <= 3 && (
-                                        <span className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-red-400 text-white text-xs font-semibold px-2 py-1 rounded-full">
-                                            Only {spotsLeft} left!
-                                        </span>
-                                    )}
-
-                                    <h5 className="font-semibold text-lg mb-2">
-                                        {cls.title}
-                                    </h5>
-
-                                    <div className="flex items-center gap-1 mb-2">
-                                        <p className="text-gray-700 text-sm font-medium">
-                                            {cls.date}
-                                        </p>
-                                        <span className="text-gray-400">•</span>
-                                        <p className="text-gray-600 text-sm">
-                                            {cls.time}
-                                        </p>
-                                    </div>
-
-                                    <div className="mt-auto flex items-center justify-between">
-                                        <p className="text-gray-500 text-xs">
-                                            {cls.bookedSpots}/{cls.maxSpots}{' '}
-                                            booked
-                                        </p>
-
-                                        <Link
-                                            href={`/booking/${cls.id}`}
-                                            className="bg-btn text-white px-3 py-1 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity flex items-center gap-1"
-                                        >
-                                            Book now
-                                        </Link>
-                                    </div>
-                                </div>
-                            )
-                        })}
+                        {mockClasses.map((cls: ClassItem) => (
+                            <ClassCard key={cls.id} cls={cls} />
+                        ))}
                     </div>
 
                     <div className="flex justify-center lg:justify-start mt-6">
