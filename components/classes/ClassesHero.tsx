@@ -46,7 +46,7 @@ const ClassesHero = () => {
                 </div>
 
                 <Link
-                    href="#booking"
+                    href="#available-classes"
                     className="hidden lg:flex absolute bottom-6 left-1/2 transform -translate-x-1/2  flex-col items-center text-white animate-bounce"
                 >
                     <ArrowDown size={22} className="text-btn " />
