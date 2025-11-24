@@ -40,11 +40,17 @@ const AdminAddClass = () => {
                     onSubmit={handleSubmit}
                     className="bg-white p-8 rounded-2xl shadow-xl flex flex-col gap-6"
                 >
+                    {/* Title */}
                     <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-gray-700">
+                        <label
+                            htmlFor="title"
+                            className="text-sm font-medium text-gray-700"
+                        >
                             Class Title
                         </label>
                         <input
+                            id="title"
+                            name="title"
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
@@ -56,10 +62,15 @@ const AdminAddClass = () => {
 
                     {/* Date */}
                     <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-gray-700">
+                        <label
+                            htmlFor="date"
+                            className="text-sm font-medium text-gray-700"
+                        >
                             Date
                         </label>
                         <input
+                            id="date"
+                            name="date"
                             type="date"
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
@@ -68,11 +79,17 @@ const AdminAddClass = () => {
                         />
                     </div>
 
+                    {/* Time */}
                     <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-gray-700">
+                        <label
+                            htmlFor="time"
+                            className="text-sm font-medium text-gray-700"
+                        >
                             Time
                         </label>
                         <input
+                            id="time"
+                            name="time"
                             type="text"
                             value={time}
                             onChange={(e) => setTime(e.target.value)}
@@ -82,11 +99,17 @@ const AdminAddClass = () => {
                         />
                     </div>
 
+                    {/* Max Spots */}
                     <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-gray-700">
+                        <label
+                            htmlFor="maxSpots"
+                            className="text-sm font-medium text-gray-700"
+                        >
                             Max Spots
                         </label>
                         <input
+                            id="maxSpots"
+                            name="maxSpots"
                             type="number"
                             min="1"
                             value={maxSpots}
