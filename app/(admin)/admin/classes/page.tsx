@@ -3,7 +3,6 @@ import AdminAddClass from '@/components/admin/AdminAddClass'
 const page = () => {
     return (
         <>
-            <h1>overview</h1>
             <AdminAddClass />
         </>
     )
