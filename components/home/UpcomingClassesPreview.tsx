@@ -3,44 +3,18 @@
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import TitleHeader from '../shared/TitleHeader'
-import ClassCard, { ClassItem } from '../shared/ui/ClassCard'
-
-const mockClasses: ClassItem[] = [
-    {
-        id: 1,
-        title: 'Matta Pilates',
-        date: '2025-11-26',
-        time: '14:00 – 15:00',
-        maxSpots: 8,
-        bookedSpots: 6
-    },
-    {
-        id: 2,
-        title: 'Core Flow',
-        date: '2025-11-27',
-        time: '16:00 – 17:00',
-        maxSpots: 8,
-        bookedSpots: 3
-    },
-    {
-        id: 3,
-        title: 'Pilates Basics',
-        date: '2025-11-28',
-        time: '10:00 – 11:00',
-        maxSpots: 8,
-        bookedSpots: 7
-    },
-    {
-        id: 4,
-        title: 'Stretch & Strength',
-        date: '2025-11-29',
-        time: '12:00 – 13:00',
-        maxSpots: 8,
-        bookedSpots: 2
-    }
-]
+import ClassCard from '../shared/ui/ClassCard'
+import { ClassItem } from '@/types/ClassItem'
+import { useClasses } from '@/context/ClassesContext'
 
 const UpcomingClassesPreview = () => {
+    const { classes } = useClasses()
+
+    const upcomingClasses = classes
+        .filter((cls) => new Date(cls.date) >= new Date()) // bara framtida
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()) // sortera kronologiskt
+        .slice(0, 4) // bara de 4 första
+
     return (
         <section className="w-full bg-white py-8 md:px-10 px-6">
             <TitleHeader
@@ -53,7 +27,7 @@ const UpcomingClassesPreview = () => {
                 {/* Left: Class cards */}
                 <div className="flex flex-col lg:w-[60%] w-full mx-auto">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 justify-items-center lg:justify-items-start">
-                        {mockClasses.map((cls: ClassItem) => (
+                        {upcomingClasses.map((cls: ClassItem) => (
                             <ClassCard key={cls.id} cls={cls} />
                         ))}
                     </div>

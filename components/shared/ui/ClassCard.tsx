@@ -1,15 +1,7 @@
 'use client'
 
+import { ClassItem } from '@/types/ClassItem'
 import Link from 'next/link'
-
-export interface ClassItem {
-    id: number
-    title: string
-    date: string
-    time: string
-    maxSpots: number
-    bookedSpots: number
-}
 
 interface ClassCardProps {
     cls: ClassItem
