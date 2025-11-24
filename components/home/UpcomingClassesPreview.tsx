@@ -58,10 +58,10 @@ const UpcomingClassesPreview = () => {
                         ))}
                     </div>
 
-                    <div className="flex justify-center lg:justify-start mt-6">
+                    <div className="flex justify-center lg:justify-start mt-8 md:mt-6">
                         <Link
                             href="/classes"
-                            className="border-btn border w-full md:w-fit text-black px-5 py-3 rounded-lg transition-opacity hover:opacity-90 flex items-center gap-2"
+                            className="border-btn border w-fit text-black px-5 py-3 rounded-lg transition-opacity hover:opacity-90 flex items-center gap-2"
                         >
                             See All Classes
                             <ArrowRight size={18} />

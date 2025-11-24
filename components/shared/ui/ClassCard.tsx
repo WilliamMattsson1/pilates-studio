@@ -21,7 +21,7 @@ const ClassCard = ({ cls }: ClassCardProps) => {
 
     return (
         <div
-            className={`min-w-[250px] w-[90%] sm:w-full relative rounded-lg shadow-md p-4 flex flex-col transition-shadow
+            className={`min-w-[250px] w-full sm:w-full relative rounded-lg shadow-md p-4 flex flex-col transition-shadow
             ${isFull ? 'bg-gray-300' : 'bg-secondary-bg hover:shadow-lg'}`}
         >
             {isFull ? (
