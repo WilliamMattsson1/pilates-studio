@@ -1,12 +1,13 @@
 'use client'
-import { createContext, useState, useContext } from 'react'
+
+import { createContext, useState, useContext, useEffect } from 'react'
 import { ClassItem } from '../types/ClassItem'
 import { mockClasses } from '@/mock/classes'
 
 interface ClassesContextType {
     classes: ClassItem[]
-    // addClass: (cls: ClassItem) => void
-    // bookSpot: (id: number) => void
+    addClass: (cls: ClassItem) => void
+    //     bookSpot: (id: number) => void
 }
 
 const ClassesContext = createContext<ClassesContextType | undefined>(undefined)
@@ -16,19 +17,39 @@ export const ClassesProvider = ({
 }: {
     children: React.ReactNode
 }) => {
-    const [classes, setClasses] = useState<ClassItem[]>(mockClasses)
+    const [classes, setClasses] = useState<ClassItem[]>([])
 
-    // const addClass = (cls: ClassItem) => setClasses((prev) => [...prev, cls])
+    // Load existing classes from localStorage on mount
+    useEffect(() => {
+        const stored = localStorage.getItem('classes')
+        if (stored) {
+            setClasses(JSON.parse(stored))
+        } else {
+            setClasses(mockClasses) // first time use mock data
+            localStorage.setItem('classes', JSON.stringify(mockClasses))
+        }
+    }, [])
 
-    // const bookSpot = (id: number) =>
-    //     setClasses((prev) =>
-    //         prev.map((c) =>
+    const addClass = (cls: ClassItem) => {
+        setClasses((prev) => {
+            const updated = [...prev, cls]
+            localStorage.setItem('classes', JSON.stringify(updated))
+            return updated
+        })
+    }
+
+    // const bookSpot = (id: number) => {
+    //     setClasses((prev) => {
+    //         const updated = prev.map((c) =>
     //             c.id === id ? { ...c, bookedSpots: c.bookedSpots + 1 } : c
     //         )
-    //     )
+    //         localStorage.setItem('classes', JSON.stringify(updated))
+    //         return updated
+    //     })
+    // }
 
     return (
-        <ClassesContext.Provider value={{ classes }}>
+        <ClassesContext.Provider value={{ classes, addClass }}>
             {children}
         </ClassesContext.Provider>
     )

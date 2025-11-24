@@ -1,5 +1,11 @@
+import AdminAddClass from '@/components/admin/AdminAddClass'
+
 const page = () => {
-    return <div>Admin</div>
+    return (
+        <>
+            <AdminAddClass />
+        </>
+    )
 }
 
 export default page
