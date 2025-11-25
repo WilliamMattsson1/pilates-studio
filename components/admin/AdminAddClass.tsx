@@ -30,15 +30,11 @@ const AdminAddClass = () => {
     }
 
     return (
-        <section className="w-full min-h-screen bg-secondary-bg px-6 md:px-20 py-16 flex justify-center">
+        <section className="w-full min-h-screen bg-secondary-bg px-6 md:px-16 py-6 flex justify-center">
             <div className="w-full max-w-xl">
-                <h1 className="text-3xl font-bold mb-10 text-center">
-                    Add New Class
-                </h1>
-
                 <form
                     onSubmit={handleSubmit}
-                    className="bg-white p-8 rounded-2xl shadow-xl flex flex-col gap-6"
+                    className="bg-white p-6 rounded-2xl shadow-xl flex flex-col gap-6"
                 >
                     {/* Title */}
                     <div className="flex flex-col gap-1">

@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { X } from 'lucide-react'
+import { Wrench, X } from 'lucide-react'
 import SectionDivider from '@/components/shared/ui/SectionDivider'
 import type { LucideIcon } from 'lucide-react'
 
@@ -23,7 +23,8 @@ export const Sidebar = ({
             <aside className="hidden md:flex w-64 bg-primary-bg/60 flex-col p-6">
                 <img src="/images/logo.png" className="mx-auto w-26" />
                 <SectionDivider className="bg-btn/60 h-1 w-full my-6" />
-                <h2 className="text-2xl font-semibold text-center">
+                <h2 className="text-2xl font-semibold text-left">
+                    <Wrench size={34} className="inline-block mr-2 " />
                     Admin Panel
                 </h2>
                 <nav className="flex flex-col  mt-6">
@@ -72,21 +73,31 @@ export const Sidebar = ({
                         </div>
 
                         <nav className="flex flex-col gap-4 mt-6">
-                            {navItems.map((item) => (
-                                <Link
-                                    key={item.href}
-                                    href={item.href}
-                                    className={`text-gray-700 font-medium transition-colors hover:underline ${
-                                        pathname.startsWith(item.href)
-                                            ? 'font-semibold'
-                                            : ''
-                                    }`}
-                                    onClick={onClose}
-                                >
-                                    {item.label}
-                                </Link>
-                            ))}
+                            {navItems.map((item) => {
+                                const IconComponent = item.icon
+
+                                return (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        className={`text-gray-700 font-medium transition-colors hover:underline ${
+                                            pathname.startsWith(item.href)
+                                                ? 'font-semibold'
+                                                : ''
+                                        }`}
+                                        onClick={onClose}
+                                    >
+                                        <IconComponent className="w-5  inline-block mr-2 text-black" />
+                                        {item.label}
+                                    </Link>
+                                )
+                            })}
                         </nav>
+                        <SectionDivider className="bg-btn/60 h-1 w-full my-6" />
+                        <img
+                            src="/images/logo.png"
+                            className="mx-auto w-26 mt-6"
+                        />
                     </aside>
                 </>
             )}

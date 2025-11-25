@@ -1,9 +1,9 @@
-import AdminAddClass from '@/components/admin/AdminAddClass'
+import ClassesTabs from '@/components/admin/ClassesTabs'
 
 const page = () => {
     return (
         <>
-            <AdminAddClass />
+            <ClassesTabs />
         </>
     )
 }
