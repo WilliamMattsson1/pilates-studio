@@ -9,7 +9,7 @@ const Classes = () => {
             <ClassesHero />
             <AvailableClasses />
             <ClassesOverviewSection />
-            <SectionDivider className="h-1 bg-btn mt-18 w-[60%]" />
+            <SectionDivider className="h-1 bg-btn/60 mt-18 w-[60%]" />
         </>
     )
 }
