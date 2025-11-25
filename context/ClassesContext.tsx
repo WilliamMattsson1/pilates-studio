@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useState, useContext, useEffect } from 'react'
-import { ClassItem } from '../types/ClassItem'
+import { ClassItem } from '../types/classes'
 import { mockClasses } from '@/mock/classes'
 
 interface ClassesContextType {

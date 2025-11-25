@@ -1,4 +1,4 @@
-import { ClassItem } from '@/types/ClassItem'
+import { ClassItem, WeekGroup } from '@/types/classes'
 
 // Sorterar klasser kronologiskt
 const sortClassesByDate = (classes: ClassItem[]): ClassItem[] => {
@@ -29,15 +29,33 @@ const getWeekNumber = (dateStr: string): number => {
 }
 
 // Grupperar klasser efter vecka
-const groupByWeek = (classes: ClassItem[]): Record<number, ClassItem[]> => {
-    const sorted = sortClassesByDate(classes)
+const groupAndSortByWeek = (classes: ClassItem[]): WeekGroup[] => {
+    const map = new Map<string, WeekGroup>()
 
-    return sorted.reduce((acc, cls) => {
+    classes.forEach((cls) => {
+        const date = new Date(cls.date)
+        const year = date.getFullYear()
         const week = getWeekNumber(cls.date)
-        if (!acc[week]) acc[week] = []
-        acc[week].push(cls)
-        return acc
-    }, {} as Record<number, ClassItem[]>)
+        const key = `${year}-W${week}`
+
+        // Skapa en ny WeekGroup om den inte finns
+        if (!map.has(key)) {
+            map.set(key, { year, week, classes: [] })
+        }
+        // Lägg till klassen i rätt WeekGroup
+        map.get(key)!.classes.push(cls)
+    })
+
+    // Konvertera till array och sortera på year först, sedan week
+    return Array.from(map.values()).sort((a, b) => {
+        if (a.year !== b.year) return a.year - b.year
+        return a.week - b.week
+    })
 }
 
-export { sortClassesByDate, filterUpcomingClasses, getWeekNumber, groupByWeek }
+export {
+    sortClassesByDate,
+    filterUpcomingClasses,
+    getWeekNumber,
+    groupAndSortByWeek
+}

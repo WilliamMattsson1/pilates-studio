@@ -1,6 +1,6 @@
 'use client'
 
-import { ClassItem } from '@/types/ClassItem'
+import { ClassItem } from '@/types/classes'
 import Link from 'next/link'
 
 interface ClassCardProps {

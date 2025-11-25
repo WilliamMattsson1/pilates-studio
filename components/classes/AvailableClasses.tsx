@@ -1,20 +1,21 @@
 'use client'
-import { ClassItem } from '@/types/ClassItem'
+import { ClassItem } from '@/types/classes'
 import TitleHeader from '../shared/TitleHeader'
 import ClassCard from '../shared/ui/ClassCard'
 import { useClasses } from '@/context/ClassesContext'
 import {
-    groupByWeek,
     sortClassesByDate,
-    filterUpcomingClasses
+    filterUpcomingClasses,
+    groupAndSortByWeek
 } from '@/utils/classes'
 
 const AvailableClasses = () => {
     const { classes } = useClasses()
     const sorted = sortClassesByDate(classes)
     const upcoming = filterUpcomingClasses(sorted)
-    const classesByWeek = groupByWeek(upcoming)
+    const classesByWeek = groupAndSortByWeek(upcoming)
 
+    const currentYear = new Date().getFullYear()
     return (
         <section
             id="available-classes"
@@ -27,21 +28,26 @@ const AvailableClasses = () => {
             />
 
             <div className="flex flex-col gap-8 mt-8">
-                {Object.entries(classesByWeek).map(
-                    ([weekNumber, weekClasses]) => (
-                        <div key={weekNumber}>
-                            <h3 className="text-2xl md:text-3xl font-bold mb-2">
-                                Week {weekNumber}
-                            </h3>
+                {classesByWeek.map((weekGroup) => (
+                    <div key={`${weekGroup.year}-W${weekGroup.week}`}>
+                        <h3 className="text-2xl md:text-3xl font-bold mb-2">
+                            Week {weekGroup.week}{' '}
+                            {weekGroup.year > currentYear ? (
+                                <span className="text-gray-400 font-medium">
+                                    ({weekGroup.year})
+                                </span>
+                            ) : (
+                                ''
+                            )}
+                        </h3>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 justify-items-center">
-                                {weekClasses.map((cls: ClassItem) => (
-                                    <ClassCard key={cls.id} cls={cls} />
-                                ))}
-                            </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 justify-items-center">
+                            {weekGroup.classes.map((cls: ClassItem) => (
+                                <ClassCard key={cls.id} cls={cls} />
+                            ))}
                         </div>
-                    )
-                )}
+                    </div>
+                ))}
             </div>
         </section>
     )

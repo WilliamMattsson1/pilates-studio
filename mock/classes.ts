@@ -1,4 +1,4 @@
-import { ClassItem } from '@/types/ClassItem'
+import { ClassItem } from '@/types/classes'
 
 export const mockClasses: ClassItem[] = [
     {

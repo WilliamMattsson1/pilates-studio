@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import TitleHeader from '../shared/TitleHeader'
 import ClassCard from '../shared/ui/ClassCard'
-import { ClassItem } from '@/types/ClassItem'
+import { ClassItem } from '@/types/classes'
 import { useClasses } from '@/context/ClassesContext'
 import { filterUpcomingClasses, sortClassesByDate } from '@/utils/classes'
 
