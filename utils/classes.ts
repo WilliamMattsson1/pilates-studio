@@ -1,5 +1,11 @@
 import { ClassItem } from '@/types/ClassItem'
 
+export const sortByDate = (classes: ClassItem[]): ClassItem[] => {
+    return [...classes].sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    )
+}
+
 // Returnerar vecka nummer
 const getWeekNumber = (dateStr: string): number => {
     const date = new Date(dateStr)
@@ -11,7 +17,9 @@ const getWeekNumber = (dateStr: string): number => {
 
 // Grupperar klasser efter vecka
 const groupByWeek = (classes: ClassItem[]): Record<number, ClassItem[]> => {
-    return classes.reduce((acc, cls) => {
+    const sorted = sortByDate(classes)
+
+    return sorted.reduce((acc, cls) => {
         const week = getWeekNumber(cls.date)
         if (!acc[week]) acc[week] = []
         acc[week].push(cls)

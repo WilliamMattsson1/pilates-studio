@@ -38,7 +38,7 @@ const ClassesHero = () => {
                                         hover:after:w-full
                                     "
                         >
-                            Läs mer
+                            Read more
                             <ArrowRight
                                 size={16}
                                 className="transition-transform duration-200 group-hover:translate-x-1"
@@ -64,7 +64,7 @@ const ClassesHero = () => {
                                         hover:after:w-full
                                     "
                         >
-                            Läs mer
+                            Read more
                             <ArrowRight
                                 size={16}
                                 className="transition-transform duration-200 group-hover:translate-x-1"
