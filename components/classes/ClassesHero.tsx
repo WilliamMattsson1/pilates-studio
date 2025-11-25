@@ -7,9 +7,15 @@ const ClassesHero = () => {
     return (
         <section className="w-full bg-secondary-bg py-16 px-6 md:px-20 flex flex-col lg:flex-row items-center gap-10 lg:gap-0">
             <div className="flex-1 flex flex-col gap-8">
-                <h1 className="text-4xl md:text-5xl font-extrabold text-center lg:text-left">
-                    Discover Our Pilates Classes
-                </h1>
+                <div>
+                    <h1 className="text-4xl md:text-5xl font-extrabold text-center lg:text-left">
+                        Discover Our Pilates Classes
+                    </h1>
+                    <p className="mt-1 text-xl text-black">
+                        Explore a variety of Pilates classes designed to suit
+                        all levels and goals.
+                    </p>
+                </div>
 
                 <div className="flex flex-col lg:flex-row gap-6">
                     <div className="bg-white rounded-lg shadow-lg p-4 flex-1 flex flex-col gap-3">
@@ -21,11 +27,22 @@ const ClassesHero = () => {
                             sessions. Perfect for improving your core.
                         </p>
                         <Link
-                            href="#reformer-pilates"
-                            className="mt-auto self-start text-btn font-semibold flex items-center gap-1 hover:underline"
+                            href="#core-pilates"
+                            className="
+                                        mt-auto self-start text-btn font-semibold flex items-center gap-1
+                                        transition-all duration-200
+                                        hover:gap-2
+                                        relative
+                                        after:absolute after:-bottom-0.5 after:left-0 after:h-0.5] after:w-0
+                                        after:bg-btn after:transition-all after:duration-200
+                                        hover:after:w-full
+                                    "
                         >
-                            Läs mer{' '}
-                            <ArrowRight size={16} className="inline-block" />
+                            Läs mer
+                            <ArrowRight
+                                size={16}
+                                className="transition-transform duration-200 group-hover:translate-x-1"
+                            />
                         </Link>
                     </div>
 
@@ -37,10 +54,21 @@ const ClassesHero = () => {
                         </p>
                         <Link
                             href="#core-pilates"
-                            className="mt-auto self-start text-btn font-semibold flex items-center gap-1 hover:underline"
+                            className="
+                                        mt-auto self-start text-btn font-semibold flex items-center gap-1
+                                        transition-all duration-200
+                                        hover:gap-2
+                                        relative
+                                        after:absolute after:-bottom-0.5 after:left-0 after:h-0.5] after:w-0
+                                        after:bg-btn after:transition-all after:duration-200
+                                        hover:after:w-full
+                                    "
                         >
-                            Läs mer{' '}
-                            <ArrowRight size={16} className="inline-block" />
+                            Läs mer
+                            <ArrowRight
+                                size={16}
+                                className="transition-transform duration-200 group-hover:translate-x-1"
+                            />
                         </Link>
                     </div>
                 </div>

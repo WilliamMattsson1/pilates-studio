@@ -25,14 +25,14 @@ export const Sidebar = ({
                 <h2 className="text-2xl font-semibold text-center">
                     Admin Panel
                 </h2>
-                <nav className="flex flex-col gap-3 mt-6">
+                <nav className="flex flex-col  mt-6">
                     {navItems.map((item) => (
                         <Link
                             key={item.href}
                             href={item.href}
-                            className={`text-gray-600 transition-colors hover:underline ${
+                            className={`text-gray-600 transition-colors p-2 rounded-sm hover:font-bold${
                                 pathname.startsWith(item.href)
-                                    ? 'font-bold text-black'
+                                    ? 'font-bold text-black bg-gray-300/70'
                                     : 'font-medium'
                             }`}
                         >
