@@ -27,7 +27,7 @@ const ClassesHero = () => {
                             sessions. Perfect for improving your core.
                         </p>
                         <Link
-                            href="#core-pilates"
+                            href="#reformer-pilates"
                             className="
                                         mt-auto self-start text-btn font-semibold flex items-center gap-1
                                         transition-all duration-200
