@@ -1,6 +1,6 @@
 'use client'
 
-import { Menu } from 'lucide-react'
+import { LogOut, Menu } from 'lucide-react'
 
 interface TopNavbarProps {
     currentNavLabel: string
@@ -18,8 +18,9 @@ const TopNavbar = ({ currentNavLabel, onMenuClick }: TopNavbarProps) => {
                 {currentNavLabel}
             </h1>
 
-            <button className="bg-btn text-white px-4 py-2 rounded-full hover:opacity-90 transition">
+            <button className="bg-btn text-white px-4 py-2 rounded-full hover:opacity-90 transition flex items-center font-medium">
                 Log out
+                <LogOut className="w-4 inline-block ml-2" />
             </button>
         </header>
     )

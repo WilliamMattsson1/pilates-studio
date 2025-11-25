@@ -2,9 +2,10 @@
 import Link from 'next/link'
 import { X } from 'lucide-react'
 import SectionDivider from '@/components/shared/ui/SectionDivider'
+import type { LucideIcon } from 'lucide-react'
 
 interface SidebarProps {
-    navItems: { label: string; href: string }[]
+    navItems: { label: string; href: string; icon: LucideIcon }[]
     pathname: string
     isOpen: boolean
     onClose: () => void
@@ -26,19 +27,24 @@ export const Sidebar = ({
                     Admin Panel
                 </h2>
                 <nav className="flex flex-col  mt-6">
-                    {navItems.map((item) => (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            className={`text-gray-600 transition-colors p-2 rounded-sm hover:font-bold${
-                                pathname.startsWith(item.href)
-                                    ? 'font-bold text-black bg-gray-300/70'
-                                    : 'font-medium'
-                            }`}
-                        >
-                            {item.label}
-                        </Link>
-                    ))}
+                    {navItems.map((item) => {
+                        const IconComponent = item.icon
+                        return (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                className={`flex items-centertext-gray-600 transition-colors p-2 rounded-sm hover:font-bold${
+                                    pathname.startsWith(item.href)
+                                        ? 'font-bold text-black bg-gray-300/70'
+                                        : 'font-medium'
+                                }`}
+                            >
+                                <IconComponent className="w-5  inline-block mr-2 text-black" />
+
+                                {item.label}
+                            </Link>
+                        )
+                    })}
                 </nav>
             </aside>
 

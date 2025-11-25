@@ -3,15 +3,16 @@ import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { Sidebar } from '@/components/admin/Sidebar'
 import TopNavbar from '@/components/admin/TopNavbar'
+import { BookOpen, Calendar, Home } from 'lucide-react'
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     const [open, setOpen] = useState(false)
     const pathname = usePathname() || '/admin'
 
     const navItems = [
-        { label: 'Overview', href: '/admin/overview' },
-        { label: 'Classes', href: '/admin/classes' }, // Add class and manage classes under this
-        { label: 'Bookings', href: '/admin/bookings' } // Add manual booking and see all bookings here
+        { label: 'Overview', href: '/admin/overview', icon: Home },
+        { label: 'Classes', href: '/admin/classes', icon: BookOpen }, // Add class and manage classes under this
+        { label: 'Bookings', href: '/admin/bookings', icon: Calendar } // Add manual booking and see all bookings here
     ]
 
     const currentNavLabel =
