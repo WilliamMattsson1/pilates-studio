@@ -30,3 +30,8 @@ body {
     background: var(--color-primary-bg);
     font-family: Roboto, sans-serif;
 }
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 130px;
+}

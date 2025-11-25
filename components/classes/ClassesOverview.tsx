@@ -1,13 +1,15 @@
 'use client'
 
+import { ArrowRight } from 'lucide-react'
 import TitleHeader from '../shared/TitleHeader'
+import Link from 'next/link'
 
 const ClassesDetailSections = () => {
     return (
         <section className="px-6 md:px-20 py-12 mt-16 flex flex-col gap-10 bg-secondary-bg">
             <TitleHeader
-                title="Discover Our Pilates Classes"
-                subtitle="Explore our specialized sessions designed to enhance strength, flexibility, and wellbeing"
+                title="Discover  Pilates Classes"
+                subtitle="Explore Our Specialized Sessions"
                 alignment="center"
             />
 
@@ -16,8 +18,8 @@ const ClassesDetailSections = () => {
                     id="reformer-pilates"
                     className="flex-[55%] flex flex-col gap-4"
                 >
-                    <h2 className="text-3xl font-bold">Reformer Pilates</h2>
-                    <p className="text-gray-700 text-lg">
+                    <h3 className="text-2xl font-bold">Reformer Pilates</h3>
+                    <p className="text-gray-700 text-lg leading-relaxed">
                         Strengthen your core, improve posture, and enhance
                         overall stability with our Reformer Pilates sessions.
                         Using the reformer equipment, these classes provide a
@@ -33,7 +35,7 @@ const ClassesDetailSections = () => {
                         more energized, confident, and balanced after every
                         session.
                     </p>
-                    <div className="flex flex-wrap gap-2 mt-2">
+                    <div className="flex flex-wrap gap-2 mt-2 md:justify-start justify-center">
                         <span className="bg-white shadow-lg px-3 py-1 rounded-full text-sm">
                             💪 Strength & Stability
                         </span>
@@ -44,13 +46,22 @@ const ClassesDetailSections = () => {
                             🌟 Suitable for All Levels
                         </span>
                     </div>
+                    <div className="flex justify-center lg:justify-start">
+                        <Link
+                            href="#available-classes"
+                            className="mt-2 w-fit h-[30px] bg-btn text-white font-medium px-4 py-6 rounded-lg transition-opacity hover:opacity-90 flex items-center gap-2"
+                        >
+                            See Available Classes
+                            <ArrowRight size={22} />
+                        </Link>
+                    </div>
                 </div>
 
                 <div className="flex-[45%] flex justify-end">
                     <img
                         src="/images/reformer-pilates.png"
                         alt="Reformer Pilates"
-                        className="rounded-lg shadow-lg max-w-lg"
+                        className="w-full max-w-sm md:max-w-md lg:max-w-lg rounded-lg shadow-lg object-contain"
                     />
                 </div>
             </div>
@@ -60,7 +71,7 @@ const ClassesDetailSections = () => {
                     <img
                         src="/images/core-pilates.png"
                         alt="Core Pilates"
-                        className="rounded-lg shadow-lg w-full max-w-lg"
+                        className="rounded-lg shadow-lg w-full max-w-lg hidden md:block"
                     />
                 </div>
 
@@ -68,8 +79,8 @@ const ClassesDetailSections = () => {
                     id="core-pilates"
                     className="flex-[55%] flex flex-col gap-4"
                 >
-                    <h2 className="text-3xl font-bold">Core Pilates</h2>
-                    <p className="text-gray-700 text-lg">
+                    <h3 className="text-2xl font-bold">Core Pilates</h3>
+                    <p className="text-gray-700 text-lg leading-relaxed">
                         Enhance flexibility, balance, and alignment with our
                         Core Pilates classes. Focusing on controlled movements
                         and mindful breathing, these sessions strengthen the
@@ -83,7 +94,7 @@ const ClassesDetailSections = () => {
                         report feeling more energized, centered, and capable in
                         their daily activities.
                     </p>
-                    <div className="flex flex-wrap gap-2 mt-2">
+                    <div className="flex flex-wrap gap-2 mt-2 justify-center lg:justify-start">
                         <span className="bg-white shadow-lg px-3 py-1 rounded-full text-sm">
                             🤸 Flexibility & Balance
                         </span>
@@ -93,6 +104,15 @@ const ClassesDetailSections = () => {
                         <span className="bg-white shadow-lg px-3 py-1 rounded-full text-sm">
                             🌟 Beginner-Friendly
                         </span>
+                    </div>
+                    <div className="flex justify-center md:justify-start">
+                        <Link
+                            href="#available-classes"
+                            className="mt-2 w-fit h-[30px] bg-btn text-white font-medium px-4 py-6 rounded-lg transition-opacity hover:opacity-90 flex items-center gap-2"
+                        >
+                            See Available Classes
+                            <ArrowRight size={22} />
+                        </Link>
                     </div>
                 </div>
             </div>
