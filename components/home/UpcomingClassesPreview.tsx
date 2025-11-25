@@ -6,14 +6,12 @@ import TitleHeader from '../shared/TitleHeader'
 import ClassCard from '../shared/ui/ClassCard'
 import { ClassItem } from '@/types/ClassItem'
 import { useClasses } from '@/context/ClassesContext'
+import { filterUpcomingClasses, sortClassesByDate } from '@/utils/classes'
 
 const UpcomingClassesPreview = () => {
     const { classes } = useClasses()
-
-    const upcomingClasses = classes
-        .filter((cls) => new Date(cls.date) >= new Date()) // bara framtida
-        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()) // sortera kronologiskt
-        .slice(0, 4) // bara de 4 första
+    const sortedClasses = sortClassesByDate(classes)
+    const upcomingClasses = filterUpcomingClasses(sortedClasses).slice(0, 4) // bara de 4 första
 
     return (
         <section className="w-full bg-white py-8 md:px-10 px-6">

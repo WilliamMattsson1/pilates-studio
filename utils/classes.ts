@@ -1,9 +1,22 @@
 import { ClassItem } from '@/types/ClassItem'
 
-export const sortByDate = (classes: ClassItem[]): ClassItem[] => {
+// Sorterar klasser kronologiskt
+const sortClassesByDate = (classes: ClassItem[]): ClassItem[] => {
     return [...classes].sort(
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     )
+}
+
+// Filtrerar för att bara visa framtida (från idag och framåt)
+const filterUpcomingClasses = (classes: ClassItem[]): ClassItem[] => {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    return classes.filter((cls) => {
+        const date = new Date(cls.date)
+        date.setHours(0, 0, 0, 0) // Nollställ klassens tid också
+        return date >= today
+    })
 }
 
 // Returnerar vecka nummer
@@ -17,7 +30,7 @@ const getWeekNumber = (dateStr: string): number => {
 
 // Grupperar klasser efter vecka
 const groupByWeek = (classes: ClassItem[]): Record<number, ClassItem[]> => {
-    const sorted = sortByDate(classes)
+    const sorted = sortClassesByDate(classes)
 
     return sorted.reduce((acc, cls) => {
         const week = getWeekNumber(cls.date)
@@ -27,4 +40,4 @@ const groupByWeek = (classes: ClassItem[]): Record<number, ClassItem[]> => {
     }, {} as Record<number, ClassItem[]>)
 }
 
-export { getWeekNumber, groupByWeek }
+export { sortClassesByDate, filterUpcomingClasses, getWeekNumber, groupByWeek }
