@@ -7,7 +7,6 @@ import { mockClasses } from '@/mock/classes'
 interface ClassesContextType {
     classes: ClassItem[]
     addClass: (cls: ClassItem) => void
-    //     bookSpot: (id: number) => void
 }
 
 const ClassesContext = createContext<ClassesContextType | undefined>(undefined)
@@ -37,16 +36,6 @@ export const ClassesProvider = ({
             return updated
         })
     }
-
-    // const bookSpot = (id: number) => {
-    //     setClasses((prev) => {
-    //         const updated = prev.map((c) =>
-    //             c.id === id ? { ...c, bookedSpots: c.bookedSpots + 1 } : c
-    //         )
-    //         localStorage.setItem('classes', JSON.stringify(updated))
-    //         return updated
-    //     })
-    // }
 
     return (
         <ClassesContext.Provider value={{ classes, addClass }}>
