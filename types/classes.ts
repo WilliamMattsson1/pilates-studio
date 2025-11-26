@@ -1,7 +1,7 @@
 // types som har med classes att göra
 
 interface ClassItem {
-    id: number
+    id: string
     title: string
     date: string // eller Date-objekt
     startTime: string // lagrar t.ex. "14:00"

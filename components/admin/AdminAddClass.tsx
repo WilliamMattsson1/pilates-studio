@@ -2,30 +2,33 @@
 
 import { useClasses } from '@/context/ClassesContext'
 import { useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
 const AdminAddClass = () => {
-    const { addClass, classes } = useClasses()
+    const { addClass } = useClasses()
 
     const [title, setTitle] = useState('')
     const [date, setDate] = useState('')
-    const [time, setTime] = useState('')
+    const [startTime, setStartTime] = useState('')
+    const [endTime, setEndTime] = useState('')
     const [maxSpots, setMaxSpots] = useState(8)
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 
         addClass({
-            id: classes.length + 1,
+            id: uuidv4(),
             title,
             date,
-            time,
-            maxSpots,
-            bookedSpots: 0
+            startTime,
+            endTime,
+            maxSpots
         })
 
         setTitle('')
         setDate('')
-        setTime('')
+        setStartTime('')
+        setEndTime('')
         setMaxSpots(8)
     }
 
@@ -76,23 +79,43 @@ const AdminAddClass = () => {
                     </div>
 
                     {/* Time */}
-                    <div className="flex flex-col gap-1">
-                        <label
-                            htmlFor="time"
-                            className="text-sm font-medium text-gray-700"
-                        >
-                            Time
-                        </label>
-                        <input
-                            id="time"
-                            name="time"
-                            type="text"
-                            value={time}
-                            onChange={(e) => setTime(e.target.value)}
-                            className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none"
-                            placeholder="14:00 – 15:00"
-                            required
-                        />
+                    <div className="flex flex-row gap-1">
+                        <div>
+                            <label
+                                htmlFor="startTime"
+                                className="text-sm font-medium text-gray-700"
+                            >
+                                Start Time
+                            </label>
+                            <input
+                                id="startTime"
+                                name="startTime"
+                                type="text"
+                                value={startTime}
+                                onChange={(e) => setStartTime(e.target.value)}
+                                className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none"
+                                placeholder="14:00"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="endTime"
+                                className="text-sm font-medium text-gray-700"
+                            >
+                                End Time
+                            </label>
+                            <input
+                                id="endTime"
+                                name="endTime"
+                                type="text"
+                                value={endTime}
+                                onChange={(e) => setEndTime(e.target.value)}
+                                className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none"
+                                placeholder="15:00"
+                                required
+                            />
+                        </div>
                     </div>
 
                     {/* Max Spots */}
