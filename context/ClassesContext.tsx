@@ -37,6 +37,16 @@ export const ClassesProvider = ({
     }, [])
 
     const addClass = (cls: ClassItem) => {
+        if (
+            !cls.title ||
+            !cls.date ||
+            !cls.startTime ||
+            !cls.endTime ||
+            !cls.maxSpots
+        ) {
+            throw new Error('All fields must be filled')
+        }
+
         setClasses((prev) => {
             const updated = [...prev, cls]
             localStorage.setItem('classes', JSON.stringify(updated))

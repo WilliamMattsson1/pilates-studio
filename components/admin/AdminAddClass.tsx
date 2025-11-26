@@ -2,6 +2,7 @@
 
 import { useClasses } from '@/context/ClassesContext'
 import { useState } from 'react'
+import { toast, ToastContainer } from 'react-toastify'
 import { v4 as uuidv4 } from 'uuid'
 
 const AdminAddClass = () => {
@@ -16,20 +17,30 @@ const AdminAddClass = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 
-        addClass({
-            id: uuidv4(),
-            title,
-            date,
-            startTime,
-            endTime,
-            maxSpots
-        })
+        try {
+            addClass({
+                id: uuidv4(),
+                title,
+                date,
+                startTime,
+                endTime,
+                maxSpots
+            })
 
-        setTitle('')
-        setDate('')
-        setStartTime('')
-        setEndTime('')
-        setMaxSpots(8)
+            // Reset inputfält
+            setTitle('')
+            setDate('')
+            setStartTime('')
+            setEndTime('')
+            setMaxSpots(8)
+
+            // Visa success toast
+            toast.success('Class added successfully!')
+        } catch (error) {
+            console.error(error)
+            // Visa error toast
+            toast.error('Failed to add class. Please try again.')
+        }
     }
 
     return (
@@ -148,6 +159,18 @@ const AdminAddClass = () => {
                     </button>
                 </form>
             </div>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </section>
     )
 }
