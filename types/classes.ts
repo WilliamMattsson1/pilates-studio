@@ -3,10 +3,10 @@
 interface ClassItem {
     id: number
     title: string
-    date: string
-    time: string
+    date: string // eller Date-objekt
+    startTime: string // lagrar t.ex. "14:00"
+    endTime: string // lagrar t.ex. "15:00"
     maxSpots: number
-    bookedSpots: number
 }
 
 interface WeekGroup {

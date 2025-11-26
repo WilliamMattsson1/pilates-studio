@@ -1,5 +1,6 @@
 'use client'
 
+import { useBookings } from '@/context/BookingsContext'
 import { ClassItem } from '@/types/classes'
 import Link from 'next/link'
 
@@ -8,7 +9,10 @@ interface ClassCardProps {
 }
 
 const ClassCard = ({ cls }: ClassCardProps) => {
-    const spotsLeft = cls.maxSpots - cls.bookedSpots
+    const { bookings } = useBookings()
+    // kontrollerar hur många bokningar som finns för denna klass
+    const bookedSpots = bookings.filter((b) => b.classId === cls.id).length
+    const spotsLeft = cls.maxSpots - bookedSpots
     const isFull = spotsLeft <= 0
 
     return (
@@ -48,7 +52,7 @@ const ClassCard = ({ cls }: ClassCardProps) => {
                         isFull ? 'text-gray-400' : 'text-gray-600'
                     }`}
                 >
-                    {cls.time}
+                    {cls.startTime} - {cls.endTime}
                 </p>
             </div>
 
@@ -58,7 +62,7 @@ const ClassCard = ({ cls }: ClassCardProps) => {
                         isFull ? 'text-gray-500' : 'text-gray-500'
                     }`}
                 >
-                    {cls.bookedSpots}/{cls.maxSpots} booked
+                    {bookedSpots}/{cls.maxSpots} booked
                 </p>
 
                 {isFull ? (

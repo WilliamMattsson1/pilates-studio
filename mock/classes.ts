@@ -1,79 +1,100 @@
 import { ClassItem } from '@/types/classes'
 
-export const mockClasses: ClassItem[] = [
+const mockClasses: ClassItem[] = [
+    // Oktober klasser (redan gångna)
     {
         id: 1,
         title: 'Matta Pilates',
-        date: '2025-11-25',
-        time: '14:00 – 15:00',
-        maxSpots: 8,
-        bookedSpots: 6
+        date: '2025-10-16',
+        startTime: '10:00',
+        endTime: '11:00',
+        maxSpots: 8
     },
     {
         id: 2,
-        title: 'Core Flow',
-        date: '2025-11-26',
-        time: '16:00 – 17:00',
-        maxSpots: 8,
-        bookedSpots: 3
+        title: 'Reformer Classic',
+        date: '2025-10-23',
+        startTime: '15:00',
+        endTime: '16:00',
+        maxSpots: 8
     },
+
+    // Denna vecka: 27/11 - 29/11 (v.48)
     {
         id: 3,
-        title: 'Pilates Basics',
-        date: '2025-11-27',
-        time: '16:00 – 17:00',
-        maxSpots: 10,
-        bookedSpots: 8
+        title: 'Core Flow',
+        date: '2025-11-25',
+        startTime: '09:00',
+        endTime: '10:00',
+        maxSpots: 8
     },
     {
         id: 4,
-        title: 'Stretch & Strength',
-        date: '2025-11-28',
-        time: '16:00 – 17:00',
-
-        maxSpots: 8,
-        bookedSpots: 5
+        title: 'Matta Pilates',
+        date: '2025-11-27',
+        startTime: '14:00',
+        endTime: '15:00',
+        maxSpots: 8
     },
     {
         id: 5,
-        title: 'Matta Pilates',
-        date: '2025-12-02',
-        time: '16:00 – 17:00',
-
-        maxSpots: 8,
-        bookedSpots: 2
+        title: 'Power Pilates',
+        date: '2025-11-28',
+        startTime: '16:00',
+        endTime: '17:00',
+        maxSpots: 8
     },
     {
         id: 6,
-        title: 'Core Flow',
-        date: '2025-12-03',
-        time: '16:00 – 17:00',
-
-        maxSpots: 8,
-        bookedSpots: 5
+        title: 'Yoga Flow',
+        date: '2025-11-29',
+        startTime: '11:00',
+        endTime: '12:00',
+        maxSpots: 8
     },
+    // Nästa vecka: 3/12 - 5/12 (v.49)
     {
         id: 7,
-        title: 'Pilates Basics',
-        date: '2025-12-04',
-        time: '16:00 – 17:00',
-        maxSpots: 10,
-        bookedSpots: 9
+        title: 'Core Flow',
+        date: '2025-12-03',
+        startTime: '09:00',
+        endTime: '10:00',
+        maxSpots: 8
     },
     {
         id: 8,
-        title: 'Stretch & Strength',
-        date: '2025-12-09',
-        time: '16:00 – 17:00',
-        maxSpots: 8,
-        bookedSpots: 8
+        title: 'Reformer Classic',
+        date: '2025-12-04',
+        startTime: '14:00',
+        endTime: '15:00',
+        maxSpots: 8
     },
     {
         id: 9,
+        title: 'Power Pilates',
+        date: '2025-12-05',
+        startTime: '10:00',
+        endTime: '11:00',
+        maxSpots: 8
+    },
+
+    // Vecka 2 nästa år: januari 2026
+    {
+        id: 10,
+        title: 'Matta Pilates',
+        date: '2026-01-08',
+        startTime: '09:00',
+        endTime: '10:00',
+        maxSpots: 8
+    },
+    {
+        id: 11,
         title: 'Core Flow',
-        date: '2025-12-10',
-        time: '16:00 – 17:00',
-        maxSpots: 8,
-        bookedSpots: 4
+        date: '2026-01-10',
+        startTime: '15:00',
+        endTime: '16:00',
+        maxSpots: 8
     }
 ]
+
+export { mockClasses }

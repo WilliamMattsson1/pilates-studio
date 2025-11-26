@@ -19,34 +19,43 @@ const filterUpcomingClasses = (classes: ClassItem[]): ClassItem[] => {
     })
 }
 
-// Returnerar vecka nummer
+// Returnerar ISO-vecknummer (vecka börjar måndag) för ett datum
 const getWeekNumber = (dateStr: string): number => {
     const date = new Date(dateStr)
-    const firstDayOfYear = new Date(date.getFullYear(), 0, 1)
-    const pastDaysOfYear =
-        (date.getTime() - firstDayOfYear.getTime()) / 86400000
-    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7)
+    const target = new Date(
+        Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+    )
+    // ISO dagnummer, måndag = 1, söndag = 7
+    const dayNr = target.getUTCDay() === 0 ? 7 : target.getUTCDay()
+    target.setUTCDate(target.getUTCDate() + 4 - dayNr)
+    const yearStart = new Date(Date.UTC(target.getUTCFullYear(), 0, 1))
+    const weekNo = Math.ceil(
+        ((target.getTime() - yearStart.getTime()) / 86400000 + 1) / 7
+    )
+    return weekNo
 }
 
-// Grupperar klasser efter vecka
+// Grupperar klasser efter ISO-vecka och ISO-år
 const groupAndSortByWeek = (classes: ClassItem[]): WeekGroup[] => {
     const map = new Map<string, WeekGroup>()
 
     classes.forEach((cls) => {
         const date = new Date(cls.date)
-        const year = date.getFullYear()
+        const target = new Date(
+            Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+        )
+        const dayNr = target.getUTCDay() === 0 ? 7 : target.getUTCDay()
+        target.setUTCDate(target.getUTCDate() + 4 - dayNr)
+        const isoYear = target.getUTCFullYear()
         const week = getWeekNumber(cls.date)
-        const key = `${year}-W${week}`
+        const key = `${isoYear}-W${week}`
 
-        // Skapa en ny WeekGroup om den inte finns
         if (!map.has(key)) {
-            map.set(key, { year, week, classes: [] })
+            map.set(key, { year: isoYear, week, classes: [] })
         }
-        // Lägg till klassen i rätt WeekGroup
         map.get(key)!.classes.push(cls)
     })
 
-    // Konvertera till array och sortera på year först, sedan week
     return Array.from(map.values()).sort((a, b) => {
         if (a.year !== b.year) return a.year - b.year
         return a.week - b.week
