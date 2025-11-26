@@ -3,20 +3,12 @@ import { ClassItem } from '@/types/classes'
 import TitleHeader from '../shared/TitleHeader'
 import ClassCard from '../shared/ui/ClassCard'
 import { useClasses } from '@/context/ClassesContext'
-import {
-    sortClassesByDate,
-    filterUpcomingClasses,
-    groupAndSortByWeek
-} from '@/utils/classes'
 import NoUpcomingClasses from '../shared/NoUpcomingClasses'
 
 const AvailableClasses = () => {
-    const { classes } = useClasses()
-    const sorted = sortClassesByDate(classes)
-    const upcoming = filterUpcomingClasses(sorted)
-    const classesByWeek = groupAndSortByWeek(upcoming)
-
+    const { upcomingClasses, classesByWeek } = useClasses()
     const currentYear = new Date().getFullYear()
+
     return (
         <section
             id="available-classes"
@@ -28,7 +20,7 @@ const AvailableClasses = () => {
                 alignment="center"
             />
 
-            {upcoming.length === 0 ? (
+            {upcomingClasses.length === 0 ? (
                 <NoUpcomingClasses />
             ) : (
                 <div className="flex flex-col gap-8 mt-8">

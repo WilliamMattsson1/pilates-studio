@@ -6,13 +6,11 @@ import TitleHeader from '../shared/TitleHeader'
 import ClassCard from '../shared/ui/ClassCard'
 import { ClassItem } from '@/types/classes'
 import { useClasses } from '@/context/ClassesContext'
-import { filterUpcomingClasses, sortClassesByDate } from '@/utils/classes'
 import NoUpcomingClasses from '../shared/NoUpcomingClasses'
 
 const UpcomingClassesPreview = () => {
-    const { classes } = useClasses()
-    const sortedClasses = sortClassesByDate(classes)
-    const upcomingClasses = filterUpcomingClasses(sortedClasses).slice(0, 4) // bara de 4 första
+    const { upcomingClasses } = useClasses()
+    const upcomingClassesSliced = upcomingClasses.slice(0, 4) // bara de 4 första
 
     return (
         <section className="w-full bg-white py-8 md:px-10 px-6">
@@ -29,7 +27,7 @@ const UpcomingClassesPreview = () => {
                 ) : (
                     <div className="flex flex-col lg:w-[60%] w-full mx-auto">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 justify-items-center lg:justify-items-start">
-                            {upcomingClasses.map((cls: ClassItem) => (
+                            {upcomingClassesSliced.map((cls: ClassItem) => (
                                 <ClassCard key={cls.id} cls={cls} />
                             ))}
                         </div>

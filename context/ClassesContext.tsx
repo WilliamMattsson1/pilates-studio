@@ -1,12 +1,19 @@
 'use client'
 
-import { createContext, useState, useContext, useEffect } from 'react'
-import { ClassItem } from '../types/classes'
+import { createContext, useState, useContext, useEffect, useMemo } from 'react'
+import { ClassItem, WeekGroup } from '../types/classes'
 import { mockClasses } from '@/mock/classes'
+import {
+    sortClassesByDate,
+    filterUpcomingClasses,
+    groupAndSortByWeek
+} from '@/utils/classes'
 
 interface ClassesContextType {
     classes: ClassItem[]
     addClass: (cls: ClassItem) => void
+    upcomingClasses: ClassItem[]
+    classesByWeek: WeekGroup[]
 }
 
 const ClassesContext = createContext<ClassesContextType | undefined>(undefined)
@@ -37,8 +44,20 @@ export const ClassesProvider = ({
         })
     }
 
+    // Different data: sort, filter, group
+    const upcomingClasses = useMemo(() => {
+        const sorted = sortClassesByDate(classes)
+        return filterUpcomingClasses(sorted)
+    }, [classes])
+
+    const classesByWeek = useMemo(() => {
+        return groupAndSortByWeek(upcomingClasses)
+    }, [upcomingClasses])
+
     return (
-        <ClassesContext.Provider value={{ classes, addClass }}>
+        <ClassesContext.Provider
+            value={{ classes, addClass, upcomingClasses, classesByWeek }}
+        >
             {children}
         </ClassesContext.Provider>
     )
