@@ -5,6 +5,7 @@ import { useClasses } from '@/context/ClassesContext'
 import { useBookings } from '@/context/BookingsContext'
 import { ClassItem } from '@/types/classes'
 import { toast } from 'react-toastify'
+import EditClassModal from '../modals/EditClassModal'
 
 const FILTERS = [
     { key: 'upcoming', label: 'Upcoming' },
@@ -17,10 +18,13 @@ type AdminAllClassesProps = {
 }
 
 const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
-    const { upcomingClasses, pastClasses, deleteClass } = useClasses()
+    const { upcomingClasses, pastClasses, deleteClass, updateClass } =
+        useClasses()
     const { bookings } = useBookings()
 
     const [filter, setFilter] = useState('upcoming')
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [selectedClass, setSelectedClass] = useState<ClassItem | null>(null)
 
     const classesToShow: ClassItem[] =
         filter === 'upcoming'
@@ -39,6 +43,11 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
         const booked = bookings.filter((b) => b.classId === cls.id).length
         const isFull = booked >= cls.maxSpots
         return { booked, isFull }
+    }
+
+    const handleSave = (updatedClass: ClassItem) => {
+        updateClass(updatedClass)
+        setIsModalOpen(false)
     }
 
     return (
@@ -106,16 +115,15 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
                                 <div className="flex gap-2">
                                     <button
                                         className="px-3 py-1 bg-yellow-400 rounded hover:opacity-90"
-                                        onClick={() =>
-                                            toast.info(
-                                                'Edit functionality coming soon'
-                                            )
-                                        }
+                                        onClick={() => {
+                                            setSelectedClass(cls)
+                                            setIsModalOpen(true)
+                                        }}
                                     >
                                         Edit
                                     </button>
                                     <button
-                                        className="px-3 py-1 bg-red-500 text-white rounded hover:opacity-90"
+                                        className="px-3 py-1 bg-red-400 text-white rounded hover:opacity-90"
                                         onClick={() => handleDelete(cls.id)}
                                     >
                                         Delete
@@ -126,6 +134,14 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
                     })
                 )}
             </div>
+            {selectedClass && (
+                <EditClassModal
+                    cls={selectedClass}
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onUpdate={handleSave}
+                />
+            )}
         </div>
     )
 }

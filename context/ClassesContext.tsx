@@ -14,6 +14,7 @@ interface ClassesContextType {
     classes: ClassItem[]
     addClass: (cls: ClassItem) => void
     deleteClass: (id: string) => void
+    updateClass: (updatedClass: ClassItem) => void
     upcomingClasses: ClassItem[]
     pastClasses: ClassItem[]
     classesByWeek: WeekGroup[]
@@ -65,6 +66,16 @@ export const ClassesProvider = ({
         })
     }
 
+    const updateClass = (updatedClass: ClassItem) => {
+        setClasses((prev) => {
+            const updated = prev.map((cls) =>
+                cls.id === updatedClass.id ? updatedClass : cls
+            )
+            localStorage.setItem('classes', JSON.stringify(updated))
+            return updated
+        })
+    }
+
     // Different data: sort, filter, group
     const upcomingClasses = useMemo(() => {
         const sorted = sortClassesByDate(classes)
@@ -86,6 +97,7 @@ export const ClassesProvider = ({
                 classes,
                 addClass,
                 deleteClass,
+                updateClass,
                 upcomingClasses,
                 pastClasses,
                 classesByWeek
