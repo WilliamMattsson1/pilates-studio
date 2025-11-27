@@ -16,7 +16,7 @@ type AdminAllClassesProps = {
 }
 
 const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
-    const { upcomingClasses, pastClasses } = useClasses()
+    const { upcomingClasses, pastClasses, deleteClass } = useClasses()
     const [filter, setFilter] = useState('upcoming')
 
     // Välj rätt array beroende på filter
@@ -29,11 +29,7 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
 
     const handleDelete = (id: string) => {
         if (!confirm('Are you sure you want to delete this class?')) return
-        const updated = [...upcomingClasses, ...pastClasses].filter(
-            (cls) => cls.id !== id
-        )
-
-        localStorage.setItem('classes', JSON.stringify(updated))
+        deleteClass(id)
         toast.success('Class deleted successfully!')
     }
 
