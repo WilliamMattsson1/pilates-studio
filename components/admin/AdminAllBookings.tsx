@@ -8,9 +8,14 @@ import { useState } from 'react'
 import DeleteModal from '../modals/DeleteItemModal'
 import { toast } from 'react-toastify'
 
+const FILTERS = [
+    { key: 'upcoming', label: 'Upcoming' },
+    { key: 'past', label: 'Past' }
+]
+
 const AdminAllBookings = () => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-    const { upcomingClasses } = useClasses()
+    const { upcomingClasses, pastClasses } = useClasses()
     const { bookings, deleteBooking } = useBookings()
 
     const [expandedClasses, setExpandedClasses] = useState<string[]>([
@@ -19,6 +24,7 @@ const AdminAllBookings = () => {
     const [bookingToDelete, setBookingToDelete] = useState<BookingItem | null>(
         null
     )
+    const [filter, setFilter] = useState<'upcoming' | 'past'>('upcoming')
 
     const toggleExpand = (classId: string) => {
         setExpandedClasses(
@@ -39,9 +45,28 @@ const AdminAllBookings = () => {
         setBookingToDelete(null)
         toast.success('Booking cancelled successfully!')
     }
+
+    const classesToShow = filter === 'upcoming' ? upcomingClasses : pastClasses
+
     return (
         <div className="flex flex-col gap-4 w-full">
-            {upcomingClasses.map((cls) => {
+            <div className="flex gap-2">
+                {FILTERS.map(({ key, label }) => (
+                    <button
+                        key={key}
+                        className={`px-4 py-2 rounded-full shadow-lg transition hover:cursor-pointer ${
+                            filter === key
+                                ? 'bg-btn text-white'
+                                : 'bg-primary-bg hover:bg-btn/20'
+                        }`}
+                        onClick={() => setFilter(key as 'upcoming' | 'past')}
+                    >
+                        {label}
+                    </button>
+                ))}
+            </div>
+
+            {classesToShow.map((cls) => {
                 const clsBookings = getBookingsForClass(cls)
                 const isExpanded = expandedClasses.includes(cls.id)
                 const bookedCount = clsBookings.length
@@ -50,7 +75,7 @@ const AdminAllBookings = () => {
                 return (
                     <div
                         key={cls.id}
-                        className="shadow-lg rounded-md  bg-primary-bg overflow-hidden"
+                        className="shadow-lg rounded-md bg-primary-bg overflow-hidden"
                     >
                         <div
                             className="flex justify-between items-center p-4 cursor-pointer"
@@ -65,9 +90,8 @@ const AdminAllBookings = () => {
                                     />
                                     {cls.date} | {cls.startTime} - {cls.endTime}
                                 </p>
-
                                 <p
-                                    className={`font-medium text-sm flex items-center  ${
+                                    className={`font-medium text-sm flex items-center ${
                                         isFull
                                             ? 'text-red-500'
                                             : 'text-green-600'
@@ -103,7 +127,6 @@ const AdminAllBookings = () => {
                                                     size={26}
                                                     className="mr-2"
                                                 />
-
                                                 <div>
                                                     <p className="font-medium">
                                                         {b.guestName ||
