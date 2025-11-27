@@ -1,5 +1,11 @@
+import BookingsTabs from '@/components/admin/BookingsTabs'
+
 const page = () => {
-    return <div>Admin bookings</div>
+    return (
+        <>
+            <BookingsTabs />
+        </>
+    )
 }
 
 export default page

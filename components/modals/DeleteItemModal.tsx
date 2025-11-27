@@ -1,26 +1,44 @@
 'use client'
 
+import { BookingItem } from '@/types/bookings'
 import { ClassItem } from '@/types/classes'
 import { MessageCircleWarning, X } from 'lucide-react'
+import SectionDivider from '../shared/ui/SectionDivider'
+
+type DeleteType = 'class' | 'booking'
 
 interface DeleteModalProps {
-    cls: ClassItem | null
+    item: ClassItem | BookingItem
+    type: DeleteType
+    classInfo?: ClassItem // Endast för bokningar, för att visa klassinfo
     isOpen: boolean
     onClose: () => void
     onConfirm: () => void
 }
 
-const DeleteClassModal = ({
-    cls,
+const DeleteModal = ({
+    item,
+    type,
+    classInfo,
     isOpen,
     onClose,
     onConfirm
 }: DeleteModalProps) => {
-    if (!isOpen || !cls) return null
+    if (!isOpen || !item) return null
+
+    // Bestäm titel, datum och tider baserat på typ
+    const title =
+        type === 'class'
+            ? (item as ClassItem).title
+            : (item as BookingItem).guestName || 'Anonymous'
+
+    const date = type === 'class' ? (item as ClassItem).date : ''
+    const startTime = type === 'class' ? (item as ClassItem).startTime : ''
+    const endTime = type === 'class' ? (item as ClassItem).endTime : ''
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 "
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
             onClick={onClose}
         >
             <div
@@ -37,16 +55,32 @@ const DeleteClassModal = ({
                 <h2 className="text-xl font-semibold mb-4 text-center">
                     Confirm Delete
                 </h2>
+
                 <MessageCircleWarning
                     size={58}
                     className="mx-auto mb-4 text-red-400"
                 />
+
                 <p className="text-center mb-4">
-                    Are you sure you want to delete this class?
+                    Are you sure you want to delete this {type}?
                 </p>
-                <p className="text-center mb-6 font-medium">
-                    {cls.title} | {cls.date} | {cls.startTime} - {cls.endTime}
-                </p>
+                {type === 'class' && (
+                    <p className="text-center mb-6 font-medium">
+                        {title} | {date} | {startTime} - {endTime}
+                    </p>
+                )}
+                {type === 'booking' && (
+                    <>
+                        <SectionDivider className="h-1 w-[70%] bg-btn/60 my-5" />
+
+                        <p className="text-center font-medium">{title}</p>
+                        <p className="mb-6 text-center text-gray-500 italic">
+                            {classInfo
+                                ? `(${classInfo.title} | ${classInfo.date} | ${classInfo.startTime} - ${classInfo.endTime})`
+                                : ''}
+                        </p>
+                    </>
+                )}
 
                 <div className="flex justify-center gap-4">
                     <button
@@ -67,4 +101,4 @@ const DeleteClassModal = ({
     )
 }
 
-export default DeleteClassModal
+export default DeleteModal

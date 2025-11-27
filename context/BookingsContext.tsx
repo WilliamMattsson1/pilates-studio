@@ -6,6 +6,8 @@ import { mockBookings } from '@/mock/bookings'
 
 interface BookingsContextType {
     bookings: BookingItem[]
+    addBooking: (booking: BookingItem) => void
+    deleteBooking: (id: string) => void
 }
 
 const BookingsContext = createContext<BookingsContextType | undefined>(
@@ -29,8 +31,28 @@ export const BookingsProvider = ({
         }
     }, [])
 
+    // Lägg till bokning
+    const addBooking = (booking: BookingItem) => {
+        setBookings((prev) => {
+            const updated = [...prev, booking]
+            localStorage.setItem('bookings', JSON.stringify(updated))
+            return updated
+        })
+    }
+
+    // Ta bort bokning
+    const deleteBooking = (id: string) => {
+        setBookings((prev) => {
+            const updated = prev.filter((b) => b.id !== id)
+            localStorage.setItem('bookings', JSON.stringify(updated))
+            return updated
+        })
+    }
+
     return (
-        <BookingsContext.Provider value={{ bookings }}>
+        <BookingsContext.Provider
+            value={{ bookings, addBooking, deleteBooking }}
+        >
             {children}
         </BookingsContext.Provider>
     )

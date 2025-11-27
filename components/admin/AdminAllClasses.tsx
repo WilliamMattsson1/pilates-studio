@@ -6,7 +6,7 @@ import { useBookings } from '@/context/BookingsContext'
 import { ClassItem } from '@/types/classes'
 import { toast } from 'react-toastify'
 import EditClassModal from '../modals/EditClassModal'
-import DeleteClassModal from '../modals/DeleteClassModal'
+import DeleteModal from '../modals/DeleteItemModal'
 
 const FILTERS = [
     { key: 'upcoming', label: 'Upcoming' },
@@ -37,12 +37,6 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
             : filter === 'past'
             ? pastClasses
             : [...upcomingClasses, ...pastClasses]
-
-    const handleDelete = (id: string) => {
-        if (!confirm('Are you sure you want to delete this class?')) return
-        deleteClass(id)
-        toast.success('Class deleted successfully!')
-    }
 
     const getBookedInfo = (cls: ClassItem) => {
         const booked = bookings.filter((b) => b.classId === cls.id).length
@@ -151,8 +145,9 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
                 />
             )}
             {classToDelete && (
-                <DeleteClassModal
-                    cls={classToDelete}
+                <DeleteModal
+                    item={classToDelete}
+                    type="class"
                     isOpen={isDeleteModalOpen}
                     onClose={() => setIsDeleteModalOpen(false)}
                     onConfirm={() => {
