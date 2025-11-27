@@ -3,6 +3,7 @@ import { Roboto, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { ClassesProvider } from '@/context/ClassesContext'
 import { BookingsProvider } from '@/context/BookingsContext'
+import { ToastContainer } from 'react-toastify'
 
 const roboto = Roboto({
     variable: '--font-roboto',
@@ -32,6 +33,18 @@ export default function RootLayout({
                 <ClassesProvider>
                     <BookingsProvider>{children}</BookingsProvider>
                 </ClassesProvider>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick={false}
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
             </body>
         </html>
     )

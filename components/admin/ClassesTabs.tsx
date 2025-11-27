@@ -29,7 +29,13 @@ const ClassesTabs = () => {
 
             {/* Tab content */}
             <div className="w-full">
-                {activeTab === 'all' ? <AdminAllClasses /> : <AdminAddClass />}
+                {activeTab === 'all' ? (
+                    <AdminAllClasses
+                        onSwitchToAdd={() => setActiveTab('add')}
+                    />
+                ) : (
+                    <AdminAddClass />
+                )}
             </div>
         </div>
     )

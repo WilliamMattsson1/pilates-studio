@@ -19,6 +19,17 @@ const filterUpcomingClasses = (classes: ClassItem[]): ClassItem[] => {
     })
 }
 
+const filterPastClasses = (classes: ClassItem[]): ClassItem[] => {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0) // Nollställ tid, så jämförelse sker på datum
+
+    return classes.filter((cls) => {
+        const date = new Date(cls.date)
+        date.setHours(0, 0, 0, 0) // Nollställ klassens tid också
+        return date < today
+    })
+}
+
 // Returnerar ISO-vecknummer (vecka börjar måndag) för ett datum
 const getWeekNumber = (dateStr: string): number => {
     const date = new Date(dateStr)
@@ -65,6 +76,7 @@ const groupAndSortByWeek = (classes: ClassItem[]): WeekGroup[] => {
 export {
     sortClassesByDate,
     filterUpcomingClasses,
+    filterPastClasses,
     getWeekNumber,
     groupAndSortByWeek
 }

@@ -6,6 +6,7 @@ import { mockClasses } from '@/mock/classes'
 import {
     sortClassesByDate,
     filterUpcomingClasses,
+    filterPastClasses,
     groupAndSortByWeek
 } from '@/utils/classes'
 
@@ -13,6 +14,7 @@ interface ClassesContextType {
     classes: ClassItem[]
     addClass: (cls: ClassItem) => void
     upcomingClasses: ClassItem[]
+    pastClasses: ClassItem[]
     classesByWeek: WeekGroup[]
 }
 
@@ -60,13 +62,24 @@ export const ClassesProvider = ({
         return filterUpcomingClasses(sorted)
     }, [classes])
 
+    const pastClasses = useMemo(() => {
+        const sorted = sortClassesByDate(classes)
+        return filterPastClasses(sorted)
+    }, [classes])
+
     const classesByWeek = useMemo(() => {
         return groupAndSortByWeek(upcomingClasses)
     }, [upcomingClasses])
 
     return (
         <ClassesContext.Provider
-            value={{ classes, addClass, upcomingClasses, classesByWeek }}
+            value={{
+                classes,
+                addClass,
+                upcomingClasses,
+                pastClasses,
+                classesByWeek
+            }}
         >
             {children}
         </ClassesContext.Provider>
