@@ -106,7 +106,7 @@ const AdminAddBooking = () => {
                                             >
                                                 {({ disabled }) => (
                                                     <div
-                                                        className={`p-3 cursor-pointer border-b ${
+                                                        className={`p-3 cursor-pointer border-b last:border-b-0 ${
                                                             disabled
                                                                 ? 'text-gray-400 cursor-not-allowed'
                                                                 : 'hover:bg-btn/20'
