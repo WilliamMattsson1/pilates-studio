@@ -6,6 +6,7 @@ import { useBookings } from '@/context/BookingsContext'
 import { ClassItem } from '@/types/classes'
 import { toast } from 'react-toastify'
 import EditClassModal from '../modals/EditClassModal'
+import DeleteClassModal from '../modals/DeleteClassModal'
 
 const FILTERS = [
     { key: 'upcoming', label: 'Upcoming' },
@@ -23,8 +24,12 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
     const { bookings } = useBookings()
 
     const [filter, setFilter] = useState('upcoming')
+
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [selectedClass, setSelectedClass] = useState<ClassItem | null>(null)
+
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+    const [classToDelete, setClassToDelete] = useState<ClassItem | null>(null)
 
     const classesToShow: ClassItem[] =
         filter === 'upcoming'
@@ -124,7 +129,10 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
                                     </button>
                                     <button
                                         className="px-3 py-1 bg-red-400 text-white rounded hover:opacity-90"
-                                        onClick={() => handleDelete(cls.id)}
+                                        onClick={() => {
+                                            setClassToDelete(cls)
+                                            setIsDeleteModalOpen(true)
+                                        }}
                                     >
                                         Delete
                                     </button>
@@ -140,6 +148,19 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     onUpdate={handleSave}
+                />
+            )}
+            {classToDelete && (
+                <DeleteClassModal
+                    cls={classToDelete}
+                    isOpen={isDeleteModalOpen}
+                    onClose={() => setIsDeleteModalOpen(false)}
+                    onConfirm={() => {
+                        deleteClass(classToDelete.id)
+                        setIsDeleteModalOpen(false)
+                        setClassToDelete(null)
+                        toast.success('Class deleted successfully!')
+                    }}
                 />
             )}
         </div>

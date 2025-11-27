@@ -3,6 +3,7 @@
 import { ClassItem } from '@/types/classes'
 import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
+import { X } from 'lucide-react'
 
 interface EditModalProps {
     cls: ClassItem | null
@@ -64,9 +65,9 @@ const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
             >
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 hover:cursor-pointer transition-colors"
                 >
-                    ✕
+                    <X size={24} />
                 </button>
 
                 <h2 className="text-xl font-semibold mb-4">Edit Class</h2>
@@ -151,13 +152,13 @@ const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100"
+                            className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 hover:cursor-pointer"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-btn text-white rounded-lg hover:opacity-90 transition"
+                            className="px-4 py-2 bg-btn text-white rounded-lg hover:opacity-90 hover:cursor-pointer transition"
                         >
                             Save
                         </button>
