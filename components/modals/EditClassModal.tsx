@@ -51,7 +51,6 @@ const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
         }
     }
 
-    // Rendera bara om modal ska vara öppen och cls finns
     if (!isOpen || !cls) return null
 
     return (
@@ -61,7 +60,7 @@ const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
         >
             <div
                 className="bg-white rounded-2xl shadow-xl w-full max-w-xl p-6 relative"
-                onClick={(e) => e.stopPropagation()} // Klick inne i modal stoppar propagation
+                onClick={(e) => e.stopPropagation()}
             >
                 <button
                     onClick={onClose}
@@ -75,28 +74,39 @@ const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     {/* Title */}
                     <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-gray-700">
+                        <label
+                            htmlFor={`title-${cls.id}`}
+                            className="text-sm font-medium text-gray-700"
+                        >
                             Class Title
                         </label>
                         <input
+                            id={`title-${cls.id}`}
+                            name="title"
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none"
+                            className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition"
+                            placeholder="Matte Pilates"
                             required
                         />
                     </div>
 
                     {/* Date */}
                     <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-gray-700">
+                        <label
+                            htmlFor={`date-${cls.id}`}
+                            className="text-sm font-medium text-gray-700"
+                        >
                             Date
                         </label>
                         <input
+                            id={`date-${cls.id}`}
+                            name="date"
                             type="date"
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
-                            className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none"
+                            className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition"
                             required
                         />
                     </div>
@@ -104,28 +114,38 @@ const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
                     {/* Time */}
                     <div className="flex flex-row gap-2">
                         <div className="flex-1 flex flex-col gap-1">
-                            <label className="text-sm font-medium text-gray-700">
+                            <label
+                                htmlFor={`startTime-${cls.id}`}
+                                className="text-sm font-medium text-gray-700"
+                            >
                                 Start Time
                             </label>
                             <input
+                                id={`startTime-${cls.id}`}
+                                name="startTime"
                                 type="text"
                                 value={startTime}
                                 onChange={(e) => setStartTime(e.target.value)}
                                 placeholder="14:00"
-                                className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none"
+                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition w-full"
                                 required
                             />
                         </div>
                         <div className="flex-1 flex flex-col gap-1">
-                            <label className="text-sm font-medium text-gray-700">
+                            <label
+                                htmlFor={`endTime-${cls.id}`}
+                                className="text-sm font-medium text-gray-700"
+                            >
                                 End Time
                             </label>
                             <input
+                                id={`endTime-${cls.id}`}
+                                name="endTime"
                                 type="text"
                                 value={endTime}
                                 onChange={(e) => setEndTime(e.target.value)}
                                 placeholder="15:00"
-                                className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none"
+                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition w-full"
                                 required
                             />
                         </div>
@@ -133,17 +153,22 @@ const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
 
                     {/* Max Spots */}
                     <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-gray-700">
+                        <label
+                            htmlFor={`maxSpots-${cls.id}`}
+                            className="text-sm font-medium text-gray-700"
+                        >
                             Max Spots
                         </label>
                         <input
+                            id={`maxSpots-${cls.id}`}
+                            name="maxSpots"
                             type="number"
                             min={1}
                             value={maxSpots}
                             onChange={(e) =>
                                 setMaxSpots(Number(e.target.value))
                             }
-                            className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none"
+                            className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition"
                             required
                         />
                     </div>
@@ -152,13 +177,13 @@ const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 hover:cursor-pointer"
+                            className="px-4 py-2 rounded-lg hover:bg-gray-100 hover:cursor-pointer transition"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-btn text-white rounded-lg hover:opacity-90 hover:cursor-pointer transition"
+                            className="px-4 py-2 bg-btn text-white rounded-lg hover:opacity-90 transition"
                         >
                             Save
                         </button>

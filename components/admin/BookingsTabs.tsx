@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import AdminAllBookings from './AdminAllBookings'
+import AdminAddBooking from './AdminAddBooking'
 
 const BookingsTabs = () => {
     const [activeTab, setActiveTab] = useState<'all' | 'add'>('all')
@@ -31,10 +32,7 @@ const BookingsTabs = () => {
                 {activeTab === 'all' ? (
                     <AdminAllBookings />
                 ) : (
-                    // Add booking form placeholder
-                    <div className="text-center text-gray-600 italic">
-                        Add Booking form goes here.
-                    </div>
+                    <AdminAddBooking />
                 )}
             </div>
         </div>

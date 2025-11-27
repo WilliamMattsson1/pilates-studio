@@ -27,18 +27,15 @@ const AdminAddClass = () => {
                 maxSpots
             })
 
-            // Reset inputfält
             setTitle('')
             setDate('')
             setStartTime('')
             setEndTime('')
             setMaxSpots(8)
 
-            // Visa success toast
             toast.success('Class added successfully!')
         } catch (error) {
             console.error(error)
-            // Visa error toast
             toast.error('Failed to add class. Please try again.')
         }
     }
@@ -64,7 +61,7 @@ const AdminAddClass = () => {
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none"
+                            className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition"
                             placeholder="Matte Pilates"
                             required
                         />
@@ -84,14 +81,14 @@ const AdminAddClass = () => {
                             type="date"
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
-                            className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none"
+                            className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition"
                             required
                         />
                     </div>
 
                     {/* Time */}
-                    <div className="flex flex-row gap-1">
-                        <div>
+                    <div className="flex flex-row gap-2">
+                        <div className="flex-1 flex flex-col gap-1">
                             <label
                                 htmlFor="startTime"
                                 className="text-sm font-medium text-gray-700"
@@ -104,12 +101,12 @@ const AdminAddClass = () => {
                                 type="text"
                                 value={startTime}
                                 onChange={(e) => setStartTime(e.target.value)}
-                                className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none"
+                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition w-full"
                                 placeholder="14:00"
                                 required
                             />
                         </div>
-                        <div>
+                        <div className="flex-1 flex flex-col gap-1">
                             <label
                                 htmlFor="endTime"
                                 className="text-sm font-medium text-gray-700"
@@ -122,7 +119,7 @@ const AdminAddClass = () => {
                                 type="text"
                                 value={endTime}
                                 onChange={(e) => setEndTime(e.target.value)}
-                                className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none"
+                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition w-full"
                                 placeholder="15:00"
                                 required
                             />
@@ -146,7 +143,7 @@ const AdminAddClass = () => {
                             onChange={(e) =>
                                 setMaxSpots(Number(e.target.value))
                             }
-                            className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none"
+                            className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition"
                             required
                         />
                     </div>
