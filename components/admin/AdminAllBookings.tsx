@@ -1,9 +1,10 @@
+'use client'
 import { useBookings } from '@/context/BookingsContext'
 import { useClasses } from '@/context/ClassesContext'
 import { BookingItem } from '@/types/bookings'
 import { ClassItem } from '@/types/classes'
-import { ChevronDownIcon } from 'lucide-react'
-import React, { useState } from 'react'
+import { ChevronDownIcon, Calendar, Users, User } from 'lucide-react'
+import { useState } from 'react'
 import DeleteModal from '../modals/DeleteItemModal'
 import { toast } from 'react-toastify'
 
@@ -57,20 +58,27 @@ const AdminAllBookings = () => {
                         >
                             <div>
                                 <h3 className="font-semibold">{cls.title}</h3>
-                                <p className="text-gray-600 text-sm">
+                                <p className="text-gray-600 text-sm flex items-center">
+                                    <Calendar
+                                        size={14}
+                                        className="inline mr-2"
+                                    />
                                     {cls.date} | {cls.startTime} - {cls.endTime}
                                 </p>
+
                                 <p
-                                    className={`font-medium text-sm ${
+                                    className={`font-medium text-sm flex items-center  ${
                                         isFull
                                             ? 'text-red-500'
-                                            : 'text-green-500'
+                                            : 'text-green-600'
                                     }`}
                                 >
-                                    Booked: {bookedCount}/{cls.maxSpots}
+                                    <Users size={16} className="inline mr-2" />
+                                    {'Booked'}: {bookedCount}/{cls.maxSpots}
                                     {isFull ? ' (Full)' : ''}
                                 </p>
                             </div>
+
                             <ChevronDownIcon
                                 className={`transition-transform duration-300 ${
                                     isExpanded ? 'rotate-180' : ''
@@ -78,9 +86,8 @@ const AdminAllBookings = () => {
                             />
                         </div>
 
-                        {/* Booking list */}
                         {isExpanded && (
-                            <div className="p-4 border-t flex flex-col gap-2">
+                            <div className="p-4 border-t flex flex-col gap-3">
                                 {clsBookings.length === 0 ? (
                                     <p className="text-gray-700 text-sm">
                                         No bookings yet.
@@ -89,16 +96,25 @@ const AdminAllBookings = () => {
                                     clsBookings.map((b) => (
                                         <div
                                             key={b.id}
-                                            className="flex justify-between items-center p-2 bg-gray-50 rounded"
+                                            className="flex justify-between items-center p-3 bg-secondary-bg/50 rounded-md"
                                         >
-                                            <div>
-                                                <p className="font-medium">
-                                                    {b.guestName || 'Anonymous'}
-                                                </p>
-                                                <p className="text-sm text-gray-600">
-                                                    {b.guestEmail || ''}
-                                                </p>
+                                            <div className="flex items-center">
+                                                <User
+                                                    size={26}
+                                                    className="mr-2"
+                                                />
+
+                                                <div>
+                                                    <p className="font-medium">
+                                                        {b.guestName ||
+                                                            'Anonymous'}
+                                                    </p>
+                                                    <p className="text-sm text-gray-600">
+                                                        {b.guestEmail || ''}
+                                                    </p>
+                                                </div>
                                             </div>
+
                                             <button
                                                 onClick={() => {
                                                     setBookingToDelete(b)
@@ -117,7 +133,6 @@ const AdminAllBookings = () => {
                 )
             })}
 
-            {/* Delete modal */}
             {bookingToDelete && (
                 <DeleteModal
                     item={bookingToDelete}

@@ -1,5 +1,4 @@
 'use client'
-
 import { useState } from 'react'
 import { useClasses } from '@/context/ClassesContext'
 import { useBookings } from '@/context/BookingsContext'
@@ -7,6 +6,7 @@ import { ClassItem } from '@/types/classes'
 import { toast } from 'react-toastify'
 import EditClassModal from '../modals/EditClassModal'
 import DeleteModal from '../modals/DeleteItemModal'
+import { Calendar, Users } from 'lucide-react'
 
 const FILTERS = [
     { key: 'upcoming', label: 'Upcoming' },
@@ -52,11 +52,11 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
     return (
         <div className="w-[90%] max-w-xl py-6 mx-auto">
             {/* Filter buttons */}
-            <div className="flex gap-2 mb-3">
+            <div className="flex gap-2 mb-4">
                 {FILTERS.map(({ key, label }) => (
                     <button
                         key={key}
-                        className={`px-4 py-2 rounded-full ${
+                        className={`px-4 py-2 rounded-full transition ${
                             filter === key
                                 ? 'bg-btn text-white'
                                 : 'bg-primary-bg'
@@ -69,7 +69,7 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
             </div>
 
             {/* Classes list */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-4">
                 {classesToShow.length === 0 ? (
                     <>
                         <p className="text-center py-6">
@@ -89,23 +89,27 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
                         return (
                             <div
                                 key={cls.id}
-                                className="flex items-center justify-between p-4 bg-white rounded-lg shadow"
+                                className="p-4 bg-primary-bg rounded-lg shadow-md flex justify-between items-center"
                             >
-                                <div>
-                                    <h3 className="font-semibold text-lg">
+                                {/* Left content */}
+                                <div className="flex flex-col">
+                                    <h3 className="font-semibold text-md mb-1">
                                         {cls.title}
                                     </h3>
-                                    <p className="text-gray-600">
+
+                                    <p className="text-gray-600 text-sm flex items-center mb-1">
+                                        <Calendar size={15} className="mr-2" />
                                         {cls.date} | {cls.startTime} -{' '}
                                         {cls.endTime}
                                     </p>
                                     <p
-                                        className={`font-medium ${
+                                        className={`font-medium flex items-center text-sm ${
                                             isFull
-                                                ? 'text-red-400'
-                                                : 'text-green-500'
+                                                ? 'text-red-500'
+                                                : 'text-green-600'
                                         }`}
                                     >
+                                        <Users size={16} className="mr-2" />
                                         Booked: {booked}/{cls.maxSpots}
                                         {isFull ? ' (Full)' : ''}
                                     </p>
@@ -113,7 +117,7 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
 
                                 <div className="flex gap-2">
                                     <button
-                                        className="px-3 py-1 bg-yellow-400 rounded hover:opacity-90"
+                                        className="px-3 py-1 bg-yellow-500 text-white rounded hover:opacity-90 transition"
                                         onClick={() => {
                                             setSelectedClass(cls)
                                             setIsModalOpen(true)
@@ -122,7 +126,7 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
                                         Edit
                                     </button>
                                     <button
-                                        className="px-3 py-1 bg-red-400 text-white rounded hover:opacity-90"
+                                        className="px-3 py-1 bg-red-400 text-white rounded hover:opacity-90 transition"
                                         onClick={() => {
                                             setClassToDelete(cls)
                                             setIsDeleteModalOpen(true)
