@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Menu, MenuItem, MenuItems, MenuButton } from '@headlessui/react'
 import { useBookings } from '@/context/BookingsContext'
 import { useClasses } from '@/context/ClassesContext'
 import { BookingItem } from '@/types/bookings'
@@ -69,35 +70,68 @@ const AdminAddBooking = () => {
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div>
-                    <label
-                        htmlFor="classSelect"
-                        className="font-medium text-sm"
-                    >
-                        Select Class
-                    </label>
+                    <div className="font-medium text-sm">Select Class</div>
+                    <Menu as="div" className="relative">
+                        {({ open }) => (
+                            <>
+                                <MenuButton className="w-full p-3 rounded-lg bg-secondary-bg/50 flex justify-between items-center cursor-pointer focus:ring-2 focus:ring-btn/50">
+                                    <span>
+                                        {selectedClass
+                                            ? `${selectedClass.title} — ${selectedClass.date} (${selectedClass.startTime}-${selectedClass.endTime})`
+                                            : 'Choose class...'}
+                                    </span>
+                                    <ChevronDown
+                                        size={18}
+                                        className={`text-gray-600 transition-transform ${
+                                            open ? 'rotate-180' : ''
+                                        }`}
+                                    />
+                                </MenuButton>
 
-                    <div className="relative mt-1">
-                        <select
-                            id="classSelect"
-                            name="classSelect"
-                            value={selectedClassId}
-                            onChange={(e) => setSelectedClassId(e.target.value)}
-                            className="w-full p-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 appearance-none pr-10 transition"
-                        >
-                            <option value="">Choose class...</option>
-                            {upcomingClasses.map((cls: ClassItem) => (
-                                <option key={cls.id} value={cls.id}>
-                                    {cls.title} — {cls.date} ({cls.startTime}-
-                                    {cls.endTime})
-                                </option>
-                            ))}
-                        </select>
+                                <MenuItems className="absolute z-10 w-full bg-secondary-bg rounded-lg mt-1 shadow-lg max-h-90 overflow-auto">
+                                    {upcomingClasses.map((cls: ClassItem) => {
+                                        const currentBookings = bookings.filter(
+                                            (b) =>
+                                                String(b.classId) ===
+                                                String(cls.id)
+                                        ).length
+                                        const isFull =
+                                            currentBookings >=
+                                            (cls.maxSpots || 0)
 
-                        <ChevronDown
-                            size={18}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
-                        />
-                    </div>
+                                        return (
+                                            <MenuItem
+                                                key={cls.id}
+                                                disabled={isFull}
+                                            >
+                                                {({ disabled }) => (
+                                                    <div
+                                                        className={`p-3 cursor-pointer border-b ${
+                                                            disabled
+                                                                ? 'text-gray-400 cursor-not-allowed'
+                                                                : 'hover:bg-btn/20'
+                                                        }`}
+                                                        onClick={() => {
+                                                            if (!isFull)
+                                                                setSelectedClassId(
+                                                                    cls.id
+                                                                )
+                                                        }}
+                                                    >
+                                                        {cls.title} — {cls.date}{' '}
+                                                        ({cls.startTime}-
+                                                        {cls.endTime}) |{' '}
+                                                        {currentBookings}/
+                                                        {cls.maxSpots} bookings
+                                                    </div>
+                                                )}
+                                            </MenuItem>
+                                        )
+                                    })}
+                                </MenuItems>
+                            </>
+                        )}
+                    </Menu>
 
                     {selectedClass && (
                         <p className="text-xs text-gray-600 mt-1 flex items-center gap-2">
@@ -110,8 +144,8 @@ const AdminAddBooking = () => {
                                         String(b.classId) ===
                                         String(selectedClassId)
                                 ).length
-                            }{' '}
-                            / {selectedClass.maxSpots} bokningar
+                            }
+                            /{selectedClass.maxSpots} bokningar
                         </p>
                     )}
                 </div>
@@ -155,7 +189,7 @@ const AdminAddBooking = () => {
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-3 bg-btn text-white rounded-lg hover:opacity-90 hover:cutransition font-medium"
+                    className="w-full py-3 bg-btn text-white rounded-lg hover:opacity-90 hover:cursor-pointer transition font-medium"
                 >
                     {isSubmitting ? 'Adding...' : 'Add Booking'}
                 </button>
