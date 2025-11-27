@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useClasses } from '@/context/ClassesContext'
+import { useBookings } from '@/context/BookingsContext'
 import { ClassItem } from '@/types/classes'
 import { toast } from 'react-toastify'
 
@@ -17,20 +18,27 @@ type AdminAllClassesProps = {
 
 const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
     const { upcomingClasses, pastClasses, deleteClass } = useClasses()
+    const { bookings } = useBookings()
+
     const [filter, setFilter] = useState('upcoming')
 
-    // Välj rätt array beroende på filter
     const classesToShow: ClassItem[] =
         filter === 'upcoming'
             ? upcomingClasses
             : filter === 'past'
             ? pastClasses
-            : [...upcomingClasses, ...pastClasses] // all classes
+            : [...upcomingClasses, ...pastClasses]
 
     const handleDelete = (id: string) => {
         if (!confirm('Are you sure you want to delete this class?')) return
         deleteClass(id)
         toast.success('Class deleted successfully!')
+    }
+
+    const getBookedInfo = (cls: ClassItem) => {
+        const booked = bookings.filter((b) => b.classId === cls.id).length
+        const isFull = booked >= cls.maxSpots
+        return { booked, isFull }
     }
 
     return (
@@ -67,41 +75,55 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
                         </button>
                     </>
                 ) : (
-                    classesToShow.map((cls: ClassItem) => (
-                        <div
-                            key={cls.id}
-                            className="flex items-center justify-between p-4 bg-white rounded-lg shadow"
-                        >
-                            <div>
-                                <h3 className="font-semibold text-lg">
-                                    {cls.title}
-                                </h3>
-                                <p>
-                                    {cls.date} | {cls.startTime} - {cls.endTime}{' '}
-                                    | Max Spots: {cls.maxSpots}
-                                </p>
-                            </div>
+                    classesToShow.map((cls: ClassItem) => {
+                        const { booked, isFull } = getBookedInfo(cls)
 
-                            <div className="flex gap-2">
-                                <button
-                                    className="px-3 py-1 bg-yellow-400 rounded hover:opacity-90"
-                                    onClick={() =>
-                                        toast.info(
-                                            'Edit functionality coming soon'
-                                        )
-                                    }
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    className="px-3 py-1 bg-red-500 text-white rounded hover:opacity-90"
-                                    onClick={() => handleDelete(cls.id)}
-                                >
-                                    Delete
-                                </button>
+                        return (
+                            <div
+                                key={cls.id}
+                                className="flex items-center justify-between p-4 bg-white rounded-lg shadow"
+                            >
+                                <div>
+                                    <h3 className="font-semibold text-lg">
+                                        {cls.title}
+                                    </h3>
+                                    <p className="text-gray-600">
+                                        {cls.date} | {cls.startTime} -{' '}
+                                        {cls.endTime}
+                                    </p>
+                                    <p
+                                        className={`font-medium ${
+                                            isFull
+                                                ? 'text-red-400'
+                                                : 'text-green-500'
+                                        }`}
+                                    >
+                                        Booked: {booked}/{cls.maxSpots}
+                                        {isFull ? ' (Full)' : ''}
+                                    </p>
+                                </div>
+
+                                <div className="flex gap-2">
+                                    <button
+                                        className="px-3 py-1 bg-yellow-400 rounded hover:opacity-90"
+                                        onClick={() =>
+                                            toast.info(
+                                                'Edit functionality coming soon'
+                                            )
+                                        }
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        className="px-3 py-1 bg-red-500 text-white rounded hover:opacity-90"
+                                        onClick={() => handleDelete(cls.id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    ))
+                        )
+                    })
                 )}
             </div>
         </div>
