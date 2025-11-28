@@ -16,7 +16,7 @@ const UpcomingClassesPreview = () => {
         <section className="w-full bg-white py-8 md:px-10 px-6">
             <TitleHeader
                 title="Upcoming Classes"
-                subtitle="Plan your next session"
+                subtitle="Plan your session"
                 alignment="center"
             />
 

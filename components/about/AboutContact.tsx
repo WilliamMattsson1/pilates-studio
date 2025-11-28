@@ -28,7 +28,7 @@ const AboutContact = () => {
         <section className="px-6 md:px-20 pt-12 pb-2 bg-white flex flex-col">
             <TitleHeader
                 title="Get in Touch"
-                subtitle="Reach out to discuss classes or personal sessions"
+                subtitle="discuss classes or sessions"
                 alignment="left"
             />
 

@@ -38,7 +38,7 @@ const PilatesBenefits = () => {
         >
             <TitleHeader
                 title="Why Choose Pilates?"
-                subtitle="Discover the benefits of practicing with us"
+                subtitle="Discover the benefits"
                 alignment="center"
             />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-7">

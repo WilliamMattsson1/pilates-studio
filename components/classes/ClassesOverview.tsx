@@ -9,7 +9,7 @@ const ClassesDetailSections = () => {
         <section className="px-6 md:px-20 py-12 mt-16 flex flex-col gap-10 bg-secondary-bg">
             <TitleHeader
                 title="Discover  Pilates Classes"
-                subtitle="Explore Our Specialized Sessions"
+                subtitle="Our Specialized Sessions"
                 alignment="center"
             />
 
