@@ -1,18 +1,22 @@
 'use client'
-import { useState } from 'react'
-import AdminAllBookings from './AdminAllBookings'
-import AdminAddBooking from './AdminAddBooking'
+import { useState, ReactNode } from 'react'
 
-const BookingsTabs = () => {
-    const [activeTab, setActiveTab] = useState<'all' | 'add'>('all')
+interface TabItem {
+    key: string
+    label: string
+    content: ReactNode
+}
 
-    const tabs = [
-        { key: 'all', label: 'All Bookings' },
-        { key: 'add', label: 'Add Booking' }
-    ] as const
+interface TabsProps {
+    tabs: TabItem[]
+    initialTabKey?: string
+}
+
+const AdminTabs = ({ tabs, initialTabKey }: TabsProps) => {
+    const [activeTab, setActiveTab] = useState(initialTabKey || tabs[0].key)
 
     return (
-        <div className="mt-9 flex flex-col items-center w-[90%] max-w-2xl mx-auto ">
+        <div className="mt-9 flex flex-col items-center w-full max-w-3xl mx-auto">
             <div className="flex bg-primary-bg rounded-full shadow-sm p-2 w-fit">
                 {tabs.map((tab) => (
                     <button
@@ -32,15 +36,11 @@ const BookingsTabs = () => {
                 ))}
             </div>
 
-            <div className="w-full py-4">
-                {activeTab === 'all' ? (
-                    <AdminAllBookings />
-                ) : (
-                    <AdminAddBooking />
-                )}
+            <div className="w-full mt-4">
+                {tabs.find((t) => t.key === activeTab)?.content}
             </div>
         </div>
     )
 }
 
-export default BookingsTabs
+export default AdminTabs

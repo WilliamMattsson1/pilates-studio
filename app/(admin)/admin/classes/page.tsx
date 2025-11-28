@@ -1,9 +1,25 @@
-import ClassesTabs from '@/components/admin/ClassesTabs'
+'use client'
+import AdminAddClass from '@/components/admin/AdminAddClass'
+import AdminAllClasses from '@/components/admin/AdminAllClasses'
+import AdminTabs from '@/components/admin/AdminTabs'
 
 const page = () => {
     return (
         <>
-            <ClassesTabs />
+            <AdminTabs
+                tabs={[
+                    {
+                        key: 'all',
+                        label: 'All Classes',
+                        content: <AdminAllClasses onSwitchToAdd={() => {}} />
+                    },
+                    {
+                        key: 'add',
+                        label: 'Add Class',
+                        content: <AdminAddClass />
+                    }
+                ]}
+            />
         </>
     )
 }
