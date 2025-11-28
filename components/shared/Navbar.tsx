@@ -35,7 +35,7 @@ const Navbar = () => {
                     </Link>
                 ))}
                 <button className="border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all duration-300 hover:bg-btn hover:text-white">
-                    <Link href="/book">Book Now</Link>
+                    <Link href="/classes/#available-classes">Book Now</Link>
                 </button>
             </div>
 
@@ -98,7 +98,12 @@ const Navbar = () => {
                 ))}
 
                 <button className="border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all">
-                    <Link href="book">Book Now</Link>
+                    <Link
+                        href="/classes/#available-classes"
+                        onClick={() => setIsMenuOpen(false)}
+                    >
+                        Book Now
+                    </Link>
                 </button>
 
                 <button className="bg-btn text-white px-8 py-2.5 rounded-full transition-all duration-500">

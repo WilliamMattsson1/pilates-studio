@@ -18,7 +18,7 @@ const BookingModal = ({ userId }: BookingModalProps) => {
     const [guestName, setGuestName] = useState('')
     const [guestEmail, setGuestEmail] = useState('')
 
-    const isLoggedIn = true // TODO: ersätt med riktig auth
+    const isLoggedIn = false // TODO: ersätt med riktig auth
 
     if (!isOpen || !selectedClass) return null
 

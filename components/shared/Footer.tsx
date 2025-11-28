@@ -5,7 +5,7 @@ const Footer = () => {
         { name: 'Home', path: '/' },
         { name: 'Classes', path: '/classes' },
         { name: 'About', path: '/about' },
-        { name: 'Book Now', path: '/book' }
+        { name: 'Book Now', path: '/classes/#available-classes' }
     ]
 
     const socials = [

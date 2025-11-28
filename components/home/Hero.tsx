@@ -23,7 +23,7 @@ const Hero = () => {
                 </p>
 
                 <Link
-                    href="/book"
+                    href="/classes/#available-classes"
                     className="bg-btn px-8 py-3 rounded-full text-base md:text-lg transition-opacity hover:opacity-90"
                 >
                     Book a Class
