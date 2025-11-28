@@ -5,6 +5,7 @@ import { useBookings } from '@/context/BookingsContext'
 import { useBookingModal } from '@/context/BookingModalContext'
 import { v4 as uuidv4 } from 'uuid'
 import { toast } from 'react-toastify'
+import { User, Mail, Calendar } from 'lucide-react'
 
 interface BookingModalProps {
     userId?: string | null
@@ -17,8 +18,7 @@ const BookingModal = ({ userId }: BookingModalProps) => {
     const [guestName, setGuestName] = useState('')
     const [guestEmail, setGuestEmail] = useState('')
 
-    // TODO Hantera efter auth
-    const isLoggedIn = false
+    const isLoggedIn = true // TODO: ersätt med riktig auth
 
     if (!isOpen || !selectedClass) return null
 
@@ -75,7 +75,8 @@ const BookingModal = ({ userId }: BookingModalProps) => {
                 <h2 className="text-xl font-semibold mb-2">
                     {selectedClass.title}
                 </h2>
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-sm text-gray-600 mb-4 flex items-center gap-1">
+                    <Calendar size={16} />
                     {selectedClass.date} • {selectedClass.startTime}-
                     {selectedClass.endTime}
                 </p>
@@ -93,15 +94,20 @@ const BookingModal = ({ userId }: BookingModalProps) => {
                             >
                                 Your Name
                             </label>
-                            <input
-                                id="guestName"
-                                name="guestName"
-                                type="text"
-                                value={guestName}
-                                onChange={(e) => setGuestName(e.target.value)}
-                                placeholder="Optional"
-                                className="w-full rounded-lg px-4 py-3 bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition mb-3"
-                            />
+                            <div className="flex items-center gap-3 px-3 py-3 bg-secondary-bg/50 rounded-lg focus-within:ring-2 focus-within:ring-btn/50 transition mb-3">
+                                <User size={20} className="text-gray-500" />
+                                <input
+                                    id="guestName"
+                                    name="guestName"
+                                    type="text"
+                                    value={guestName}
+                                    onChange={(e) =>
+                                        setGuestName(e.target.value)
+                                    }
+                                    placeholder="Optional"
+                                    className="flex-1 bg-transparent outline-none"
+                                />
+                            </div>
                         </div>
 
                         <div className="flex flex-col gap-1">
@@ -111,21 +117,28 @@ const BookingModal = ({ userId }: BookingModalProps) => {
                             >
                                 Email (required)
                             </label>
-                            <input
-                                id="guestEmail"
-                                name="guestEmail"
-                                type="email"
-                                value={guestEmail}
-                                onChange={(e) => setGuestEmail(e.target.value)}
-                                placeholder="your@email.com"
-                                required
-                                className="w-full rounded-lg px-4 py-3 bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition mb-4"
-                            />
+                            <div className="flex items-center gap-3 px-3 py-3 bg-secondary-bg/50 rounded-lg focus-within:ring-2 focus-within:ring-btn/50 transition mb-4">
+                                <Mail size={20} className="text-gray-500" />
+                                <input
+                                    id="guestEmail"
+                                    name="guestEmail"
+                                    type="email"
+                                    value={guestEmail}
+                                    onChange={(e) =>
+                                        setGuestEmail(e.target.value)
+                                    }
+                                    placeholder="your@email.com"
+                                    required
+                                    className="flex-1 bg-transparent outline-none"
+                                />
+                            </div>
                         </div>
                     </>
                 ) : (
-                    <p className="text-sm text-gray-700 mb-3">
-                        Booking as: <span className="font-medium">lalala</span>
+                    <p className="text-sm text-gray-700 mb-3 flex items-center gap-1">
+                        <User size={16} /> Booking as:{' '}
+                        {/* TODO Change after auth */}
+                        <span className="font-medium">Guest</span>
                     </p>
                 )}
 
