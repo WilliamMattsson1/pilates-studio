@@ -1,5 +1,11 @@
+import AdminOverview from '@/components/admin/AdminOverview'
+
 const page = () => {
-    return <h1>overview</h1>
+    return (
+        <>
+            <AdminOverview />
+        </>
+    )
 }
 
 export default page

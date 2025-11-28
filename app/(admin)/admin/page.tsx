@@ -1,10 +1,9 @@
-import AdminAddClass from '@/components/admin/AdminAddClass'
+import AdminOverview from '@/components/admin/AdminOverview'
 
 const page = () => {
     return (
         <>
-            <h1>overview</h1>
-            <AdminAddClass />
+            <AdminOverview />
         </>
     )
 }

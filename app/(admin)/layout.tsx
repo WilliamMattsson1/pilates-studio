@@ -11,8 +11,8 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
     const navItems = [
         { label: 'Overview', href: '/admin/overview', icon: Home },
-        { label: 'Classes', href: '/admin/classes', icon: BookOpen }, // Add class and manage classes under this
-        { label: 'Bookings', href: '/admin/bookings', icon: Calendar } // Add manual booking and see all bookings here
+        { label: 'Classes', href: '/admin/classes', icon: BookOpen },
+        { label: 'Bookings', href: '/admin/bookings', icon: Calendar }
     ]
 
     const currentNavLabel =
