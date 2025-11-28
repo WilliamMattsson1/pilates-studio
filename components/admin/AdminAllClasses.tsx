@@ -59,7 +59,7 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
                         className={`px-4 py-2 rounded-full transition ${
                             filter === key
                                 ? 'bg-btn text-white'
-                                : 'bg-primary-bg'
+                                : 'bg-primary-bg hover:bg-btn/30 hover:cursor-pointer'
                         }`}
                         onClick={() => setFilter(key)}
                     >
