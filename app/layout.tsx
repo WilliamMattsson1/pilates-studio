@@ -4,6 +4,8 @@ import './globals.css'
 import { ClassesProvider } from '@/context/ClassesContext'
 import { BookingsProvider } from '@/context/BookingsContext'
 import { ToastContainer } from 'react-toastify'
+import BookingModal from '@/components/modals/BookingModal'
+import { BookingModalProvider } from '@/context/BookingModalContext'
 
 const roboto = Roboto({
     variable: '--font-roboto',
@@ -24,7 +26,12 @@ export default function RootLayout({
         <html lang="en" data-scroll-behavior="smooth">
             <body className={`${roboto.variable}  antialiased`}>
                 <ClassesProvider>
-                    <BookingsProvider>{children}</BookingsProvider>
+                    <BookingsProvider>
+                        <BookingModalProvider>
+                            <BookingModal />
+                            {children}
+                        </BookingModalProvider>
+                    </BookingsProvider>
                 </ClassesProvider>
                 <ToastContainer
                     position="top-right"

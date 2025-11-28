@@ -1,8 +1,8 @@
 'use client'
 
+import { useBookingModal } from '@/context/BookingModalContext'
 import { useBookings } from '@/context/BookingsContext'
 import { ClassItem } from '@/types/classes'
-import Link from 'next/link'
 
 interface ClassCardProps {
     cls: ClassItem
@@ -10,6 +10,7 @@ interface ClassCardProps {
 
 const ClassCard = ({ cls }: ClassCardProps) => {
     const { bookings } = useBookings()
+    const { openModal } = useBookingModal()
     // kontrollerar hur många bokningar som finns för denna klass
     const bookedSpots = bookings.filter((b) => b.classId === cls.id).length
     const spotsLeft = cls.maxSpots - bookedSpots
@@ -73,12 +74,12 @@ const ClassCard = ({ cls }: ClassCardProps) => {
                         Book now
                     </button>
                 ) : (
-                    <Link
-                        href={`/booking/${cls.id}`}
-                        className="bg-btn text-white px-3 py-1 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity flex items-center gap-1"
+                    <button
+                        onClick={() => openModal(cls)}
+                        className="bg-btn text-white px-3 py-1 rounded-full font-semibold text-sm hover:opacity-90 hover:cursor-pointer"
                     >
                         Book now
-                    </Link>
+                    </button>
                 )}
             </div>
         </div>
