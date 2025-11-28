@@ -23,7 +23,7 @@ export const Sidebar = ({
             <aside className="hidden md:flex w-64 bg-primary-bg/60 flex-col p-6">
                 <img src="/images/logo.png" className="mx-auto w-26" />
                 <SectionDivider className="bg-btn/60 h-1 w-full my-6" />
-                <h2 className="text-2xl font-semibold text-left">
+                <h2 className="text-2xl font-semibold text-left fancy-font tracking-widest">
                     <Wrench size={34} className="inline-block mr-2 " />
                     Admin Panel
                 </h2>
@@ -64,7 +64,7 @@ export const Sidebar = ({
                         `}
                     >
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-2xl font-semibold">
+                            <h2 className="text-2xl font-semibold tracking-widest fancy-font">
                                 Admin Panel
                             </h2>
                             <button onClick={onClose}>

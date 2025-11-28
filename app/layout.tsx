@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Roboto, Geist_Mono } from 'next/font/google'
+import { Roboto } from 'next/font/google'
 import './globals.css'
 import { ClassesProvider } from '@/context/ClassesContext'
 import { BookingsProvider } from '@/context/BookingsContext'
@@ -7,11 +7,6 @@ import { ToastContainer } from 'react-toastify'
 
 const roboto = Roboto({
     variable: '--font-roboto',
-    subsets: ['latin']
-})
-
-const geistMono = Geist_Mono({
-    variable: '--font-geist-mono',
     subsets: ['latin']
 })
 
@@ -27,9 +22,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" data-scroll-behavior="smooth">
-            <body
-                className={`${roboto.variable} ${geistMono.variable} antialiased`}
-            >
+            <body className={`${roboto.variable}  antialiased`}>
                 <ClassesProvider>
                     <BookingsProvider>{children}</BookingsProvider>
                 </ClassesProvider>

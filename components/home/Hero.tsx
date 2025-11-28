@@ -11,17 +11,13 @@ const Hero = () => {
                 backgroundPosition: 'center'
             }}
         >
-            {/* Overlay (very subtle, optional) */}
-            {/* <div className="absolute inset-0 bg-black/10" /> */}
-
-            {/* Content */}
             <div className="text-center px-6 max-w-3xl">
-                <h1 className="text-4xl md:text-5xl font-bold mb-2 leading-tight">
+                <h1 className="text-3xl md:text-6xl font-bold mb-4 md:mb-2 fancy-font tracking-wide leading-tight">
                     Strengthen Your Body.
                     <br /> Move With Confidence.
                 </h1>
 
-                <p className="text-base md:text-lg font-mono font-medium mb-6 max-w-xl mx-auto">
+                <p className="text-md md:text-md font-mono font-medium mb-8 md:mb-6 max-w-md mx-auto uppercase leading-tight italic">
                     Pilates classes designed to build strength, stability and
                     balance tailored for all experience levels.
                 </p>

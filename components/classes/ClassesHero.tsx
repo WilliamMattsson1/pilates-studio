@@ -8,18 +8,18 @@ const ClassesHero = () => {
         <section className="w-full bg-secondary-bg py-16 px-6 md:px-20 flex flex-col lg:flex-row items-center gap-10 lg:gap-0">
             <div className="flex-1 flex flex-col gap-8">
                 <div>
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-center lg:text-left">
+                    <h1 className="text-4xl md:text-5xl font-extrabold text-center lg:text-left fancy-font tracking-wide leading-tight">
                         Discover Our Pilates Classes
                     </h1>
-                    <p className="mt-1 text-xl text-black">
-                        Explore a variety of Pilates classes designed to suit
-                        all levels and goals.
+                    <p className="md:mt-1 text-md md:text-xl text-center md:text-left mt-3 text-black uppercase leading-tight italic">
+                        Explore a variety of Pilates classes designed to all
+                        levels and goals.
                     </p>
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-6">
                     <div className="bg-white rounded-lg shadow-lg p-4 flex-1 flex flex-col gap-3">
-                        <h2 className="text-2xl font-semibold">
+                        <h2 className="text-2xl font-semibold tracking-widest fancy-font">
                             Reformer Pilates
                         </h2>
                         <p className="text-gray-700">
@@ -47,7 +47,9 @@ const ClassesHero = () => {
                     </div>
 
                     <div className="bg-white rounded-lg shadow-lg p-4 flex-1 flex flex-col gap-3">
-                        <h2 className="text-2xl font-semibold">Core Pilates</h2>
+                        <h2 className="text-2xl font-semibold tracking-widest fancy-font">
+                            Core Pilates
+                        </h2>
                         <p className="text-gray-700">
                             Increase flexibility and improve your posture with
                             our Mat Pilates classes. Suitable for all levels.

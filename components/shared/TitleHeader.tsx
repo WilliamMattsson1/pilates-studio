@@ -19,8 +19,14 @@ const TitleHeader: React.FC<TitleHeaderProps> = ({
 
     return (
         <div className={`flex flex-col my-6 ${alignClass[alignment]}`}>
-            {subtitle && <p className="text-xl text-black/90">{subtitle}</p>}
-            <h2 className="text-3xl md:text-4xl font-bold">{title}</h2>
+            {subtitle && (
+                <p className="text-xl text-black/90 italic">
+                    {subtitle.toLocaleUpperCase()}
+                </p>
+            )}
+            <h2 className="text-3xl md:text-4xl font-bold fancy-font tracking-wide">
+                {title}
+            </h2>
         </div>
     )
 }

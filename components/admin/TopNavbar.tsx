@@ -27,7 +27,7 @@ const TopNavbar = ({ currentNavLabel, onMenuClick }: TopNavbarProps) => {
                 </Link>
             </div>
 
-            <h1 className="text-lg md:text-xl font-semibold text-center">
+            <h1 className="text-lg md:text-2xl font-medium text-center fancy-font tracking-wider">
                 {currentNavLabel}
             </h1>
 

@@ -26,7 +26,7 @@ const AvailableClasses = () => {
                 <div className="flex flex-col gap-8 mt-8">
                     {classesByWeek.map((weekGroup) => (
                         <div key={`${weekGroup.year}-W${weekGroup.week}`}>
-                            <h3 className="text-2xl md:text-3xl font-bold mb-2">
+                            <h3 className="text-2xl md:text-3xl font-bold mb-2 fancy-font tracking-widest ">
                                 Week {weekGroup.week}{' '}
                                 {weekGroup.year > currentYear ? (
                                     <span className="text-gray-400 font-medium">

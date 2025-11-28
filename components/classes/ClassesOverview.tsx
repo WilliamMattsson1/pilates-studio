@@ -18,7 +18,9 @@ const ClassesDetailSections = () => {
                     id="reformer-pilates"
                     className="flex-[55%] flex flex-col gap-4"
                 >
-                    <h3 className="text-2xl font-bold">Reformer Pilates</h3>
+                    <h3 className="text-2xl font-bold fancy-font tracking-widest">
+                        Reformer Pilates
+                    </h3>
                     <p className="text-gray-700 text-lg leading-relaxed">
                         Strengthen your core, improve posture, and enhance
                         overall stability with our Reformer Pilates sessions.
@@ -79,7 +81,9 @@ const ClassesDetailSections = () => {
                     id="core-pilates"
                     className="flex-[55%] flex flex-col gap-4"
                 >
-                    <h3 className="text-2xl font-bold">Core Pilates</h3>
+                    <h3 className="text-2xl font-bold fancy-font tracking-widest">
+                        Core Pilates
+                    </h3>
                     <p className="text-gray-700 text-lg leading-relaxed">
                         Enhance flexibility, balance, and alignment with our
                         Core Pilates classes. Focusing on controlled movements

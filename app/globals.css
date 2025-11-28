@@ -26,6 +26,18 @@
     --glass: rgba(255, 255, 255, 0.6); /* translucent overlay / glass */
 }
 
+@font-face {
+    font-family: 'Gambarino';
+    src: url('/fonts/Gambarino.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.fancy-font {
+    font-family: 'Gambarino', sans-serif;
+}
+
 body {
     background: var(--color-primary-bg);
     font-family: Roboto, sans-serif;

@@ -24,7 +24,7 @@ const InstructorIntro = () => {
 
                 {/* Text */}
                 <div className="w-full md:w-[40%] flex flex-col justify-center gap-4 text-center lg:text-left mt-6 lg:mt-0">
-                    <h3 className="text-2xl md:text-3xl font-bold">Jane Doe</h3>
+                    <h3 className="text-2xl md:text-3xl font-bol">Jane Doe</h3>
                     <p className="text-lg font-medium text-gray-700">
                         Certified Pilates Instructor with over 5 years of
                         experience helping clients improve strength,
