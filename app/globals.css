@@ -34,8 +34,16 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'InstrumentSerif';
+    src: url('/fonts/InstrumentSerif-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 .fancy-font {
-    font-family: 'Gambarino', sans-serif;
+    font-family: 'InstrumentSerif', sans-serif;
 }
 
 body {
