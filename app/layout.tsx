@@ -13,8 +13,9 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-    title: 'Pilates Studio',
-    description: 'Pilates i Uppsala | Boka nu'
+    title: 'Pilates Studio | Home',
+    description:
+        'Welcome to our Pilates Studio in Uppsala. Discover our classes and book your spot online easily.'
 }
 
 export default function RootLayout({

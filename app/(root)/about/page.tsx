@@ -2,6 +2,13 @@ import AboutBio from '@/components/about/AboutBio'
 import AboutContact from '@/components/about/AboutContact'
 import AboutHero from '@/components/about/AboutHero'
 import SectionDivider from '@/components/shared/ui/SectionDivider'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'About Pilates Studio | Uppsala',
+    description:
+        'Learn more about our Pilates Studio, our philosophy, and the team dedicated to helping you stay healthy and fit.'
+}
 
 const page = () => {
     return (
