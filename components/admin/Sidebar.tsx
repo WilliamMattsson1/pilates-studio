@@ -47,7 +47,7 @@ export const Sidebar = ({
                         )
                     })}
                 </nav>
-                <button className="bg-btn text-white px-4 py-2 rounded-full hover:opacity-90 transition flex items-center justify-center font-medium">
+                <button className="bg-btn text-white px-4 py-2 rounded-full hover:opacity-90 transition flex items-center justify-center font-medium mt-4">
                     Log out
                     <LogOut className="w-4 inline-block ml-2" />
                 </button>
