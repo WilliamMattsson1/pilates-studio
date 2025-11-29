@@ -1,7 +1,8 @@
 'use client'
 
-import { ArrowDown, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import DownArrow from '../shared/ui/DownArrow'
 
 const ClassesHero = () => {
     return (
@@ -77,9 +78,9 @@ const ClassesHero = () => {
 
                 <Link
                     href="#available-classes"
-                    className="hidden lg:flex absolute bottom-6 left-1/2 transform -translate-x-1/2  flex-col items-center text-white animate-bounce"
+                    className="hidden lg:flex absolute bottom-6 left-1/2 transform -translate-x-1/2  flex-col items-center animate-bounce "
                 >
-                    <ArrowDown size={22} className="text-btn " />
+                    <DownArrow color="#704f44" />
                 </Link>
             </div>
 
