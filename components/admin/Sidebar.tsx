@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { Wrench, X } from 'lucide-react'
+import { LogOut, Wrench, X } from 'lucide-react'
 import SectionDivider from '@/components/shared/ui/SectionDivider'
 import type { LucideIcon } from 'lucide-react'
 
@@ -47,6 +47,10 @@ export const Sidebar = ({
                         )
                     })}
                 </nav>
+                <button className="bg-btn text-white px-4 py-2 rounded-full hover:opacity-90 transition flex items-center justify-center font-medium">
+                    Log out
+                    <LogOut className="w-4 inline-block ml-2" />
+                </button>
             </aside>
 
             {/* Mobile sidebar */}

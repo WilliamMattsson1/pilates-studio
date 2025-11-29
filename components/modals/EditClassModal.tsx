@@ -59,7 +59,7 @@ const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
             onClick={onClose}
         >
             <div
-                className="bg-white rounded-2xl shadow-xl w-full max-w-xl p-6 relative"
+                className="bg-white rounded-2xl shadow-xl w-full md:max-w-xl p-6 relative max-w-[90%]"
                 onClick={(e) => e.stopPropagation()}
             >
                 <button

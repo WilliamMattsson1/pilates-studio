@@ -42,7 +42,7 @@ const DeleteModal = ({
             onClick={onClose}
         >
             <div
-                className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative"
+                className="bg-white rounded-2xl shadow-xl w-full  p-6 relative md:max-w-xl max-w-[90%]"
                 onClick={(e) => e.stopPropagation()} // Stoppar klick inne i modal
             >
                 <button

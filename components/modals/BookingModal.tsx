@@ -62,7 +62,7 @@ const BookingModal = ({ userId }: BookingModalProps) => {
             onClick={closeModal}
         >
             <div
-                className="bg-white rounded-xl w-full max-w-md p-6 shadow-xl relative"
+                className="bg-white rounded-xl w-full  p-6 shadow-xl relative md:max-w-xl max-w-[90%]"
                 onClick={(e) => e.stopPropagation()}
             >
                 <button
