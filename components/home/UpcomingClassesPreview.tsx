@@ -17,7 +17,7 @@ const UpcomingClassesPreview = () => {
             <TitleHeader
                 title="Upcoming Classes"
                 subtitle="Plan your session"
-                alignment="center"
+                alignment="left"
             />
 
             <div className="flex flex-col lg:flex-row items-start gap-8 mt-8">
