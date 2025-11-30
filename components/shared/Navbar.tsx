@@ -1,8 +1,13 @@
 'use client'
+import { useAuth } from '@/context/AuthContext'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 const Navbar = () => {
+    const { user, signOut } = useAuth()
+    const router = useRouter()
+
     const navLinks = [
         { name: 'Home', path: '/' },
         { name: 'Classes', path: '/classes' },
@@ -10,6 +15,14 @@ const Navbar = () => {
     ]
 
     const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+
+    const handleClick = async () => {
+        if (user) {
+            await signOut()
+        } else {
+            router.push('/auth')
+        }
+    }
 
     return (
         <nav
@@ -41,11 +54,11 @@ const Navbar = () => {
 
             {/* Desktop Right */}
             <div className="hidden md:flex items-center gap-4">
-                {/* Lägg till profil här. Antingen vänster om login eller höger */}
                 <button
+                    onClick={handleClick}
                     className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 bg-btn hover:opacity-90 text-white hover:cursor-pointer`}
                 >
-                    Login
+                    {!user ? 'Login' : 'Logout'}
                 </button>
             </div>
 
@@ -106,8 +119,11 @@ const Navbar = () => {
                     </Link>
                 </button>
 
-                <button className="bg-btn text-white px-8 py-2.5 rounded-full transition-all duration-500">
-                    Login
+                <button
+                    onClick={handleClick}
+                    className="bg-btn text-white px-8 py-2.5 rounded-full transition-all duration-500"
+                >
+                    {!user ? 'Login' : 'Logout'}
                 </button>
             </div>
         </nav>

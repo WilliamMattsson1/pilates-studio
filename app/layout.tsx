@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify'
 import BookingModal from '@/components/modals/BookingModal'
 import { BookingModalProvider } from '@/context/BookingModalContext'
 import { TasksProvider } from '@/context/TasksContext'
+import { AuthProvider } from '@/context/AuthContext'
 
 const roboto = Roboto({
     variable: '--font-roboto',
@@ -27,16 +28,18 @@ export default function RootLayout({
     return (
         <html lang="en" data-scroll-behavior="smooth">
             <body className={`${roboto.variable}  antialiased`}>
-                <ClassesProvider>
-                    <BookingsProvider>
-                        <TasksProvider>
-                            <BookingModalProvider>
-                                <BookingModal />
-                                {children}
-                            </BookingModalProvider>
-                        </TasksProvider>
-                    </BookingsProvider>
-                </ClassesProvider>
+                <AuthProvider>
+                    <ClassesProvider>
+                        <BookingsProvider>
+                            <TasksProvider>
+                                <BookingModalProvider>
+                                    <BookingModal />
+                                    {children}
+                                </BookingModalProvider>
+                            </TasksProvider>
+                        </BookingsProvider>
+                    </ClassesProvider>
+                </AuthProvider>
                 <ToastContainer
                     position="top-right"
                     autoClose={5000}

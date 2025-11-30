@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { LogOut, Wrench, X } from 'lucide-react'
 import SectionDivider from '@/components/shared/ui/SectionDivider'
 import type { LucideIcon } from 'lucide-react'
+import { useAuth } from '@/context/AuthContext'
+import { useRouter } from 'next/navigation'
 
 interface SidebarProps {
     navItems: { label: string; href: string; icon: LucideIcon }[]
@@ -17,6 +19,13 @@ export const Sidebar = ({
     isOpen,
     onClose
 }: SidebarProps) => {
+    const { signOut } = useAuth()
+    const router = useRouter()
+
+    const handleLogout = async () => {
+        await signOut()
+        router.push('/')
+    }
     return (
         <>
             {/* Desktop sidebar */}
@@ -47,7 +56,10 @@ export const Sidebar = ({
                         )
                     })}
                 </nav>
-                <button className="bg-btn text-white px-4 py-2 rounded-full hover:opacity-90 transition flex items-center justify-center font-medium mt-4">
+                <button
+                    onClick={handleLogout}
+                    className="bg-btn text-white px-4 py-2 rounded-full hover:opacity-90 transition flex items-center justify-center font-medium mt-4"
+                >
                     Log out
                     <LogOut className="w-4 inline-block ml-2" />
                 </button>

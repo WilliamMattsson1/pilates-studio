@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import { LogOut, Menu, Home } from 'lucide-react'
+import { useAuth } from '@/context/AuthContext'
+import { useRouter } from 'next/navigation'
 
 interface TopNavbarProps {
     currentNavLabel: string
@@ -9,6 +11,13 @@ interface TopNavbarProps {
 }
 
 const TopNavbar = ({ currentNavLabel, onMenuClick }: TopNavbarProps) => {
+    const { signOut } = useAuth()
+    const router = useRouter()
+
+    const handleLogout = async () => {
+        await signOut()
+        router.push('/')
+    }
     return (
         <header className="h-16 bg-primary-bg/60 flex items-center justify-between px-4">
             <div className="flex items-center gap-3">
@@ -31,7 +40,10 @@ const TopNavbar = ({ currentNavLabel, onMenuClick }: TopNavbarProps) => {
                 {currentNavLabel}
             </h1>
 
-            <button className="bg-btn text-white px-4 py-2 rounded-full hover:opacity-90 transition flex items-center font-medium">
+            <button
+                onClick={handleLogout}
+                className="bg-btn text-white px-4 py-2 rounded-full hover:opacity-90 transition flex items-center font-medium"
+            >
                 Log out
                 <LogOut className="w-4 inline-block ml-2" />
             </button>
