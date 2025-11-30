@@ -68,28 +68,45 @@ export default function AuthForm({ initialMode = 'signIn' }: AuthFormProps) {
                         onSubmit={handleSubmit}
                         className="flex flex-col gap-4"
                     >
-                        <div className="flex items-center gap-3 px-3 py-3 bg-white rounded-lg focus-within:ring-2 focus-within:ring-btn/50 transition">
-                            <Mail size={20} className="text-gray-400" />
-                            <input
-                                type="email"
-                                placeholder="Email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                className="flex-1 bg-transparent outline-none text-gray-700"
-                            />
+                        <div className="flex flex-col gap-1">
+                            <label htmlFor="email" className="font-medium">
+                                Email
+                            </label>
+                            <div className="flex items-center gap-3 px-3 py-3 bg-white rounded-lg focus-within:ring-2 focus-within:ring-btn/50 transition">
+                                <Mail size={20} className="text-gray-400" />
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                    autoComplete="email"
+                                    className="flex-1 bg-transparent outline-none text-gray-700"
+                                />
+                            </div>
                         </div>
 
-                        <div className="flex items-center gap-3 px-3 py-3 bg-white rounded-lg focus-within:ring-2 focus-within:ring-btn/50 transition">
-                            <Lock size={20} className="text-gray-400" />
-                            <input
-                                type="password"
-                                placeholder="Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                                className="flex-1 bg-transparent outline-none text-gray-700"
-                            />
+                        <div className="flex flex-col gap-1">
+                            <label htmlFor="password" className="font-medium">
+                                Password
+                            </label>
+                            <div className="flex items-center gap-3 px-3 py-3 bg-white rounded-lg focus-within:ring-2 focus-within:ring-btn/50 transition">
+                                <Lock size={20} className="text-gray-400" />
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
+                                    required
+                                    className="flex-1 bg-transparent outline-none text-gray-700"
+                                />
+                            </div>
                         </div>
 
                         {error && <p className="text-red-400">{error}</p>}
