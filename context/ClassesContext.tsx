@@ -44,7 +44,6 @@ export const ClassesProvider = ({
             setClasses(data.data)
         } catch (err: any) {
             setError(err.message)
-            throw err
         } finally {
             setLoading(false)
         }
@@ -66,10 +65,10 @@ export const ClassesProvider = ({
             })
             const data = await res.json()
             if (!res.ok) throw new Error(data.error || 'Failed to add class')
+
             setClasses((prev) => [...prev, data.data])
         } catch (err: any) {
             setError(err.message)
-            throw new Error(err.message)
         } finally {
             setLoading(false)
         }
@@ -78,6 +77,7 @@ export const ClassesProvider = ({
     const updateClass = async (updatedClass: ClassItem) => {
         setLoading(true)
         setError(null)
+
         try {
             const res = await fetch(`/api/classes/${updatedClass.id}`, {
                 method: 'PUT',
@@ -86,6 +86,7 @@ export const ClassesProvider = ({
             })
             const data = await res.json()
             if (!res.ok) throw new Error(data.error || 'Failed to update class')
+
             setClasses((prev) =>
                 prev.map((cls) =>
                     cls.id === updatedClass.id ? data.data : cls
@@ -93,7 +94,6 @@ export const ClassesProvider = ({
             )
         } catch (err: any) {
             setError(err.message)
-            throw new Error(err.message)
         } finally {
             setLoading(false)
         }
@@ -102,16 +102,17 @@ export const ClassesProvider = ({
     const deleteClass = async (id: string) => {
         setLoading(true)
         setError(null)
+
         try {
             const res = await fetch(`/api/classes/${id}`, {
                 method: 'DELETE'
             })
             const data = await res.json()
             if (!res.ok) throw new Error(data.error || 'Failed to delete class')
+
             setClasses((prev) => prev.filter((cls) => cls.id !== id))
         } catch (err: any) {
             setError(err.message)
-            throw new Error(err.message)
         } finally {
             setLoading(false)
         }

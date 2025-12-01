@@ -35,11 +35,14 @@ export const BookingsProvider = ({
     const refreshBookings = async () => {
         setLoading(true)
         setError(null)
+
         try {
             const res = await fetch('/api/bookings')
             const data = await res.json()
+
             if (!res.ok)
                 throw new Error(data.error || 'Failed to fetch bookings')
+
             setBookings(data.data)
         } catch (err: any) {
             setError(err.message)
@@ -53,22 +56,23 @@ export const BookingsProvider = ({
     ) => {
         setLoading(true)
         setError(null)
+
         try {
             const res = await fetch('/api/bookings', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(booking)
             })
+
             const data = await res.json()
+
             if (!res.ok) throw new Error(data.error || 'Failed to add booking')
+
             setBookings((prev) => [...prev, data.data])
             toast.success('Booking added successfully!')
         } catch (err: any) {
             setError(err.message)
-            toast.error(
-                err.message || 'Failed to add booking. Please try again.'
-            )
-            throw err
+            toast.error(err.message || 'Failed to add booking.')
         } finally {
             setLoading(false)
         }
@@ -77,17 +81,19 @@ export const BookingsProvider = ({
     const deleteBooking = async (id: string) => {
         setLoading(true)
         setError(null)
+
         try {
             const res = await fetch(`/api/bookings/${id}`, { method: 'DELETE' })
             const data = await res.json()
+
             if (!res.ok)
                 throw new Error(data.error || 'Failed to delete booking')
+
             setBookings((prev) => prev.filter((b) => b.id !== id))
             toast.success('Booking deleted successfully!')
         } catch (err: any) {
             setError(err.message)
-            toast.error('Failed to delete booking. Please try again.')
-            throw err
+            toast.error(err.message || 'Failed to delete booking.')
         } finally {
             setLoading(false)
         }
