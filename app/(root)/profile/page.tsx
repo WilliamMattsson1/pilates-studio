@@ -1,6 +1,6 @@
 'use client'
 
-import { BookingCard } from '@/components/profile/BookingCard'
+import BookingCard from '@/components/profile/BookingCard'
 import SectionDivider from '@/components/shared/ui/SectionDivider'
 import { useAuth } from '@/context/AuthContext'
 import { useProfile } from '@/hooks/useProfile'
@@ -26,7 +26,7 @@ const ProfilePage = () => {
         <section className="max-w-4xl mx-auto p-6 ">
             {/* Header */}
             <header className="space-y-2 text-center">
-                <h1 className="text-3xl font-bold">
+                <h1 className="text-3xl font-bold fancy-font tracking-wide leading-tight">
                     Welcome to your profile 👋
                 </h1>
                 <p className="text-gray-700">{user?.email}</p>
