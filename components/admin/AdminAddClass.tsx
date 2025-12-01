@@ -3,7 +3,6 @@
 import { useClasses } from '@/context/ClassesContext'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { v4 as uuidv4 } from 'uuid'
 
 const AdminAddClass = () => {
     const { addClass } = useClasses()
@@ -14,17 +13,16 @@ const AdminAddClass = () => {
     const [endTime, setEndTime] = useState('')
     const [maxSpots, setMaxSpots] = useState(8)
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
         try {
-            addClass({
-                id: uuidv4(),
+            await addClass({
                 title,
                 date,
-                startTime,
-                endTime,
-                maxSpots
+                start_time: startTime,
+                end_time: endTime,
+                max_spots: maxSpots
             })
 
             setTitle('')

@@ -39,8 +39,8 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
             : [...upcomingClasses, ...pastClasses]
 
     const getBookedInfo = (cls: ClassItem) => {
-        const booked = bookings.filter((b) => b.classId === cls.id).length
-        const isFull = booked >= cls.maxSpots
+        const booked = bookings.filter((b) => b.class_id === cls.id).length
+        const isFull = booked >= cls.max_spots
         return { booked, isFull }
     }
 
@@ -99,8 +99,8 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
 
                                     <p className="text-gray-600 text-sm flex items-center mb-1">
                                         <Calendar size={15} className="mr-2" />
-                                        {cls.date} | {cls.startTime} -{' '}
-                                        {cls.endTime}
+                                        {cls.date} | {cls.start_time} -{' '}
+                                        {cls.end_time}
                                     </p>
                                     <p
                                         className={`font-medium flex items-center text-sm ${
@@ -110,7 +110,7 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
                                         }`}
                                     >
                                         <Users size={16} className="mr-2" />
-                                        Booked: {booked}/{cls.maxSpots}
+                                        Booked: {booked}/{cls.max_spots}
                                         {isFull ? ' (Full)' : ''}
                                     </p>
                                 </div>

@@ -33,8 +33,8 @@ const DeleteModal = ({
             : (item as BookingItem).guestName || 'Anonymous'
 
     const date = type === 'class' ? (item as ClassItem).date : ''
-    const startTime = type === 'class' ? (item as ClassItem).startTime : ''
-    const endTime = type === 'class' ? (item as ClassItem).endTime : ''
+    const startTime = type === 'class' ? (item as ClassItem).start_time : ''
+    const endTime = type === 'class' ? (item as ClassItem).end_time : ''
 
     return (
         <div
@@ -76,7 +76,7 @@ const DeleteModal = ({
                         <p className="text-center font-medium">{title}</p>
                         <p className="mb-6 text-center text-gray-500 italic">
                             {classInfo
-                                ? `(${classInfo.title} | ${classInfo.date} | ${classInfo.startTime} - ${classInfo.endTime})`
+                                ? `(${classInfo.title} | ${classInfo.date} | ${classInfo.start_time} - ${classInfo.end_time})`
                                 : ''}
                         </p>
                     </>

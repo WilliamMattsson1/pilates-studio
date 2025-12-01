@@ -1,12 +1,13 @@
 // types som har med classes att göra
 
 interface ClassItem {
-    id: string
-    title: string
-    date: string // eller Date-objekt
-    startTime: string // lagrar t.ex. "14:00"
-    endTime: string // lagrar t.ex. "15:00"
-    maxSpots: number
+    id: string // uuid från Supabase
+    title: string // "Core pilates"
+    date: string // lagras som "YYYY-MM-DD" i Supabase
+    start_time: string // t.ex. "14:00"
+    end_time: string // t.ex. "15:00"
+    max_spots: number // int2
+    created_at: string // timestamptz från Supabase
 }
 
 interface WeekGroup {

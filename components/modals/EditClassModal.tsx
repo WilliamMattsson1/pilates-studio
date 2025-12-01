@@ -24,9 +24,9 @@ const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
         if (cls) {
             setTitle(cls.title)
             setDate(cls.date)
-            setStartTime(cls.startTime)
-            setEndTime(cls.endTime)
-            setMaxSpots(cls.maxSpots)
+            setStartTime(cls.start_time)
+            setEndTime(cls.end_time)
+            setMaxSpots(cls.max_spots ?? 8)
         }
     }, [cls])
 
@@ -39,9 +39,9 @@ const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
                 ...cls,
                 title,
                 date,
-                startTime,
-                endTime,
-                maxSpots
+                start_time: startTime,
+                end_time: endTime,
+                max_spots: maxSpots
             })
             toast.success('Class updated successfully!')
             onClose()

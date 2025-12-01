@@ -12,8 +12,8 @@ const ClassCard = ({ cls }: ClassCardProps) => {
     const { bookings } = useBookings()
     const { openModal } = useBookingModal()
     // kontrollerar hur många bokningar som finns för denna klass
-    const bookedSpots = bookings.filter((b) => b.classId === cls.id).length
-    const spotsLeft = cls.maxSpots - bookedSpots
+    const bookedSpots = bookings.filter((b) => b.class_id === cls.id).length
+    const spotsLeft = cls.max_spots - bookedSpots
     const isFull = spotsLeft <= 0
 
     return (
@@ -53,7 +53,7 @@ const ClassCard = ({ cls }: ClassCardProps) => {
                         isFull ? 'text-gray-400' : 'text-gray-600'
                     }`}
                 >
-                    {cls.startTime} - {cls.endTime}
+                    {cls.start_time} - {cls.end_time}
                 </p>
             </div>
 
@@ -63,7 +63,7 @@ const ClassCard = ({ cls }: ClassCardProps) => {
                         isFull ? 'text-gray-500' : 'text-gray-500'
                     }`}
                 >
-                    {bookedSpots}/{cls.maxSpots} booked
+                    {bookedSpots}/{cls.max_spots} booked
                 </p>
 
                 {isFull ? (

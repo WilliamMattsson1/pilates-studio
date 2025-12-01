@@ -36,7 +36,7 @@ const AdminAllBookings = () => {
     }
 
     const getBookingsForClass = (cls: ClassItem) =>
-        bookings.filter((b) => b.classId === cls.id)
+        bookings.filter((b) => b.class_id === cls.id)
 
     const handleConfirmDelete = () => {
         if (!bookingToDelete) return
@@ -88,7 +88,8 @@ const AdminAllBookings = () => {
                                         size={14}
                                         className="inline mr-2"
                                     />
-                                    {cls.date} | {cls.startTime} - {cls.endTime}
+                                    {cls.date} | {cls.start_time} -{' '}
+                                    {cls.end_time}
                                 </p>
                                 <p
                                     className={`font-medium text-sm flex items-center ${
@@ -98,7 +99,7 @@ const AdminAllBookings = () => {
                                     }`}
                                 >
                                     <Users size={16} className="inline mr-2" />
-                                    {'Booked'}: {bookedCount}/{cls.maxSpots}
+                                    {'Booked'}: {bookedCount}/{cls.max_spots}
                                     {isFull ? ' (Full)' : ''}
                                 </p>
                             </div>

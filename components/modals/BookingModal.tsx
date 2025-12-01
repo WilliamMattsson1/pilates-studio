@@ -25,10 +25,10 @@ const BookingModal = ({ userId }: BookingModalProps) => {
     if (!isOpen || !selectedClass) return null
 
     const bookedSpots = bookings.filter(
-        (b) => b.classId === selectedClass.id
+        (b) => b.class_id === selectedClass.id
     ).length
 
-    const isFull = bookedSpots >= selectedClass.maxSpots
+    const isFull = bookedSpots >= selectedClass.max_spots
 
     const handleBooking = () => {
         if (isFull) {
@@ -43,7 +43,7 @@ const BookingModal = ({ userId }: BookingModalProps) => {
 
         addBooking({
             id: uuidv4(),
-            classId: selectedClass.id,
+            class_id: selectedClass.id,
             userId: isLoggedIn ? userId! : undefined,
             guestName: isLoggedIn ? undefined : guestName || 'Anonymous',
             guestEmail: isLoggedIn ? undefined : guestEmail,
@@ -82,8 +82,8 @@ const BookingModal = ({ userId }: BookingModalProps) => {
                     <BookingConfirmation
                         title={selectedClass.title}
                         date={selectedClass.date}
-                        startTime={selectedClass.startTime}
-                        endTime={selectedClass.endTime}
+                        startTime={selectedClass.start_time}
+                        endTime={selectedClass.end_time}
                         onClose={handleClose}
                     />
                 ) : (
@@ -93,11 +93,11 @@ const BookingModal = ({ userId }: BookingModalProps) => {
                         </h2>
                         <p className="text-sm text-gray-600 mb-4 flex items-center gap-1">
                             <Calendar size={16} />
-                            {selectedClass.date} • {selectedClass.startTime}-
-                            {selectedClass.endTime}
+                            {selectedClass.date} • {selectedClass.start_time}-
+                            {selectedClass.end_time}
                         </p>
                         <p className="text-sm mb-4">
-                            {bookedSpots}/{selectedClass.maxSpots} booked
+                            {bookedSpots}/{selectedClass.max_spots} booked
                         </p>
 
                         {!isLoggedIn ? (

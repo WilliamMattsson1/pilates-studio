@@ -2,7 +2,6 @@
 
 import { createContext, useState, useContext, useEffect, useMemo } from 'react'
 import { ClassItem, WeekGroup } from '../types/classes'
-import { mockClasses } from '@/mock/classes'
 import {
     sortClassesByDate,
     filterUpcomingClasses,
@@ -12,9 +11,11 @@ import {
 
 interface ClassesContextType {
     classes: ClassItem[]
-    addClass: (cls: ClassItem) => void
-    deleteClass: (id: string) => void
-    updateClass: (updatedClass: ClassItem) => void
+    loading: boolean
+    error: string | null
+    addClass: (cls: Omit<ClassItem, 'id' | 'created_at'>) => Promise<void>
+    deleteClass: (id: string) => Promise<void>
+    updateClass: (updatedClass: ClassItem) => Promise<void>
     upcomingClasses: ClassItem[]
     pastClasses: ClassItem[]
     classesByWeek: WeekGroup[]
@@ -28,55 +29,92 @@ export const ClassesProvider = ({
     children: React.ReactNode
 }) => {
     const [classes, setClasses] = useState<ClassItem[]>([])
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState<string | null>(null)
 
-    // Load existing classes from localStorage on mount
+    // Fetch classes from API on mount
     useEffect(() => {
-        const stored = localStorage.getItem('classes')
-        if (stored) {
-            setClasses(JSON.parse(stored))
-        } else {
-            setClasses(mockClasses) // first time use mock data
-            localStorage.setItem('classes', JSON.stringify(mockClasses))
+        const fetchClasses = async () => {
+            setLoading(true)
+            try {
+                const res = await fetch('/api/classes')
+                const data = await res.json()
+                if (!res.ok)
+                    throw new Error(data.error || 'Failed to fetch classes')
+                setClasses(data.data)
+            } catch (err: any) {
+                setError(err.message)
+                throw new Error(err.message)
+            } finally {
+                setLoading(false)
+            }
         }
+        fetchClasses()
     }, [])
 
-    const addClass = (cls: ClassItem) => {
-        if (
-            !cls.title ||
-            !cls.date ||
-            !cls.startTime ||
-            !cls.endTime ||
-            !cls.maxSpots
-        ) {
-            throw new Error('All fields must be filled')
+    const addClass = async (cls: Omit<ClassItem, 'id' | 'created_at'>) => {
+        setLoading(true)
+        setError(null)
+
+        try {
+            const res = await fetch('/api/classes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(cls)
+            })
+            const data = await res.json()
+            if (!res.ok) throw new Error(data.error || 'Failed to add class')
+            setClasses((prev) => [...prev, data.data])
+        } catch (err: any) {
+            setError(err.message)
+            throw new Error(err.message)
+        } finally {
+            setLoading(false)
         }
-
-        setClasses((prev) => {
-            const updated = [...prev, cls]
-            localStorage.setItem('classes', JSON.stringify(updated))
-            return updated
-        })
     }
 
-    const deleteClass = (id: string) => {
-        setClasses((prev) => {
-            const updated = prev.filter((cls) => cls.id !== id)
-            localStorage.setItem('classes', JSON.stringify(updated))
-            return updated
-        })
-    }
-
-    const updateClass = (updatedClass: ClassItem) => {
-        setClasses((prev) => {
-            const updated = prev.map((cls) =>
-                cls.id === updatedClass.id ? updatedClass : cls
+    const updateClass = async (updatedClass: ClassItem) => {
+        setLoading(true)
+        setError(null)
+        try {
+            const res = await fetch(`/api/classes/${updatedClass.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedClass)
+            })
+            const data = await res.json()
+            if (!res.ok) throw new Error(data.error || 'Failed to update class')
+            setClasses((prev) =>
+                prev.map((cls) =>
+                    cls.id === updatedClass.id ? data.data : cls
+                )
             )
-            localStorage.setItem('classes', JSON.stringify(updated))
-            return updated
-        })
+        } catch (err: any) {
+            setError(err.message)
+            throw new Error(err.message)
+        } finally {
+            setLoading(false)
+        }
     }
 
-    // Different data: sort, filter, group
+    const deleteClass = async (id: string) => {
+        setLoading(true)
+        setError(null)
+        try {
+            const res = await fetch(`/api/classes/${id}`, {
+                method: 'DELETE'
+            })
+            const data = await res.json()
+            if (!res.ok) throw new Error(data.error || 'Failed to delete class')
+            setClasses((prev) => prev.filter((cls) => cls.id !== id))
+        } catch (err: any) {
+            setError(err.message)
+            throw new Error(err.message)
+        } finally {
+            setLoading(false)
+        }
+    }
+
     const upcomingClasses = useMemo(() => {
         const sorted = sortClassesByDate(classes)
         return filterUpcomingClasses(sorted)
@@ -87,17 +125,20 @@ export const ClassesProvider = ({
         return filterPastClasses(sorted)
     }, [classes])
 
-    const classesByWeek = useMemo(() => {
-        return groupAndSortByWeek(upcomingClasses)
-    }, [upcomingClasses])
+    const classesByWeek = useMemo(
+        () => groupAndSortByWeek(upcomingClasses),
+        [upcomingClasses]
+    )
 
     return (
         <ClassesContext.Provider
             value={{
                 classes,
+                loading,
+                error,
                 addClass,
-                deleteClass,
                 updateClass,
+                deleteClass,
                 upcomingClasses,
                 pastClasses,
                 classesByWeek
