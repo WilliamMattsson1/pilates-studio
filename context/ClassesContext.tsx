@@ -8,6 +8,7 @@ import {
     filterPastClasses,
     groupAndSortByWeek
 } from '@/utils/classes'
+import { createClient } from '@/utils/supabase/client'
 
 interface ClassesContextType {
     classes: ClassItem[]
@@ -29,6 +30,7 @@ export const ClassesProvider = ({
 }: {
     children: React.ReactNode
 }) => {
+    const supabase = createClient()
     const [classes, setClasses] = useState<ClassItem[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
@@ -51,6 +53,46 @@ export const ClassesProvider = ({
 
     useEffect(() => {
         refreshClasses()
+
+        const classesChannel = supabase
+            .channel('public:classes')
+            // INSERT
+            .on(
+                'postgres_changes',
+                { event: 'INSERT', schema: 'public', table: 'classes' },
+                (payload) => {
+                    setClasses((prev) => [...prev, payload.new as ClassItem])
+                }
+            )
+            // UPDATE
+            .on(
+                'postgres_changes',
+                { event: 'UPDATE', schema: 'public', table: 'classes' },
+                (payload) => {
+                    setClasses((prev) =>
+                        prev.map((cls) =>
+                            cls.id === payload.new.id
+                                ? (payload.new as ClassItem)
+                                : cls
+                        )
+                    )
+                }
+            )
+            // DELETE
+            .on(
+                'postgres_changes',
+                { event: 'DELETE', schema: 'public', table: 'classes' },
+                (payload) => {
+                    setClasses((prev) =>
+                        prev.filter((cls) => cls.id !== payload.old.id)
+                    )
+                }
+            )
+            .subscribe()
+
+        return () => {
+            supabase.removeChannel(classesChannel)
+        }
     }, [])
 
     const addClass = async (cls: Omit<ClassItem, 'id' | 'created_at'>) => {
@@ -65,8 +107,6 @@ export const ClassesProvider = ({
             })
             const data = await res.json()
             if (!res.ok) throw new Error(data.error || 'Failed to add class')
-
-            setClasses((prev) => [...prev, data.data])
         } catch (err: any) {
             setError(err.message)
         } finally {
@@ -86,12 +126,6 @@ export const ClassesProvider = ({
             })
             const data = await res.json()
             if (!res.ok) throw new Error(data.error || 'Failed to update class')
-
-            setClasses((prev) =>
-                prev.map((cls) =>
-                    cls.id === updatedClass.id ? data.data : cls
-                )
-            )
         } catch (err: any) {
             setError(err.message)
         } finally {
@@ -109,8 +143,6 @@ export const ClassesProvider = ({
             })
             const data = await res.json()
             if (!res.ok) throw new Error(data.error || 'Failed to delete class')
-
-            setClasses((prev) => prev.filter((cls) => cls.id !== id))
         } catch (err: any) {
             setError(err.message)
         } finally {

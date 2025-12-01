@@ -108,7 +108,6 @@ export const BookingsProvider = ({
 
             if (!res.ok) throw new Error(data.error || 'Failed to add booking')
 
-            setBookings((prev) => [...prev, data.data])
             toast.success('Booking added successfully!')
         } catch (err: any) {
             setError(err.message)
@@ -129,7 +128,6 @@ export const BookingsProvider = ({
             if (!res.ok)
                 throw new Error(data.error || 'Failed to delete booking')
 
-            setBookings((prev) => prev.filter((b) => b.id !== id))
             toast.success('Booking deleted successfully!')
         } catch (err: any) {
             setError(err.message)
