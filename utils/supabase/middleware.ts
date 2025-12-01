@@ -38,6 +38,12 @@ export async function updateSession(request: NextRequest) {
 
     const user = data?.claims
 
+    if (!user && request.nextUrl.pathname.startsWith('/profile')) {
+        const url = request.nextUrl.clone()
+        url.pathname = '/auth'
+        return NextResponse.redirect(url)
+    }
+
     if (!user && request.nextUrl.pathname.startsWith('/admin')) {
         // no user, potentially respond by redirecting the user to the login page , changed to homepage
         const url = request.nextUrl.clone()

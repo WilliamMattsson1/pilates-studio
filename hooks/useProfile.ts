@@ -49,15 +49,19 @@ export const useProfile = (userId: string | undefined) => {
         setLoading(false)
     }
 
-    // Cancel a booking and remove it from state
     const cancelBooking = async (id: string) => {
-        const { error } = await supabase.from('bookings').delete().eq('id', id)
-        if (error) {
-            toast.error("Couldn't cancel booking.")
-            return
+        try {
+            const res = await fetch(`/api/bookings/${id}`, { method: 'DELETE' })
+            const json = await res.json()
+
+            if (!res.ok)
+                throw new Error(json.error || 'Failed to cancel booking')
+
+            setBookings((prev) => prev.filter((b) => b.id !== id))
+            toast.success('Booking cancelled.')
+        } catch (err: any) {
+            toast.error(err.message)
         }
-        setBookings((prev) => prev.filter((b) => b.id !== id))
-        toast.success('Booking cancelled.')
     }
 
     return { profile, bookings, loading, cancelBooking }
