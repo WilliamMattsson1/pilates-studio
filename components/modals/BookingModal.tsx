@@ -33,17 +33,23 @@ const BookingModal = () => {
             return
         }
 
-        if (!isLoggedIn && !guestEmail.trim()) {
-            toast.error('Email is required for guest booking')
-            return
+        if (!isLoggedIn) {
+            if (!guestName.trim()) {
+                toast.error('Name is required for guest booking')
+                return
+            }
+            if (!guestEmail.trim()) {
+                toast.error('Email is required for guest booking')
+                return
+            }
         }
 
         try {
             await addBooking({
                 class_id: selectedClass.id,
                 user_id: isLoggedIn ? user.id : undefined,
-                guest_name: isLoggedIn ? undefined : guestName || 'Anonymous',
-                guest_email: isLoggedIn ? undefined : guestEmail
+                guest_name: isLoggedIn ? undefined : guestName,
+                guest_email: isLoggedIn ? user.email : guestEmail
             })
 
             setBookingSuccess(true)
@@ -121,7 +127,8 @@ const BookingModal = () => {
                                             onChange={(e) =>
                                                 setGuestName(e.target.value)
                                             }
-                                            placeholder="Optional"
+                                            placeholder="John Doe"
+                                            required
                                             className="flex-1 bg-transparent outline-none"
                                         />
                                     </div>

@@ -6,7 +6,6 @@ import { ClassItem } from '@/types/classes'
 import { ChevronDownIcon, Calendar, Users, User } from 'lucide-react'
 import { useState } from 'react'
 import DeleteModal from '../modals/DeleteItemModal'
-import { toast } from 'react-toastify'
 
 const FILTERS = [
     { key: 'upcoming', label: 'Upcoming' },
@@ -129,10 +128,16 @@ const AdminAllBookings = () => {
                                                 />
                                                 <div>
                                                     <p className="font-medium">
-                                                        {b.guest_name ||
-                                                            'Anonymous'}
+                                                        {b.guest_name || ''}
                                                     </p>
-                                                    <p className="text-sm text-gray-600">
+                                                    <p
+                                                        className={` ${
+                                                            b.guest_email &&
+                                                            !b.guest_name
+                                                                ? 'font-medium text-black'
+                                                                : 'text-gray-600 text-sm'
+                                                        }`}
+                                                    >
                                                         {b.guest_email || ''}
                                                     </p>
                                                 </div>
