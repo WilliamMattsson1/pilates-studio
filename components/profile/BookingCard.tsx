@@ -16,15 +16,6 @@ const BookingCard: React.FC<Props> = ({
 }) => {
     const { bookings } = useBookings()
 
-    const formatDate = (dateStr: string) => {
-        const d = new Date(dateStr)
-        return d.toLocaleDateString(undefined, {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-        })
-    }
-
     const bookedSpots = bookings.filter(
         (b) => b.class_id === booking.class_id
     ).length

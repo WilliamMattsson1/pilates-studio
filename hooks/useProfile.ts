@@ -1,43 +1,25 @@
 import { useState, useEffect } from 'react'
+import { useBookings } from '@/context/BookingsContext'
+import { useClasses } from '@/context/ClassesContext'
 import { createClient } from '@/utils/supabase/client'
 import { toast } from 'react-toastify'
 
 export const useProfile = (userId: string | undefined) => {
     const supabase = createClient()
     const [profile, setProfile] = useState<any>(null)
-    const [bookings, setBookings] = useState<any[]>([])
-    const [loading, setLoading] = useState(true)
+    const [loadingProfile, setLoadingProfile] = useState(true)
 
-    useEffect(() => {
-        if (userId) fetchData()
-    }, [userId])
+    const { bookings, deleteBooking } = useBookings()
+    const { classes } = useClasses()
 
-    const fetchData = async () => {
-        setLoading(true)
-
-        const { data: profileData, error: profileError } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', userId)
-            .maybeSingle()
-
-        if (profileError) {
-            console.error(profileError)
-        }
-        setProfile(profileData)
-
-        // Fetch user's bookings including related class data
-        const { data: bookingData, error: bookingError } = await supabase
-            .from('bookings')
-            .select('*, classes(*)')
-            .eq('user_id', userId)
-
-        if (bookingError) {
-            console.error(bookingError)
-        }
-
-        // Sort bookings by class date ascending
-        const sorted = (bookingData || []).sort((a, b) => {
+    // Filtrera bokningar för aktuell användare
+    const userBookings = bookings
+        .filter((b) => b.user_id === userId)
+        .map((b) => ({
+            ...b,
+            classes: classes.find((c) => c.id === b.class_id) || null
+        }))
+        .sort((a, b) => {
             if (!a.classes || !b.classes) return 0
             return (
                 new Date(a.classes.date).getTime() -
@@ -45,24 +27,37 @@ export const useProfile = (userId: string | undefined) => {
             )
         })
 
-        setBookings(sorted)
-        setLoading(false)
-    }
+    useEffect(() => {
+        if (!userId) return
+
+        const fetchProfile = async () => {
+            setLoadingProfile(true)
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', userId)
+                .maybeSingle()
+
+            if (error) console.error(error)
+            setProfile(data)
+            setLoadingProfile(false)
+        }
+
+        fetchProfile()
+    }, [userId])
 
     const cancelBooking = async (id: string) => {
         try {
-            const res = await fetch(`/api/bookings/${id}`, { method: 'DELETE' })
-            const json = await res.json()
-
-            if (!res.ok)
-                throw new Error(json.error || 'Failed to cancel booking')
-
-            setBookings((prev) => prev.filter((b) => b.id !== id))
-            toast.success('Booking cancelled.')
+            await deleteBooking(id) // context hanterar realtime uppdatering
         } catch (err: any) {
-            toast.error(err.message)
+            toast.error(err.message || 'Failed to cancel booking')
         }
     }
 
-    return { profile, bookings, loading, cancelBooking }
+    return {
+        profile,
+        bookings: userBookings,
+        loading: loadingProfile,
+        cancelBooking
+    }
 }
