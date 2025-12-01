@@ -43,7 +43,6 @@ const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
                 end_time: endTime,
                 max_spots: maxSpots
             })
-            toast.success('Class updated successfully!')
             onClose()
         } catch (error) {
             console.error(error)

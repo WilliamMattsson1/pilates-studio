@@ -24,8 +24,9 @@ const AdminOverview = () => {
 
     const totalBookings = bookings.length
 
+    // endast folk som bokat nån gång
     const activeStudents = bookings
-        .map((b) => b.guestEmail || b.userId)
+        .map((b) => b.user_id)
         .filter((val, index, self) => val && self.indexOf(val) === index).length
 
     const stats = [

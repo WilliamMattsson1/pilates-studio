@@ -1,5 +1,4 @@
 'use client'
-
 import { useState } from 'react'
 import { Menu, MenuItem, MenuItems, MenuButton } from '@headlessui/react'
 import { useBookings } from '@/context/BookingsContext'
@@ -8,7 +7,6 @@ import { BookingItem } from '@/types/bookings'
 import { ClassItem } from '@/types/classes'
 import { Calendar, User, Mail, ChevronDown } from 'lucide-react'
 import { toast } from 'react-toastify'
-import { v4 as uuidv4 } from 'uuid'
 
 const AdminAddBooking = () => {
     const { upcomingClasses } = useClasses()
@@ -35,26 +33,23 @@ const AdminAddBooking = () => {
         }
 
         const currentBookingsForClass = bookings.filter(
-            (b) => String(b.classId) === String(selectedClassId)
+            (b) => String(b.class_id) === String(selectedClassId)
         )
 
-        if (currentBookingsForClass.length >= (selectedClass.maxSpots || 0)) {
+        if (currentBookingsForClass.length >= (selectedClass.max_spots || 0)) {
             toast.error('Denna klass är fullbokad')
             return
         }
 
         setIsSubmitting(true)
 
-        const newBooking: BookingItem = {
-            id: uuidv4(),
-            classId: selectedClassId,
-            guestName: guestName || 'Anonymous',
-            guestEmail: guestEmail || '',
-            bookedAt: new Date().toISOString()
+        const newBooking: Omit<BookingItem, 'id' | 'created_at'> = {
+            class_id: selectedClassId,
+            guest_name: guestName || 'Anonymous',
+            guest_email: guestEmail || ''
         }
 
         addBooking(newBooking)
-        toast.success('Booking added successfully!')
 
         setSelectedClassId('')
         setGuestName('')
@@ -77,7 +72,7 @@ const AdminAddBooking = () => {
                                 <MenuButton className="w-full p-3 rounded-lg bg-secondary-bg/50 flex justify-between items-center cursor-pointer focus:ring-2 focus:ring-btn/50">
                                     <span>
                                         {selectedClass
-                                            ? `${selectedClass.title} — ${selectedClass.date} (${selectedClass.startTime}-${selectedClass.endTime})`
+                                            ? `${selectedClass.title} — ${selectedClass.date} (${selectedClass.start_time}-${selectedClass.end_time})`
                                             : 'Choose class...'}
                                     </span>
                                     <ChevronDown
@@ -92,12 +87,12 @@ const AdminAddBooking = () => {
                                     {upcomingClasses.map((cls: ClassItem) => {
                                         const currentBookings = bookings.filter(
                                             (b) =>
-                                                String(b.classId) ===
+                                                String(b.class_id) ===
                                                 String(cls.id)
                                         ).length
                                         const isFull =
                                             currentBookings >=
-                                            (cls.maxSpots || 0)
+                                            (cls.max_spots || 0)
 
                                         return (
                                             <MenuItem
@@ -119,10 +114,10 @@ const AdminAddBooking = () => {
                                                         }}
                                                     >
                                                         {cls.title} — {cls.date}{' '}
-                                                        ({cls.startTime}-
-                                                        {cls.endTime}) |{' '}
+                                                        ({cls.start_time}-
+                                                        {cls.end_time}) |{' '}
                                                         {currentBookings}/
-                                                        {cls.maxSpots} bookings
+                                                        {cls.max_spots} bookings
                                                     </div>
                                                 )}
                                             </MenuItem>
@@ -136,16 +131,16 @@ const AdminAddBooking = () => {
                     {selectedClass && (
                         <p className="text-xs text-gray-600 mt-1 flex items-center gap-2">
                             <Calendar size={14} />
-                            {selectedClass.date} | {selectedClass.startTime}–
-                            {selectedClass.endTime} |{' '}
+                            {selectedClass.date} | {selectedClass.start_time}–
+                            {selectedClass.end_time} |{' '}
                             {
                                 bookings.filter(
                                     (b) =>
-                                        String(b.classId) ===
+                                        String(b.class_id) ===
                                         String(selectedClassId)
                                 ).length
                             }
-                            /{selectedClass.maxSpots} bokningar
+                            /{selectedClass.max_spots} bokningar
                         </p>
                     )}
                 </div>

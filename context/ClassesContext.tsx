@@ -16,6 +16,7 @@ interface ClassesContextType {
     addClass: (cls: Omit<ClassItem, 'id' | 'created_at'>) => Promise<void>
     deleteClass: (id: string) => Promise<void>
     updateClass: (updatedClass: ClassItem) => Promise<void>
+    refreshClasses: () => Promise<void>
     upcomingClasses: ClassItem[]
     pastClasses: ClassItem[]
     classesByWeek: WeekGroup[]
@@ -32,24 +33,25 @@ export const ClassesProvider = ({
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
-    // Fetch classes from API on mount
-    useEffect(() => {
-        const fetchClasses = async () => {
-            setLoading(true)
-            try {
-                const res = await fetch('/api/classes')
-                const data = await res.json()
-                if (!res.ok)
-                    throw new Error(data.error || 'Failed to fetch classes')
-                setClasses(data.data)
-            } catch (err: any) {
-                setError(err.message)
-                throw new Error(err.message)
-            } finally {
-                setLoading(false)
-            }
+    const refreshClasses = async () => {
+        setLoading(true)
+        setError(null)
+        try {
+            const res = await fetch('/api/classes')
+            const data = await res.json()
+            if (!res.ok)
+                throw new Error(data.error || 'Failed to fetch classes')
+            setClasses(data.data)
+        } catch (err: any) {
+            setError(err.message)
+            throw err
+        } finally {
+            setLoading(false)
         }
-        fetchClasses()
+    }
+
+    useEffect(() => {
+        refreshClasses()
     }, [])
 
     const addClass = async (cls: Omit<ClassItem, 'id' | 'created_at'>) => {
@@ -139,6 +141,7 @@ export const ClassesProvider = ({
                 addClass,
                 updateClass,
                 deleteClass,
+                refreshClasses,
                 upcomingClasses,
                 pastClasses,
                 classesByWeek

@@ -3,24 +3,21 @@
 import { useState } from 'react'
 import { useBookings } from '@/context/BookingsContext'
 import { useBookingModal } from '@/context/BookingModalContext'
-import { v4 as uuidv4 } from 'uuid'
 import { toast } from 'react-toastify'
 import { User, Mail, Calendar } from 'lucide-react'
 import BookingConfirmation from '../classes/BookingConfirmation'
+import { useAuth } from '@/context/AuthContext'
 
-interface BookingModalProps {
-    userId?: string | null
-}
-
-const BookingModal = ({ userId }: BookingModalProps) => {
+const BookingModal = () => {
     const { isOpen, selectedClass, closeModal } = useBookingModal()
     const { bookings, addBooking } = useBookings()
+    const { user } = useAuth()
 
     const [bookingSuccess, setBookingSuccess] = useState(false)
     const [guestName, setGuestName] = useState('')
     const [guestEmail, setGuestEmail] = useState('')
 
-    const isLoggedIn = false // TODO: ersätt med riktig auth
+    const isLoggedIn = user
 
     if (!isOpen || !selectedClass) return null
 
@@ -30,7 +27,7 @@ const BookingModal = ({ userId }: BookingModalProps) => {
 
     const isFull = bookedSpots >= selectedClass.max_spots
 
-    const handleBooking = () => {
+    const handleBooking = async () => {
         if (isFull) {
             toast.error('Class is full')
             return
@@ -41,17 +38,19 @@ const BookingModal = ({ userId }: BookingModalProps) => {
             return
         }
 
-        addBooking({
-            id: uuidv4(),
-            class_id: selectedClass.id,
-            userId: isLoggedIn ? userId! : undefined,
-            guestName: isLoggedIn ? undefined : guestName || 'Anonymous',
-            guestEmail: isLoggedIn ? undefined : guestEmail,
-            bookedAt: new Date().toISOString()
-        })
+        try {
+            await addBooking({
+                class_id: selectedClass.id,
+                user_id: isLoggedIn ? user.id : undefined,
+                guest_name: isLoggedIn ? undefined : guestName || 'Anonymous',
+                guest_email: isLoggedIn ? undefined : guestEmail
+            })
 
-        setBookingSuccess(true)
-        toast.success('Booking completed!')
+            setBookingSuccess(true)
+        } catch (err) {
+            // addBooking kastar error om något går fel (t.ex. class full)
+            // Toast visas redan i addBooking, så här behöver vi inget mer
+        }
     }
 
     const handleClose = () => {
@@ -159,7 +158,9 @@ const BookingModal = ({ userId }: BookingModalProps) => {
                             <p className="text-sm text-gray-700 mb-3 flex items-center gap-1">
                                 {/* TODO Change after auth */}
                                 <User size={16} /> Booking as:{' '}
-                                <span className="font-medium">Guest</span>
+                                <span className="font-medium">
+                                    {user.email}
+                                </span>
                             </p>
                         )}
 

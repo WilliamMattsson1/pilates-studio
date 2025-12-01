@@ -43,7 +43,6 @@ const AdminAllBookings = () => {
         deleteBooking(bookingToDelete.id)
         setIsDeleteModalOpen(false)
         setBookingToDelete(null)
-        toast.success('Booking cancelled successfully!')
     }
 
     const classesToShow = filter === 'upcoming' ? upcomingClasses : pastClasses
@@ -70,7 +69,7 @@ const AdminAllBookings = () => {
                 const clsBookings = getBookingsForClass(cls)
                 const isExpanded = expandedClasses.includes(cls.id)
                 const bookedCount = clsBookings.length
-                const isFull = bookedCount >= cls.maxSpots
+                const isFull = bookedCount >= cls.max_spots
 
                 return (
                     <div
@@ -130,11 +129,11 @@ const AdminAllBookings = () => {
                                                 />
                                                 <div>
                                                     <p className="font-medium">
-                                                        {b.guestName ||
+                                                        {b.guest_name ||
                                                             'Anonymous'}
                                                     </p>
                                                     <p className="text-sm text-gray-600">
-                                                        {b.guestEmail || ''}
+                                                        {b.guest_email || ''}
                                                     </p>
                                                 </div>
                                             </div>
@@ -162,7 +161,7 @@ const AdminAllBookings = () => {
                     item={bookingToDelete}
                     type="booking"
                     classInfo={upcomingClasses.find(
-                        (c) => c.id === bookingToDelete.classId
+                        (c) => c.id === bookingToDelete.class_id
                     )}
                     isOpen={isDeleteModalOpen}
                     onClose={() => setIsDeleteModalOpen(false)}
