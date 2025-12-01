@@ -3,6 +3,7 @@
 import { createContext, useState, useContext, useEffect } from 'react'
 import { BookingItem } from '@/types/bookings'
 import { toast } from 'react-toastify'
+import { createClient } from '@/utils/supabase/client'
 
 interface BookingsContextType {
     bookings: BookingItem[]
@@ -24,12 +25,51 @@ export const BookingsProvider = ({
 }: {
     children: React.ReactNode
 }) => {
+    const supabase = createClient()
     const [bookings, setBookings] = useState<BookingItem[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         refreshBookings()
+
+        const bookingsChannel = supabase
+            .channel('public:bookings')
+            // INSERT
+            .on(
+                'postgres_changes',
+                { event: 'INSERT', schema: 'public', table: 'bookings' },
+                (payload) => {
+                    setBookings((prev) => {
+                        if (prev.find((b) => b.id === payload.new.id))
+                            return prev
+                        const newBooking: BookingItem = {
+                            id: payload.new.id,
+                            class_id: payload.new.class_id,
+                            user_id: payload.new.user_id,
+                            guest_name: payload.new.guest_name,
+                            guest_email: payload.new.guest_email,
+                            created_at: payload.new.created_at
+                        }
+                        return [...prev, newBooking]
+                    })
+                }
+            )
+            // DELETE
+            .on(
+                'postgres_changes',
+                { event: 'DELETE', schema: 'public', table: 'bookings' },
+                (payload) => {
+                    setBookings((prev) =>
+                        prev.filter((b) => b.id !== payload.old.id)
+                    )
+                }
+            )
+            .subscribe()
+
+        return () => {
+            supabase.removeChannel(bookingsChannel)
+        }
     }, [])
 
     const refreshBookings = async () => {
