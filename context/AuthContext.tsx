@@ -14,7 +14,7 @@ interface AuthContextProps {
     session: Session | null
     loading: boolean
     signIn: (email: string, password: string) => Promise<void>
-    signUp: (email: string, password: string) => Promise<void>
+    signUp: (email: string, password: string, name: string) => Promise<void>
     signOut: () => Promise<void>
 }
 
@@ -76,12 +76,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     }
 
-    const signUp = async (email: string, password: string) => {
+    const signUp = async (email: string, password: string, name: string) => {
         if (!email || !password) {
             throw new Error('Email and password are required')
         }
 
         setLoading(true)
+
         try {
             const { data, error } = await supabase.auth.signUp({
                 email,
@@ -95,6 +96,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                 }
                 throw error
             }
+
+            const user = data.user
+            if (!user) throw new Error('User was not returned')
+            const { error: profileError } = await supabase
+                .from('profiles')
+                .insert({
+                    id: user.id,
+                    name: name,
+                    email: email
+                })
+
+            if (profileError) throw profileError
 
             setSession(data.session ?? null)
             setUser(data.session?.user ?? null)

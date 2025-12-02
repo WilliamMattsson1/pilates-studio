@@ -36,7 +36,7 @@ const ProfileSection = () => {
                 <h1 className="text-3xl font-bold fancy-font tracking-wide leading-tight">
                     Welcome to your profile 👋
                 </h1>
-                <p className="text-gray-700">{user?.email}</p>
+                <p className="text-gray-700">{profile?.name}</p>
             </header>
 
             {profile?.is_admin && (

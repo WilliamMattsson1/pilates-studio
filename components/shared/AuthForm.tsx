@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
-import { Mail, Lock } from 'lucide-react'
+import { Mail, Lock, User } from 'lucide-react'
 import TitleHeader from './TitleHeader'
 import { useRouter } from 'next/navigation'
 
@@ -11,6 +11,7 @@ type AuthFormProps = {
 
 export default function AuthForm({ initialMode = 'signIn' }: AuthFormProps) {
     const [mode, setMode] = useState<'signIn' | 'signUp'>(initialMode)
+    const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState<string | null>(null)
@@ -26,7 +27,7 @@ export default function AuthForm({ initialMode = 'signIn' }: AuthFormProps) {
             if (mode === 'signIn') {
                 await signIn(email, password)
             } else {
-                await signUp(email, password)
+                await signUp(email, password, name)
             }
 
             setEmail('')
@@ -68,6 +69,28 @@ export default function AuthForm({ initialMode = 'signIn' }: AuthFormProps) {
                         onSubmit={handleSubmit}
                         className="flex flex-col gap-4"
                     >
+                        {mode === 'signUp' && (
+                            <div className="flex flex-col gap-1">
+                                <label htmlFor="name" className="font-medium">
+                                    Name
+                                </label>
+                                <div className="flex items-center gap-3 px-3 py-3 bg-white rounded-lg focus-within:ring-2 focus-within:ring-btn/50 transition">
+                                    <User size={20} className="text-gray-400" />
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        placeholder="Name"
+                                        value={name}
+                                        onChange={(e) =>
+                                            setName(e.target.value)
+                                        }
+                                        required
+                                        className="flex-1 bg-transparent outline-none text-gray-700"
+                                    />
+                                </div>
+                            </div>
+                        )}
                         <div className="flex flex-col gap-1">
                             <label htmlFor="email" className="font-medium">
                                 Email
