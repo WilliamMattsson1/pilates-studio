@@ -7,11 +7,13 @@ import { toast } from 'react-toastify'
 import { User, Mail, Calendar } from 'lucide-react'
 import BookingConfirmation from '../classes/BookingConfirmation'
 import { useAuth } from '@/context/AuthContext'
+import { useProfile } from '@/hooks/useProfile'
 
 const BookingModal = () => {
     const { isOpen, selectedClass, closeModal } = useBookingModal()
     const { bookings, addBooking } = useBookings()
     const { user } = useAuth()
+    const { profile } = useProfile(user?.id)
 
     const [bookingSuccess, setBookingSuccess] = useState(false)
     const [guestName, setGuestName] = useState('')
@@ -48,7 +50,7 @@ const BookingModal = () => {
             await addBooking({
                 class_id: selectedClass.id,
                 user_id: isLoggedIn ? user.id : undefined,
-                guest_name: isLoggedIn ? undefined : guestName,
+                guest_name: isLoggedIn ? profile?.name || undefined : guestName,
                 guest_email: isLoggedIn ? user.email : guestEmail
             })
 
