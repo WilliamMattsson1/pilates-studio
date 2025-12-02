@@ -9,6 +9,7 @@ const mockClasses: ClassItem[] = [
         start_time: '10:00',
         end_time: '11:00',
         max_spots: 8,
+        price: 199,
         created_at: '2025-12-01:39:33.25876+00'
     },
     {
@@ -18,6 +19,7 @@ const mockClasses: ClassItem[] = [
         start_time: '15:00',
         end_time: '16:00',
         max_spots: 8,
+        price: 199,
         created_at: '2025-12-01:39:33.25876+00'
     },
 
@@ -29,6 +31,7 @@ const mockClasses: ClassItem[] = [
         start_time: '09:00',
         end_time: '10:00',
         max_spots: 8,
+        price: 199,
         created_at: '2025-12-01:39:33.25876+00'
     },
     {
@@ -38,6 +41,7 @@ const mockClasses: ClassItem[] = [
         start_time: '14:00',
         end_time: '15:00',
         max_spots: 8,
+        price: 199,
         created_at: '2025-12-01:39:33.25876+00'
     },
     {
@@ -47,6 +51,7 @@ const mockClasses: ClassItem[] = [
         start_time: '16:00',
         end_time: '17:00',
         max_spots: 8,
+        price: 199,
         created_at: '2025-12-01:39:33.25876+00'
     },
     {
@@ -56,6 +61,7 @@ const mockClasses: ClassItem[] = [
         start_time: '11:00',
         end_time: '12:00',
         max_spots: 8,
+        price: 199,
         created_at: '2025-12-01:39:33.25876+00'
     },
     // Nästa vecka: 3/12 - 5/12 (v.49)
@@ -66,6 +72,7 @@ const mockClasses: ClassItem[] = [
         start_time: '09:00',
         end_time: '10:00',
         max_spots: 8,
+        price: 199,
         created_at: '2025-12-01:39:33.25876+00'
     },
     {
@@ -75,6 +82,7 @@ const mockClasses: ClassItem[] = [
         start_time: '14:00',
         end_time: '15:00',
         max_spots: 8,
+        price: 199,
         created_at: '2025-12-01:39:33.25876+00'
     },
     {
@@ -84,6 +92,7 @@ const mockClasses: ClassItem[] = [
         start_time: '10:00',
         end_time: '11:00',
         max_spots: 8,
+        price: 199,
         created_at: '2025-12-01:39:33.25876+00'
     },
 
@@ -95,6 +104,7 @@ const mockClasses: ClassItem[] = [
         start_time: '09:00',
         end_time: '10:00',
         max_spots: 8,
+        price: 199,
         created_at: '2025-12-01:39:33.25876+00'
     },
     {
@@ -104,6 +114,7 @@ const mockClasses: ClassItem[] = [
         start_time: '15:00',
         end_time: '16:00',
         max_spots: 8,
+        price: 199,
         created_at: '2025-12-01:39:33.25876+00'
     }
 ]

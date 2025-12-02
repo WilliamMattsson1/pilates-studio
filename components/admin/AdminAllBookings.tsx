@@ -47,7 +47,7 @@ const AdminAllBookings = () => {
     const classesToShow = filter === 'upcoming' ? upcomingClasses : pastClasses
 
     return (
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex flex-col gap-4 w-full pb-6">
             <div className="flex gap-2">
                 {FILTERS.map(({ key, label }) => (
                     <button

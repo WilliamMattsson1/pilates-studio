@@ -12,6 +12,7 @@ const AdminAddClass = () => {
     const [startTime, setStartTime] = useState('')
     const [endTime, setEndTime] = useState('')
     const [maxSpots, setMaxSpots] = useState(8)
+    const [price, setPrice] = useState(199)
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -22,7 +23,8 @@ const AdminAddClass = () => {
                 date,
                 start_time: startTime,
                 end_time: endTime,
-                max_spots: maxSpots
+                max_spots: maxSpots,
+                price: price
             })
 
             setTitle('')
@@ -124,26 +126,48 @@ const AdminAddClass = () => {
                         </div>
                     </div>
 
-                    {/* Max Spots */}
-                    <div className="flex flex-col gap-1">
-                        <label
-                            htmlFor="maxSpots"
-                            className="text-sm font-medium text-gray-700"
-                        >
-                            Max Spots
-                        </label>
-                        <input
-                            id="maxSpots"
-                            name="maxSpots"
-                            type="number"
-                            min="1"
-                            value={maxSpots}
-                            onChange={(e) =>
-                                setMaxSpots(Number(e.target.value))
-                            }
-                            className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition"
-                            required
-                        />
+                    <div className="flex flex-row gap-2">
+                        {/* Max Spots */}
+                        <div className="flex flex-col gap-1 flex-1">
+                            <label
+                                htmlFor="maxSpots"
+                                className="text-sm font-medium text-gray-700"
+                            >
+                                Max Spots
+                            </label>
+                            <input
+                                id="maxSpots"
+                                name="maxSpots"
+                                type="number"
+                                min="1"
+                                value={maxSpots}
+                                onChange={(e) =>
+                                    setMaxSpots(Number(e.target.value))
+                                }
+                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition"
+                                required
+                            />
+                        </div>
+                        <div className="flex flex-col gap-1 flex-1">
+                            <label
+                                htmlFor="price"
+                                className="text-sm font-medium text-gray-700"
+                            >
+                                Price (kr)
+                            </label>
+                            <input
+                                id="price"
+                                name="price"
+                                type="number"
+                                min="1"
+                                value={price}
+                                onChange={(e) =>
+                                    setPrice(Number(e.target.value))
+                                }
+                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition"
+                                required
+                            />
+                        </div>
                     </div>
 
                     <button

@@ -7,6 +7,7 @@ interface ClassItem {
     start_time: string // t.ex. "14:00"
     end_time: string // t.ex. "15:00"
     max_spots: number // int2
+    price: number // int2
     created_at: string // timestamptz från Supabase
 }
 

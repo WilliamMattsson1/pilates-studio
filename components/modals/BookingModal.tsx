@@ -173,6 +173,13 @@ const BookingModal = () => {
                             </p>
                         )}
 
+                        <p className="text-2xl font-bold text-gray-900 mb-1">
+                            {selectedClass.price}kr
+                        </p>
+                        <p className="text-sm italic text-gray-500 mb-4">
+                            Free cancellation if you cancel at least 24h before
+                            class start
+                        </p>
                         <button
                             onClick={handleBooking}
                             disabled={isFull}
