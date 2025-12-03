@@ -1,5 +1,5 @@
 'use client'
-import CheckoutPage from '@/components/CheckoutPage'
+import CheckoutPage from '@/components/checkout/CheckoutPage'
 import { useClasses } from '@/context/ClassesContext'
 import convertToSubcurrency from '@/utils/convertToSubcurrency'
 import { Elements } from '@stripe/react-stripe-js'

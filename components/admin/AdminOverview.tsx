@@ -3,10 +3,12 @@ import Link from 'next/link'
 import { useBookings } from '@/context/BookingsContext'
 import { useClasses } from '@/context/ClassesContext'
 import { Calendar, Users } from 'lucide-react'
+import { useProfiles } from '@/context/ProfilesContext'
 
 const AdminOverview = () => {
     const { upcomingClasses } = useClasses()
     const { bookings } = useBookings()
+    const { activeStudents } = useProfiles()
 
     const today = new Date()
     const startOfWeek = new Date(today)
@@ -23,11 +25,6 @@ const AdminOverview = () => {
     }).length
 
     const totalBookings = bookings.length
-
-    // endast folk som bokat nån gång
-    const activeStudents = bookings
-        .map((b) => b.user_id)
-        .filter((val, index, self) => val && self.indexOf(val) === index).length
 
     const stats = [
         {

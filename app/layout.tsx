@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify'
 import BookingModal from '@/components/modals/BookingModal'
 import { BookingModalProvider } from '@/context/BookingModalContext'
 import { AuthProvider } from '@/context/AuthContext'
+import { ProfilesProvider } from '@/context/ProfilesContext'
 
 const roboto = Roboto({
     variable: '--font-roboto',
@@ -30,10 +31,12 @@ export default function RootLayout({
                 <AuthProvider>
                     <ClassesProvider>
                         <BookingsProvider>
-                            <BookingModalProvider>
-                                <BookingModal />
-                                {children}
-                            </BookingModalProvider>
+                            <ProfilesProvider>
+                                <BookingModalProvider>
+                                    <BookingModal />
+                                    {children}
+                                </BookingModalProvider>
+                            </ProfilesProvider>
                         </BookingsProvider>
                     </ClassesProvider>
                 </AuthProvider>
