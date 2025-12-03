@@ -31,7 +31,7 @@ const ProfileSection = () => {
     })
 
     return (
-        <section className="max-w-4xl mx-auto p-6">
+        <section className="max-w-4xl mx-auto p-6 mb-16">
             <header className="space-y-2 text-center">
                 <h1 className="text-3xl font-bold fancy-font tracking-wide leading-tight">
                     Welcome to your profile 👋

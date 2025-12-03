@@ -1,7 +1,17 @@
 'use client'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useClasses } from '@/context/ClassesContext'
-import { CheckCircle, Info, Home } from 'lucide-react'
+import {
+    CheckCircle,
+    Info,
+    Home,
+    Calendar as CalendarIcon,
+    User
+} from 'lucide-react'
+import Confetti from 'react-confetti'
+import { useEffect, useState } from 'react'
+import SectionDivider from '@/components/shared/ui/SectionDivider'
+import Link from 'next/link'
 
 const PaymentSuccess = () => {
     const searchParams = useSearchParams()
@@ -14,83 +24,92 @@ const PaymentSuccess = () => {
     const { classes } = useClasses()
     const cls = classes.find((c) => c.id === classId)
 
+    const [showConfetti, setShowConfetti] = useState(false)
+    const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
+
+    useEffect(() => {
+        setShowConfetti(true)
+        const timer = setTimeout(() => setShowConfetti(false), 6500)
+
+        const handleResize = () =>
+            setWindowSize({
+                width: window.innerWidth,
+                height: window.innerHeight
+            })
+        handleResize()
+        window.addEventListener('resize', handleResize)
+
+        return () => {
+            clearTimeout(timer)
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
+
     return (
-        <div className="min-h-[50vh] flex flex-col items-center justify-center px-4 text-center mt-10">
-            {/* Största check-ikonen högst upp */}
-            <CheckCircle className="w-28 h-28 text-green-600 mb-6" />
-
-            <h1 className="text-3xl md:text-4xl font-bold mb-6">
-                Booking Confirmed
-            </h1>
-
-            {cls ? (
-                <div className="text-lg text-gray-700 max-w-xl space-y-4">
-                    <p>
-                        You have booked{' '}
-                        <span className="font-semibold">{cls.title}</span>
-                    </p>
-                    {/* Datum och tid på samma rad */}
-                    <p className="flex justify-center gap-4">
-                        <span>
-                            Date:{' '}
-                            <span className="font-semibold">{cls.date}</span>
-                        </span>
-                        <span>
-                            Time:{' '}
-                            <span className="font-semibold">
-                                {cls.start_time}–{cls.end_time}
-                            </span>
-                        </span>
-                    </p>
-                    <p>
-                        Guest:{' '}
-                        <span className="font-semibold">
-                            {name || 'Your name'}
-                        </span>
-                    </p>
-                    <p>
-                        Email:{' '}
-                        <span className="font-semibold">
-                            {email || 'Your email'}
-                        </span>
-                    </p>
-                    <p>
-                        Paid: <span className="font-semibold">{amount} kr</span>
-                    </p>
-                </div>
-            ) : (
-                <div className="text-lg text-gray-700 max-w-xl space-y-2">
-                    <p>
-                        Your payment was successful and your booking has been
-                        registered.
-                    </p>
-                    <p>
-                        Paid: <span className="font-semibold">{amount} kr</span>
-                    </p>
-                </div>
+        <div className="min-h-[80vh] flex flex-col items-center justify-start px-4 py-8 bg-secondary-bg relative">
+            {showConfetti && (
+                <Confetti
+                    width={windowSize.width}
+                    height={windowSize.height}
+                    recycle={false}
+                />
             )}
 
-            <div className="text-sm text-gray-500 max-w-xl mt-6 flex flex-col items-center gap-2">
-                <p className="flex items-center gap-2">
-                    If anything looks incorrect or if you have questions, simply
-                    reply to the confirmation email and we will assist you.
-                </p>
-
-                <p className="flex items-center gap-2 mt-2">
-                    <Info className="w-4 h-4" />
-                    You may cancel your booking up to{' '}
-                    <strong>24 hours before the class starts</strong>.
-                </p>
+            {/* Check-ikon + Titel */}
+            <div className="flex flex-col items-center mb-6">
+                <CheckCircle className="w-22 h-22 text-green-600 mb-4 animate-pulse" />
+                <h1 className="text-3xl md:text-4xl font-bold text-center">
+                    Booking Confirmed!
+                </h1>
             </div>
 
-            {/* Hem-knapp */}
-            <button
-                onClick={() => router.push('/')}
-                className="mt-8 flex items-center gap-2 bg-btn text-white px-6 py-3 rounded-md font-bold hover:opacity-90"
-            >
-                <Home className="w-5 h-5" />
-                Go Home
-            </button>
+            {/* Bokningsinformation card */}
+            <div className="bg-white rounded-lg shadow-md p-6 max-w-lg w-full text-gray-700">
+                {cls ? (
+                    <>
+                        <h2 className="text-2xl font-semibold">{cls.title}</h2>
+                        <div className="flex items-center gap-2 mt-3 text-gray-600">
+                            <CalendarIcon className="w-5 h-5" />
+                            <span>
+                                {cls.date} • {cls.start_time}–{cls.end_time}
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-2 text-gray-600">
+                            <User className="w-5 h-5" />
+                            <span>
+                                {name || 'Guest'} ({email || 'No email'})
+                            </span>
+                        </div>
+                        <p className="font-semibold mt-1">Paid: {amount}kr</p>
+
+                        <div className="text-sm text-gray-500 mt-2 space-y-1">
+                            <p className="flex items-center gap-2">
+                                <Info className="w-4 h-4" /> Free cancellation
+                                if you cancel atleast 24h before class start
+                            </p>
+                        </div>
+                    </>
+                ) : (
+                    <p className="text-gray-700">
+                        Your payment was successful. Paid: {amount} kr
+                    </p>
+                )}
+            </div>
+
+            {/* Knappar */}
+            <div className="flex flex-col md:flex-row gap-4 mt-8">
+                <button
+                    onClick={() => router.push('/profile')}
+                    className="bg-btn text-white px-6 py-3 rounded-md font-bold hover:bg-btn/90 transition"
+                >
+                    <Link href="/profile">See Your Bookings</Link>
+                </button>
+                <button className="flex items-center justify-center gap-2 border border-black  px-6 py-3 rounded-md font-semibold hover:bg-btn hover:text-white hover:border-transparent transition">
+                    <Home className="w-5 h-5" />
+                    <Link href="/">Back To Start</Link>
+                </button>
+            </div>
+            <SectionDivider className="h-1 w-[60%] mt-24 bg-btn" />
         </div>
     )
 }

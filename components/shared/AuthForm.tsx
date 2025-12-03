@@ -41,7 +41,7 @@ export default function AuthForm({ initialMode = 'signIn' }: AuthFormProps) {
     }
 
     return (
-        <section className="max-w-[90%] mx-auto">
+        <section className="max-w-[90%] mx-auto mb-16">
             <TitleHeader
                 title={mode === 'signIn' ? 'Welcome Back' : 'Create Account'}
                 subtitle={

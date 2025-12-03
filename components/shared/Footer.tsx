@@ -27,7 +27,7 @@ const Footer = () => {
     ]
 
     return (
-        <footer className="flex flex-col bg-secondary-bg items-center justify-around w-full py-8 text-black mt-18">
+        <footer className="flex flex-col bg-secondary-bg items-center justify-around w-full py-8 text-black">
             <div className="flex flex-col items-center gap-8">
                 <img src="/images/logo.png" alt="logo" width={120} />
 

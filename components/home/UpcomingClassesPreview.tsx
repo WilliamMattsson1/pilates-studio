@@ -13,7 +13,7 @@ const UpcomingClassesPreview = () => {
     const upcomingClassesSliced = upcomingClasses.slice(0, 4) // bara de 4 första
 
     return (
-        <section className="w-full bg-white py-8 md:px-10 px-6">
+        <section className="w-full bg-white py-8 md:px-10 px-6 mb-8">
             <TitleHeader
                 title="Upcoming Classes"
                 subtitle="Plan your session"

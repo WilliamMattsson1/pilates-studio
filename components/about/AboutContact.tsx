@@ -25,7 +25,7 @@ const socials = [
 
 const AboutContact = () => {
     return (
-        <section className="px-6 md:px-20 pt-12 pb-2 bg-white flex flex-col">
+        <section className="px-6 md:px-20 py-12 pb-2 bg-white flex flex-col mb-16">
             <TitleHeader
                 title="Get in Touch"
                 subtitle="discuss classes or sessions"
