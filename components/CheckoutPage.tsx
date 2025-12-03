@@ -1,15 +1,59 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
+import { Calendar, Clock, User } from 'lucide-react'
 import convertToSubcurrency from '@/utils/convertToSubcurrency'
+import { useRouter } from 'next/navigation'
+import { useBookings } from '@/context/BookingsContext'
+import { useAuth } from '@/context/AuthContext'
+import { useProfile } from '@/hooks/useProfile'
+import { StripePaymentElementOptions } from '@stripe/stripe-js'
 
-const CheckoutPage = ({ amount }: { amount: number }) => {
+interface CheckoutPageProps {
+    amount: number
+    classId?: string
+    title: string
+    date: string
+    startTime: string
+    endTime: string
+    guestName?: string
+    guestEmail?: string
+}
+
+const CheckoutPage = ({
+    amount,
+    classId,
+    title,
+    date,
+    startTime,
+    endTime,
+    guestName,
+    guestEmail
+}: CheckoutPageProps) => {
     const stripe = useStripe()
     const elements = useElements()
+    const router = useRouter()
+    const { addBooking } = useBookings()
+    const { user } = useAuth()
+    const { profile } = useProfile(user?.id)
 
     const [errorMessage, setErrorMessage] = useState<string>()
     const [clientSecret, setClientSecret] = useState('')
     const [loading, setLoading] = useState(false)
+
+    const paymentElementOptions: StripePaymentElementOptions = {
+        paymentMethodOrder: ['card'],
+        layout: {
+            type: 'tabs',
+            defaultCollapsed: false
+        },
+        defaultValues: {
+            billingDetails: {
+                name: guestName || '',
+                email: guestEmail || ''
+            }
+        }
+    }
 
     useEffect(() => {
         fetch('/api/create-payment-intent', {
@@ -39,22 +83,54 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
             return
         }
 
-        const { error } = await stripe.confirmPayment({
-            elements,
-            clientSecret,
-            confirmParams: {
-                return_url: `${window.location.origin}/payment-success?amount=${amount}`
-            }
-        })
+        // confirm payment
+
+        const { paymentIntent, error }: { paymentIntent?: any; error?: any } =
+            await stripe.confirmPayment({
+                elements,
+                clientSecret,
+                confirmParams: {
+                    return_url: `${window.location.origin}/payment-success?amount=${amount}`
+                },
+                redirect: 'if_required' // så att vi kan hantera redirect manuellt
+            })
 
         if (error) {
             // This point is only reached if there's an immediate error when confirming the payment. Show the error to customer ("Payment details incomplete")
             setErrorMessage(error.message)
         } else {
             // The payment UI automatically closes with success animation. Customer is redirected to return url
-        }
+            // Om betalningen lyckades, skapa bokning
+            if (paymentIntent?.status === 'succeeded' && classId) {
+                try {
+                    await addBooking({
+                        class_id: classId,
+                        user_id: user?.id,
+                        guest_name: user ? profile?.name : guestName,
+                        guest_email: user ? user?.email : guestEmail,
+                        stripe_payment_id: paymentIntent.id
+                    })
 
-        setLoading(false)
+                    const params = new URLSearchParams()
+                    params.set('classId', classId)
+                    params.set('amount', String(amount))
+                    if (user) {
+                        if (profile?.name) params.set('name', profile.name)
+                        if (user.email) params.set('email', user.email)
+                    } else {
+                        if (guestName) params.set('name', guestName)
+                        if (guestEmail) params.set('email', guestEmail)
+                    }
+
+                    router.push(`/payment-success?${params.toString()}`)
+                } catch (err) {
+                    setErrorMessage('Booking failed. Please contact support.')
+                    console.error(err)
+                }
+            }
+
+            setLoading(false)
+        }
     }
 
     if (!clientSecret || !stripe || !elements) {
@@ -69,27 +145,65 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
     }
 
     return (
-        <section className="max-w-[90%] mx-auto mt-6">
-            <div className="lg:max-w-5xl mx-auto rounded-xl bg-secondary-bg shadow-xl overflow-hidden flex flex-col md:flex-row">
-                <div className="hidden md:flex md:w-1/2 h-64 md:h-auto max-h-[76vh]">
-                    {/* bild eller information om vad som bokas TODO */}
-                    <img
-                        src="/images/signup-image.png"
-                        alt="pilates image"
-                        className="w-full h-full object-fill"
-                    />
+        <section className="max-w-[90%] min-h-[90vh] mx-auto mt-6">
+            <div className="lg:max-w-5xl mx-auto rounded-xl bg-secondary-bg shadow-xl overflow-hidden flex flex-col-reverse md:flex-row min-h-[80vh]">
+                <div className=" md:w-1/2 p-8 flex flex-col justify-center items-center gap-6 bg-btn/70 shadow-md">
+                    {/* Stor ikon överst */}
+                    <div className="bg-btn text-white w-20 h-20 flex items-center justify-center rounded-full">
+                        <Calendar className="w-10 h-10" />
+                    </div>
+
+                    {/* Titel */}
+                    <h2 className="text-4xl font-extrabold text-center fancy-font">
+                        {title}
+                    </h2>
+
+                    {/* Datum och tid på samma rad */}
+                    <div className="flex items-center gap-6  text-lg">
+                        <div className="flex items-center gap-2">
+                            <Calendar className="w-6 h-6" />
+                            <span>{date}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Clock className="w-6 h-6 " />
+                            <span>
+                                {startTime} - {endTime}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Gästinfo */}
+                    {guestName && (
+                        <div className="flex items-center gap-3  text-lg">
+                            <User className="w-6 h-6 " />
+                            <span>{guestName}</span>
+                        </div>
+                    )}
+                    {guestEmail && <p className="text-sm">{guestEmail}</p>}
+
+                    {/* Pris */}
+                    <div className="mt-4 text-center">
+                        <h3 className="text-4xl font-bold">{amount}kr</h3>
+                    </div>
                 </div>
+
                 <div className="md:w-1/2 p-8 ">
                     <form onSubmit={handleSubmit} className="max-w-xl">
-                        {clientSecret && <PaymentElement />}
+                        {clientSecret && (
+                            <PaymentElement options={paymentElementOptions} />
+                        )}
                         {errorMessage && <div>{errorMessage}</div>}
                         <button
                             disabled={!stripe || loading}
-                            className="text-white w-full p-4 bg-btn mt-3 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse"
+                            className="text-white w-full p-4 bg-btn mt-3 rounded-md font-bold hover:cursor-pointer hover:bg-btn/90 disabled:opacity-50 disabled:animate-pulse"
                         >
                             {!loading ? `Pay ${amount}kr` : 'Processing...'}
                         </button>
                     </form>
+                    <p className="italic text-gray-500 mb-4 mt-2">
+                        Free cancellation if you cancel at least 24h before
+                        class start
+                    </p>
                 </div>
             </div>
         </section>

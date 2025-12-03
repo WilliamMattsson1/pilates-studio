@@ -1,8 +1,10 @@
 'use client'
 import CheckoutPage from '@/components/CheckoutPage'
+import { useClasses } from '@/context/ClassesContext'
 import convertToSubcurrency from '@/utils/convertToSubcurrency'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
+import { useSearchParams } from 'next/navigation'
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY === undefined) {
     throw new Error(
@@ -12,12 +14,25 @@ if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY === undefined) {
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 const page = () => {
-    const amount = 197
+    const searchParams = useSearchParams()
+    const { classes } = useClasses()
+
+    const classId = searchParams.get('classId') || ''
+    const selectedClass = classes.find((c) => c.id === classId)
+    const amount = selectedClass?.price
+    if (!amount || amount <= 0) {
+        return <div>Invalid amount</div>
+    }
+
+    const title = searchParams.get('title') || ''
+    const date = searchParams.get('date') || ''
+    const startTime = searchParams.get('startTime') || ''
+    const endTime = searchParams.get('endTime') || ''
+    const guestName = searchParams.get('guestName') || undefined
+    const guestEmail = searchParams.get('guestEmail') || undefined
+
     return (
         <main className="min-h-screen">
-            <div>
-                <h1 className="text-3xl">Du ska betala {amount}kr</h1>
-            </div>
             <Elements
                 stripe={stripePromise}
                 options={{
@@ -26,7 +41,16 @@ const page = () => {
                     currency: 'sek'
                 }}
             >
-                <CheckoutPage amount={amount} />
+                <CheckoutPage
+                    amount={amount}
+                    classId={classId}
+                    title={title}
+                    date={date}
+                    startTime={startTime}
+                    endTime={endTime}
+                    guestName={guestName}
+                    guestEmail={guestEmail}
+                />
             </Elements>
         </main>
     )

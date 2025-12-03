@@ -8,12 +8,14 @@ import { User, Mail, Calendar } from 'lucide-react'
 import BookingConfirmation from '../classes/BookingConfirmation'
 import { useAuth } from '@/context/AuthContext'
 import { useProfile } from '@/hooks/useProfile'
+import { useRouter } from 'next/navigation'
 
 const BookingModal = () => {
     const { isOpen, selectedClass, closeModal } = useBookingModal()
     const { bookings, addBooking } = useBookings()
     const { user } = useAuth()
     const { profile } = useProfile(user?.id)
+    const router = useRouter()
 
     const [bookingSuccess, setBookingSuccess] = useState(false)
     const [guestName, setGuestName] = useState('')
@@ -46,19 +48,30 @@ const BookingModal = () => {
             }
         }
 
-        try {
-            await addBooking({
-                class_id: selectedClass.id,
-                user_id: isLoggedIn ? user.id : undefined,
-                guest_name: isLoggedIn ? profile?.name || undefined : guestName,
-                guest_email: isLoggedIn ? user.email : guestEmail
-            })
-
-            setBookingSuccess(true)
-        } catch (err) {
-            // addBooking kastar error om något går fel (t.ex. class full)
-            // Toast visas redan i addBooking, så här behöver vi inget mer
+        const bookingData = {
+            classId: selectedClass.id,
+            title: selectedClass.title,
+            date: selectedClass.date,
+            startTime: selectedClass.start_time,
+            endTime: selectedClass.end_time,
+            price: selectedClass.price,
+            guestName: isLoggedIn ? profile?.name : guestName,
+            guestEmail: isLoggedIn ? user.email : guestEmail
         }
+
+        const params = new URLSearchParams()
+        params.set('classId', bookingData.classId)
+        params.set('title', bookingData.title)
+        params.set('date', bookingData.date)
+        params.set('startTime', bookingData.startTime)
+        params.set('endTime', bookingData.endTime)
+        params.set('price', bookingData.price.toString())
+        params.set('guestName', bookingData.guestName || '')
+        params.set('guestEmail', bookingData.guestEmail || '')
+
+        router.push(`/checkout?${params.toString()}`)
+
+        handleClose()
     }
 
     const handleClose = () => {
