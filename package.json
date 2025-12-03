@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
+    "@stripe/react-stripe-js": "^5.4.1",
+    "@stripe/stripe-js": "^8.5.3",
     "@supabase/auth-helpers-nextjs": "^0.15.0",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.86.0",
@@ -19,6 +21,7 @@
     "react-confetti": "^6.4.0",
     "react-dom": "19.2.0",
     "react-toastify": "^11.0.5",
+    "stripe": "^20.0.0",
     "uuid": "^13.0.0"
   },
   "devDependencies": {
