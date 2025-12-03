@@ -145,7 +145,7 @@ const CheckoutPage = ({
     }
 
     return (
-        <section className="max-w-[90%] min-h-[90vh] mx-auto mt-6">
+        <section className="max-w-[90%] min-h-[90vh] mx-auto my-12">
             <div className="lg:max-w-5xl mx-auto rounded-xl bg-secondary-bg shadow-xl overflow-hidden flex flex-col-reverse md:flex-row min-h-[80vh]">
                 <div className=" md:w-1/2 p-8 flex flex-col justify-center items-center gap-6 bg-btn/70 shadow-md">
                     {/* Stor ikon överst */}
