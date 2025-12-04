@@ -65,7 +65,7 @@ const PaymentSuccess = () => {
             </div>
 
             {/* Bokningsinformation card */}
-            <div className="bg-white rounded-lg shadow-md p-6 md:max-w-lg max-w-[90%] w-full ">
+            <div className="bg-white rounded-xl shadow-lg p-6 md:max-w-lg max-w-[90%] w-full ">
                 {cls ? (
                     <>
                         <h2 className="text-2xl font-semibold">{cls.title}</h2>
