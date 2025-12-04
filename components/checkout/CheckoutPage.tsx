@@ -146,10 +146,12 @@ const CheckoutPage = ({
     }
 
     return (
-        <section className="max-w-[90%] min-h-[90vh] mx-auto my-12">
+        <section className="max-w-[90%] min-h-[90vh] mx-auto my-12 ">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-center fancy-font tracking-wide leading-tight mb-8">
+                Complete Your Booking
+            </h1>
             <div className="lg:max-w-5xl mx-auto rounded-xl bg-secondary-bg shadow-xl overflow-hidden flex flex-col-reverse md:flex-row min-h-[80vh]">
-                <div className=" md:w-1/2 p-8 flex flex-col justify-center items-center gap-6 bg-btn/70 shadow-md">
-                    {/* Stor ikon överst */}
+                <div className=" md:w-1/2 p-8 flex flex-col justify-center items-center gap-5 bg-[#f6f4f2] ">
                     <div className="bg-btn text-white w-20 h-20 flex items-center justify-center rounded-full">
                         <Calendar className="w-10 h-10" />
                     </div>
@@ -160,12 +162,12 @@ const CheckoutPage = ({
                     </h2>
 
                     {/* Datum och tid på samma rad */}
-                    <div className="flex items-center gap-6  text-lg">
-                        <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-4 text-lg">
+                        <div className="flex items-center gap-1">
                             <Calendar className="w-6 h-6" />
                             <span>{date}</span>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1">
                             <Clock className="w-6 h-6 " />
                             <span>
                                 {startTime} - {endTime}
@@ -175,7 +177,7 @@ const CheckoutPage = ({
 
                     {/* Gästinfo */}
                     {guestName && (
-                        <div className="flex items-center gap-3  text-lg">
+                        <div className="flex items-center gap-1  text-lg">
                             <User className="w-6 h-6 " />
                             <span>{guestName}</span>
                         </div>

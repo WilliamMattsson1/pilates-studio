@@ -17,6 +17,7 @@ const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
     const handleClick = async () => {
+        setIsMenuOpen(false)
         if (user) {
             await signOut()
         } else {
