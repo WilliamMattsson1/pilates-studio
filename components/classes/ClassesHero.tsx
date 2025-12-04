@@ -7,16 +7,6 @@ import DownArrow from '../shared/ui/DownArrow'
 const ClassesHero = () => {
     return (
         <section className="w-full bg-secondary-bg py-16 px-6 md:px-20 flex flex-col lg:flex-row items-center gap-10 lg:gap-0">
-            <button
-                className="mt-100 z-999 bg-black"
-                onClick={() => {
-                    fetch('/api/send-email', { method: 'POST' })
-                        .then((res) => res.json())
-                        .then((data) => console.log(data))
-                }}
-            >
-                Skicka mejl
-            </button>
             <div className="flex-1 flex flex-col gap-8">
                 <div>
                     <h1 className="text-4xl md:text-5xl font-extrabold text-center lg:text-left fancy-font tracking-wide leading-tight">
