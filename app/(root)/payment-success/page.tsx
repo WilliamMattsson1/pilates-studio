@@ -12,6 +12,7 @@ import Confetti from 'react-confetti'
 import { useEffect, useState } from 'react'
 import SectionDivider from '@/components/shared/ui/SectionDivider'
 import Link from 'next/link'
+import CancellationPolicy from '@/components/shared/CancellationPolicy'
 
 const PaymentSuccess = () => {
     const searchParams = useSearchParams()
@@ -83,10 +84,7 @@ const PaymentSuccess = () => {
                         <p className="font-semibold mt-1">Paid: {amount}kr</p>
 
                         <div className="text-sm text-gray-500 mt-2 space-y-1">
-                            <p className="flex items-center gap-2">
-                                <Info className="w-4 h-4" /> Free cancellation
-                                if you cancel atleast 24h before class start
-                            </p>
+                            <CancellationPolicy className="" />
                         </div>
                     </>
                 ) : (

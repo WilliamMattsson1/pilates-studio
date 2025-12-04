@@ -9,6 +9,7 @@ import BookingConfirmation from '../classes/BookingConfirmation'
 import { useAuth } from '@/context/AuthContext'
 import { useProfile } from '@/hooks/useProfile'
 import { useRouter } from 'next/navigation'
+import CancellationPolicy from '../shared/CancellationPolicy'
 
 const BookingModal = () => {
     const { isOpen, selectedClass, closeModal } = useBookingModal()
@@ -189,10 +190,8 @@ const BookingModal = () => {
                         <p className="text-2xl font-bold text-gray-900 mb-1">
                             {selectedClass.price}kr
                         </p>
-                        <p className="text-sm italic text-gray-500 mb-4">
-                            Free cancellation if you cancel at least 24h before
-                            class start
-                        </p>
+
+                        <CancellationPolicy className="mb-3" />
                         <button
                             onClick={handleBooking}
                             disabled={isFull}

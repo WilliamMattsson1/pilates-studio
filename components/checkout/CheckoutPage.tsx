@@ -8,6 +8,7 @@ import { useBookings } from '@/context/BookingsContext'
 import { useAuth } from '@/context/AuthContext'
 import { useProfile } from '@/hooks/useProfile'
 import { StripePaymentElementOptions } from '@stripe/stripe-js'
+import CancellationPolicy from '../shared/CancellationPolicy'
 
 interface CheckoutPageProps {
     amount: number
@@ -200,10 +201,7 @@ const CheckoutPage = ({
                             {!loading ? `Pay ${amount}kr` : 'Processing...'}
                         </button>
                     </form>
-                    <p className="italic text-gray-500 mb-4 mt-2">
-                        Free cancellation if you cancel at least 24h before
-                        class start
-                    </p>
+                    <CancellationPolicy className="mt-2" />
                 </div>
             </div>
         </section>
