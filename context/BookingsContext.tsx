@@ -49,6 +49,7 @@ export const BookingsProvider = ({
                             user_id: payload.new.user_id,
                             guest_name: payload.new.guest_name,
                             guest_email: payload.new.guest_email,
+                            stripe_payment_id: payload.new.stripe_payment_id,
                             created_at: payload.new.created_at
                         }
                         return [...prev, newBooking]

@@ -46,7 +46,8 @@ const AdminAddBooking = () => {
         const newBooking: Omit<BookingItem, 'id' | 'created_at'> = {
             class_id: selectedClassId,
             guest_name: guestName || 'Anonymous',
-            guest_email: guestEmail || ''
+            guest_email: guestEmail || '',
+            stripe_payment_id: null
         }
 
         addBooking(newBooking)

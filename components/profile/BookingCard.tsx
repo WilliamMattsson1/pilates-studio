@@ -1,4 +1,3 @@
-// components/BookingCard.tsx
 'use client'
 import React from 'react'
 import { useBookings } from '@/context/BookingsContext'
