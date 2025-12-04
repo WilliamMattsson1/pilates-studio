@@ -47,7 +47,7 @@ const PaymentSuccess = () => {
     }, [])
 
     return (
-        <div className="min-h-[80vh] flex flex-col items-center justify-start px-4 py-8 bg-secondary-bg relative">
+        <section className="min-h-[80vh] flex flex-col items-center justify-start px-4 py-8 bg-secondary-bg relative">
             {showConfetti && (
                 <Confetti
                     width={windowSize.width}
@@ -59,32 +59,34 @@ const PaymentSuccess = () => {
             {/* Check-ikon + Titel */}
             <div className="flex flex-col items-center mb-6">
                 <CheckCircle className="w-22 h-22 text-green-600 mb-4 animate-pulse" />
-                <h1 className="text-3xl md:text-4xl font-bold text-center">
+                <h1 className="text-4xl md:text-5xl font-extrabold text-center lg:text-left fancy-font tracking-wide leading-tight">
                     Booking Confirmed!
                 </h1>
             </div>
 
             {/* Bokningsinformation card */}
-            <div className="bg-white rounded-lg shadow-md p-6 max-w-lg w-full text-gray-700">
+            <div className="bg-white rounded-lg shadow-md p-6 md:max-w-lg max-w-[90%] w-full ">
                 {cls ? (
                     <>
                         <h2 className="text-2xl font-semibold">{cls.title}</h2>
-                        <div className="flex items-center gap-2 mt-3 text-gray-600">
+                        <div className="flex items-center gap-2 mt-4 text-gray-600">
                             <CalendarIcon className="w-5 h-5" />
                             <span>
                                 {cls.date} • {cls.start_time}–{cls.end_time}
                             </span>
                         </div>
-                        <div className="flex items-center gap-2 text-gray-600">
+                        <div className="flex items-center gap-2 text-gray-600 mt-2">
                             <User className="w-5 h-5" />
                             <span>
                                 {name || 'Guest'} ({email || 'No email'})
                             </span>
                         </div>
-                        <p className="font-semibold mt-1">Paid: {amount}kr</p>
 
-                        <div className="text-sm text-gray-500 mt-2 space-y-1">
-                            <CancellationPolicy className="" />
+                        {/* We also send a mail to you text här när resend är implementerat */}
+                        <p className="font-semibold mt-8">Paid: {amount}kr</p>
+
+                        <div className="text-sm text-gray-500 mt-1">
+                            <CancellationPolicy />
                         </div>
                     </>
                 ) : (
@@ -108,7 +110,7 @@ const PaymentSuccess = () => {
                 </button>
             </div>
             <SectionDivider className="h-1 w-[60%] mt-24 bg-btn" />
-        </div>
+        </section>
     )
 }
 
