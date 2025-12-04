@@ -6,7 +6,8 @@ import {
     Info,
     Home,
     Calendar as CalendarIcon,
-    User
+    User,
+    MailCheck
 } from 'lucide-react'
 import Confetti from 'react-confetti'
 import { useEffect, useState } from 'react'
@@ -82,7 +83,14 @@ const PaymentSuccess = () => {
                             </span>
                         </div>
 
-                        {/* We also send a mail to you text här när resend är implementerat */}
+                        <div className="flex items-center gap-2 font-medium mt-6">
+                            <MailCheck className="w-5 h-5" />
+                            <span>
+                                A confirmation email has been sent to your
+                                inbox.
+                            </span>
+                        </div>
+
                         <p className="font-semibold mt-8">Paid: {amount}kr</p>
 
                         <div className="text-sm text-gray-500 mt-1">
