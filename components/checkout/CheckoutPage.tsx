@@ -9,6 +9,7 @@ import { useAuth } from '@/context/AuthContext'
 import { useProfile } from '@/hooks/useProfile'
 import { StripePaymentElementOptions } from '@stripe/stripe-js'
 import CancellationPolicy from '../shared/CancellationPolicy'
+import { sendBookingEmail } from '@/utils/sendBookingEmail'
 
 interface CheckoutPageProps {
     amount: number
@@ -111,6 +112,18 @@ const CheckoutPage = ({
                         guest_email: user ? user?.email : guestEmail,
                         stripe_payment_id: paymentIntent.id
                     })
+
+                    sendBookingEmail({
+                        guestName: user ? profile?.name : guestName,
+                        guestEmail: (user ? user?.email : guestEmail)!,
+                        classTitle: title,
+                        classDate: date,
+                        classTime: `${startTime} - ${endTime}`,
+                        price: `${amount}kr`,
+                        linkUrl: `${window.location.origin}/classes`
+                    }).catch((err) =>
+                        console.error('Failed to send booking email', err)
+                    )
 
                     const params = new URLSearchParams()
                     params.set('classId', classId)

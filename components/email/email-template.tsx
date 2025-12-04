@@ -13,119 +13,108 @@ import {
 } from '@react-email/components'
 
 interface EmailTemplateProps {
-    linkUrl?: string
+    guestName: string
+    classTitle: string
+    classDate: string
+    classTime: string
+    price: string
+    linkUrl: string
+    tiktokUrl?: string
+    instagramUrl?: string
 }
 
-const guestName = 'Alice Svensson'
-const classTitle = 'Morning Pilates Flow'
-const classDate = '2025-12-05'
-const classTime = '09:00 - 10:00'
-const price = '200 SEK'
-const cancellationPolicy = 'Cancel up to 24h before the class.'
-const tiktokUrl = 'https://tiktok.com/@youraccount'
-const instagramUrl = 'https://instagram.com/youraccount'
+export const EmailTemplate = ({
+    guestName,
+    classTitle,
+    classDate,
+    classTime,
+    price,
+    linkUrl,
+    tiktokUrl = 'https://tiktok.com/',
+    instagramUrl = 'https://instagram.com/'
+}: EmailTemplateProps) => {
+    const baseUrl = process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : 'http://localhost:3000'
 
-const baseUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : 'http://localhost:3000'
+    return (
+        <Html>
+            <Head />
+            <Tailwind>
+                <Body className="bg-white font-raycast p-4">
+                    <Container className="mx-auto my-0 pt-5 px-[25px] pb-1 bg-secondary-bg">
+                        <Img
+                            src={`${baseUrl}/images/logo.png`}
+                            width={54}
+                            height={54}
+                            alt="Pilates Logo"
+                            className="flex justify-center mx-auto"
+                        />
+                        <Heading className="text-[26px] font-bold mt-12 text-center">
+                            🎉 Your Pilates Booking is Confirmed!
+                        </Heading>
 
-export const EmailTemplate = ({ linkUrl }: EmailTemplateProps) => (
-    <Html>
-        <Head />
-        <Tailwind>
-            <Body className="bg-white font-raycast p-4">
-                <Container className="mx-auto my-0 pt-5 px-[25px] pb-1 bg-secondary-bg">
-                    <Img
-                        src={`${baseUrl}/images/logo.png`}
-                        width={54}
-                        height={54}
-                        alt="Raycast"
-                    />
-                    <Heading className="text-[26px] font-bold mt-12 flex justify-center">
-                        🎉 Your Pilates Booking is Confirmed!
-                    </Heading>
+                        <Text className="text-base mt-4 text-center">
+                            Hi {guestName}, thanks for booking a Pilates class
+                            with us!
+                        </Text>
 
-                    {/* Greeting */}
-                    <Text className="text-base mt-4 text-center">
-                        Hi {guestName}, thanks for booking a Pilates class with
-                        us!
-                    </Text>
+                        <Section className="mt-6 p-4">
+                            <Text className="text-base leading-6">
+                                <strong>Class:</strong> {classTitle}
+                            </Text>
+                            <Text className="text-base leading-6">
+                                <strong>Date & Time:</strong> {classDate} at{' '}
+                                {classTime}
+                            </Text>
+                            <Text className="text-base leading-6">
+                                <strong>Price:</strong> {price}
+                            </Text>
+                            <Text className="leading-6 mt-2 italic text-gray-600 text-sm">
+                                Free cancellation if you cancel atleast 24h
+                                before class start
+                            </Text>
+                        </Section>
 
-                    {/* Booking details */}
-                    <Section className="mt-6 p-4 flex justify-center">
-                        <Text className="text-base leading-6">
-                            <strong>Class:</strong> {classTitle}
-                        </Text>
-                        <Text className="text-base leading-6">
-                            <strong>Date & Time:</strong> {classDate} at{' '}
-                            {classTime}
-                        </Text>
-                        <Text className="text-base leading-6">
-                            <strong>Price:</strong> {price}
-                        </Text>
-                        <Text className="text-base leading-6 mt-2">
-                            <strong>Cancellation Policy:</strong>{' '}
-                            {cancellationPolicy}
-                        </Text>
-                    </Section>
+                        <Section className="mt-6 text-center">
+                            <Text className="text-base mb-2">
+                                Follow us on social media:
+                            </Text>
+                            <div className="flex justify-center gap-4">
+                                <Link
+                                    href={tiktokUrl}
+                                    className="text-black underline"
+                                >
+                                    TikTok
+                                </Link>
+                                <Link
+                                    href={instagramUrl}
+                                    className="text-black underline"
+                                >
+                                    Instagram
+                                </Link>
+                            </div>
+                        </Section>
 
-                    {/* Social links */}
-                    <Section className="mt-6 text-center">
-                        <Text className="text-base mb-2">
-                            Follow us on social media:
-                        </Text>
-                        <div className="flex justify-center gap-4">
+                        <Section className="mt-6 flex justify-center">
                             <Link
-                                href={tiktokUrl}
-                                className="text-black underline"
+                                className="text-white text-center bg-btn rounded-lg p-4"
+                                href={linkUrl}
                             >
-                                TikTok
+                                Click here to see all classes
                             </Link>
-                            <Link
-                                href={instagramUrl}
-                                className="text-black underline"
-                            >
-                                Instagram
-                            </Link>
-                        </div>
-                    </Section>
-                    <Section className="mt-6 flex justify-center">
-                        <Link
-                            className="text-white text-center bg-btn rounded-lg p-4"
-                            href={linkUrl}
-                        >
-                            Click here to see all classes
-                        </Link>
-                    </Section>
+                        </Section>
 
-                    <Text className="text-base leading-6.5">
-                        Best,
-                        <br />- Pilates Team
-                    </Text>
-                    <Hr className="border-[#dddddd] mt-12" />
-                    <Img
-                        src={`${baseUrl}/images/logo.png`}
-                        width={32}
-                        height={32}
-                        style={{
-                            WebkitFilter: 'grayscale(100%)'
-                        }}
-                        className="filter-[grayscale(100%)] my-5 mx-0"
-                    />
-                    <Text className="text-[#8898aa] text-xs leading-6 ml-1">
-                        Pilates With Me.
-                    </Text>
-                    <Text className="text-[#8898aa] text-xs leading-6 ml-1">
-                        Uppsala, Sweden
-                    </Text>
-                </Container>
-            </Body>
-        </Tailwind>
-    </Html>
-)
-
-EmailTemplate.PreviewProps = {
-    linkUrl: 'localhost:3000/classes'
-} as EmailTemplateProps
+                        <Text className="text-base leading-6.5">
+                            Best,
+                            <br />- Pilates Team
+                        </Text>
+                        <Hr className="border-[#dddddd] mt-12" />
+                    </Container>
+                </Body>
+            </Tailwind>
+        </Html>
+    )
+}
 
 export default EmailTemplate

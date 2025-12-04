@@ -1,23 +1,37 @@
-import { EmailTemplate } from '@/components/email/email-template'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import { EmailTemplate } from '@/components/email/email-template'
+
+if (!process.env.RESEND_API_KEY) {
+    throw new Error('RESEND_API_KEY is missing')
+}
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-export async function POST() {
-    const linkUrl = 'http://localhost:3000/classes'
+interface SendBookingEmailProps {
+    guestName: string
+    guestEmail: string
+    classTitle: string
+    classDate: string
+    classTime: string
+    price: string
+    linkUrl: string
+}
+
+export async function POST(req: Request) {
+    const body: SendBookingEmailProps = await req.json()
 
     try {
         const data = await resend.emails.send({
-            from: 'Acme <onboarding@resend.dev>',
-            to: ['wmattsson@hotmail.com'],
+            from: 'Pilates Team <onboarding@resend.dev>',
+            to: [body.guestEmail],
             subject: 'Your Pilates Booking is Confirmed!',
-            react: EmailTemplate({ linkUrl })
+            react: EmailTemplate(body)
         })
 
         return NextResponse.json(data)
     } catch (error) {
-        console.log(error)
+        console.error(error)
         return NextResponse.json({ error }, { status: 500 })
     }
 }
