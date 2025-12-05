@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useBookings } from '@/context/BookingsContext'
 import { useBookingModal } from '@/context/BookingModalContext'
 import { toast } from 'react-toastify'
-import { User, Mail, Calendar } from 'lucide-react'
+import { User, Mail, Calendar, AlertTriangle } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useProfile } from '@/hooks/useProfile'
 import { useRouter } from 'next/navigation'
@@ -29,6 +29,18 @@ const BookingModal = () => {
     ).length
 
     const isFull = bookedSpots >= selectedClass.max_spots
+
+    const alreadyBooked = bookings.some((b) => {
+        const isSameClass = b.class_id === selectedClass.id
+
+        if (isLoggedIn) {
+            const isSameUser = b.user_id === user.id
+            return isSameClass && isSameUser
+        } else {
+            const isSameGuest = b.guest_email === guestEmail
+            return isSameClass && isSameGuest
+        }
+    })
 
     const handleBooking = async () => {
         if (isFull) {
@@ -160,7 +172,6 @@ const BookingModal = () => {
                     </>
                 ) : (
                     <p className="text-sm text-gray-700 mb-3 flex items-center gap-1">
-                        {/* TODO Change after auth */}
                         <User size={16} /> Booking as:{' '}
                         <span className="font-medium">{user.email}</span>
                     </p>
@@ -170,8 +181,14 @@ const BookingModal = () => {
                     {selectedClass.price}kr
                 </p>
 
-                <CancellationPolicy className="mb-3" />
-
+                <CancellationPolicy className="mb-2" />
+                {alreadyBooked && !isFull && (
+                    <p className="mb-2 text-sm text-yellow-600 flex items-center gap-1">
+                        <AlertTriangle size={16} />
+                        You have already booked this class. Are you sure you
+                        want to book again?
+                    </p>
+                )}
                 <button
                     onClick={handleBooking}
                     disabled={isFull}
