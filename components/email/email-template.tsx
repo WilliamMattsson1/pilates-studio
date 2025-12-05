@@ -42,7 +42,7 @@ export const EmailTemplate = ({
             <Head />
             <Tailwind>
                 <Body className="bg-white font-raycast p-4">
-                    <Container className="mx-auto my-0 pt-5 px-[25px] pb-1 bg-secondary-bg">
+                    <Container className="mx-auto my-0 pt-5 px-[25px] pb-1 bg-secondary-bg max-w-[90%]">
                         <Img
                             src={`${baseUrl}/images/logo.png`}
                             width={54}
@@ -59,7 +59,7 @@ export const EmailTemplate = ({
                             with us!
                         </Text>
 
-                        <Section className="mt-6 p-4">
+                        <Section className="mt-6 p-4 flex justify-center">
                             <Text className="text-base leading-6">
                                 <strong>Class:</strong> {classTitle}
                             </Text>
@@ -105,7 +105,7 @@ export const EmailTemplate = ({
                             </Link>
                         </Section>
 
-                        <Text className="text-base leading-6.5">
+                        <Text className="text-base leading-6.5 flex justify-center mt-10">
                             Best,
                             <br />- Pilates Team
                         </Text>
