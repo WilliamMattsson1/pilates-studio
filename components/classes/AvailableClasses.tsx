@@ -2,11 +2,12 @@
 import { ClassItem } from '@/types/classes'
 import TitleHeader from '../shared/TitleHeader'
 import ClassCard from '../shared/ui/ClassCard'
+import SkeletonClassCard from '../shared/ui/SkeletonClassCard'
 import { useClasses } from '@/context/ClassesContext'
 import NoUpcomingClasses from '../shared/NoUpcomingClasses'
 
 const AvailableClasses = () => {
-    const { upcomingClasses, classesByWeek } = useClasses()
+    const { upcomingClasses, classesByWeek, loading } = useClasses()
     const currentYear = new Date().getFullYear()
 
     return (
@@ -20,7 +21,18 @@ const AvailableClasses = () => {
                 alignment="center"
             />
 
-            {upcomingClasses.length === 0 ? (
+            {loading ? (
+                <div className="flex flex-col gap-8 mt-8">
+                    <div className="flex flex-col gap-4">
+                        {/* Skeleton cards */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 justify-items-center">
+                            {Array.from({ length: 4 }).map((_, i) => (
+                                <SkeletonClassCard key={i} />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            ) : upcomingClasses.length === 0 ? (
                 <NoUpcomingClasses />
             ) : (
                 <div className="flex flex-col gap-8 mt-8">
