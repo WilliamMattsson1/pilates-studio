@@ -1,5 +1,6 @@
 import AboutBio from '@/components/about/AboutBio'
 import AboutContact from '@/components/about/AboutContact'
+import AboutFAQ from '@/components/about/AboutFAQ'
 import AboutHero from '@/components/about/AboutHero'
 import SectionDivider from '@/components/shared/ui/SectionDivider'
 import { Metadata } from 'next'
@@ -15,7 +16,9 @@ const page = () => {
         <>
             <AboutHero />
             <AboutBio />
-            <SectionDivider className="w-[60%] h-1 bg-btn/60 mt-18" />
+
+            <AboutFAQ />
+            <SectionDivider className="w-[90%] max-w-3xl h-1 bg-btn/60 mt-8" />
             <AboutContact />
         </>
     )

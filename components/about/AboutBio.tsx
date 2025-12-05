@@ -29,7 +29,7 @@ const AboutBio = () => {
         <section className="px-6 md:px-20 pt-16 pb-22 bg-secondary-bg flex flex-col gap-4">
             <TitleHeader
                 title="Your Pilates Instructor"
-                subtitle="Expertise & passion in every session"
+                subtitle="Passion in every session"
                 alignment="center"
             />
 
