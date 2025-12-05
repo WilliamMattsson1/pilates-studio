@@ -32,7 +32,7 @@ export const ClassesProvider = ({
 }) => {
     const supabase = createClient()
     const [classes, setClasses] = useState<ClassItem[]>([])
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
     const refreshClasses = async () => {
