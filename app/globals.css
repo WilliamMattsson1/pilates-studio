@@ -3,19 +3,19 @@
 :root {
     --background: #ffffff;
     --text-color: #000;
-    --btn-primary: orange;
 }
 
 @theme {
-    --color-primary-bg: white;
-    --color-primary: #2563eb;
-    --color-secondary: #fbbf24;
-    --color-btn-primary: orange;
+    --color-primary-bg: #fefcf9; /* Vit med lite värme */
+    --color-secondary-bg: #ebe5e0; /* mycket ljus beige — bakgrund */
+
+    --color-btn: #704f44; /* buttons */
+    --color-btn-hover: #8d726a; /* button hover state */
+
+    --color-card: #f6f4f2;
+    --color-icon: #998179;
 
     /* Test färger */
-    --color-secondary-bg: #eae4df; /* mycket ljus beige — bakgrund */
-    --color-secondary: #eae4df; /* ljus varm kort — bg ekker kort, paneler */
-    --color-btn: #704f44; /* buttons */
 
     --color-text: #2b2b27; /* mörk brun — huvudtext */
     --color-muted: #7a6f63; /* mellanbrun — sekundär text */

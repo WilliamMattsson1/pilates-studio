@@ -37,7 +37,7 @@ const AboutBio = () => {
                 {bioCards.map((card, idx) => (
                     <div
                         key={idx}
-                        className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center md:text-left gap-4"
+                        className="bg-primary-bg rounded-xl shadow-lg p-6 flex flex-col items-center text-center md:text-left gap-4"
                     >
                         {card.icon}
                         <h3 className="text-xl font-semibold">{card.title}</h3>

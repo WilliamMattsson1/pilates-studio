@@ -57,14 +57,14 @@ const Navbar = () => {
             <div className="hidden md:flex items-center gap-2">
                 <button
                     onClick={handleClick}
-                    className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 bg-btn hover:opacity-90 text-white hover:cursor-pointer`}
+                    className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 bg-btn hover:bg-btn-hover text-white hover:cursor-pointer`}
                 >
                     {!user ? 'Login' : 'Logout'}
                 </button>
                 {user && (
                     <button
                         onClick={() => router.push('/profile')}
-                        className="w-9 h-9 rounded-full overflow-hidden bg-btn hover:bg-btn/90 hover:cursor-pointer transition"
+                        className="w-9 h-9 rounded-full overflow-hidden bg-btn hover:bg-btn-hover hover:cursor-pointer transition"
                     >
                         <span className="flex items-center justify-center w-full h-full text-white font-semibold">
                             {user.email?.charAt(0).toUpperCase()}
@@ -78,7 +78,7 @@ const Navbar = () => {
                 {user && (
                     <button
                         onClick={() => router.push('/profile')}
-                        className="w-9 h-9 rounded-full overflow-hidden bg-btn hover:border-btn/90 transition"
+                        className="w-9 h-9 rounded-full overflow-hidden bg-btn hover:border-btn-hover transition"
                     >
                         <span className="flex items-center justify-center w-full h-full text-white font-semibold">
                             {user.email?.charAt(0).toUpperCase()}

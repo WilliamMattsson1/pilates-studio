@@ -42,7 +42,7 @@ const TopNavbar = ({ currentNavLabel, onMenuClick }: TopNavbarProps) => {
 
             <button
                 onClick={handleLogout}
-                className="bg-btn text-white px-4 py-2 rounded-full hover:opacity-90 transition flex items-center font-medium"
+                className="bg-btn text-white px-4 py-2 rounded-full hover:bg-btn-hover transition flex items-center font-medium"
             >
                 Log out
                 <LogOut className="w-4 inline-block ml-2" />

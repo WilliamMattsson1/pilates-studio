@@ -35,7 +35,7 @@ const InstructorIntro = () => {
                     <div className="flex justify-center lg:justify-start">
                         <Link
                             href="/about"
-                            className="mt-2 w-fit bg-btn text-white px-5 py-3 rounded-lg transition-opacity hover:opacity-90 flex items-center gap-2"
+                            className="mt-2 w-fit bg-btn text-white px-5 py-3 rounded-lg transition-opacity hover:bg-btn-hover flex items-center gap-2"
                         >
                             Read more about me
                             <ArrowRight size={18} />

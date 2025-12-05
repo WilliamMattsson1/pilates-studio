@@ -45,7 +45,7 @@ const AdminAddClass = () => {
             <div className="w-full max-w-xl">
                 <form
                     onSubmit={handleSubmit}
-                    className="bg-white p-6 rounded-2xl shadow-xl flex flex-col gap-6"
+                    className="bg-primary-bg p-6 rounded-2xl shadow-xl flex flex-col gap-6"
                 >
                     {/* Title */}
                     <div className="flex flex-col gap-1">
@@ -172,7 +172,7 @@ const AdminAddClass = () => {
 
                     <button
                         type="submit"
-                        className="bg-btn text-white py-3 rounded-lg text-sm font-semibold hover:opacity-90 transition"
+                        className="bg-btn text-white py-3 rounded-lg text-sm font-semibold hover:bg-btn-hover transition"
                     >
                         Add Class
                     </button>

@@ -76,7 +76,7 @@ const ClassCard = ({ cls }: ClassCardProps) => {
                 ) : (
                     <button
                         onClick={() => openModal(cls)}
-                        className="bg-btn text-white px-3 py-1 rounded-full font-semibold text-sm hover:opacity-90 hover:cursor-pointer"
+                        className="bg-btn text-white px-3 py-1 rounded-full font-semibold text-sm hover:bg-btn-hover hover:cursor-pointer"
                     >
                         Book now
                     </button>

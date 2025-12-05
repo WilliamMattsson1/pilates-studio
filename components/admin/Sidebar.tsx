@@ -58,7 +58,7 @@ export const Sidebar = ({
                 </nav>
                 <button
                     onClick={handleLogout}
-                    className="bg-btn text-white px-4 py-2 rounded-full hover:opacity-90 transition flex items-center justify-center font-medium mt-4"
+                    className="bg-btn text-white px-4 py-2 rounded-full hover:bg-btn-hover transition flex items-center justify-center font-medium mt-4"
                 >
                     Log out
                     <LogOut className="w-4 inline-block ml-2" />
@@ -109,7 +109,7 @@ export const Sidebar = ({
                                 )
                             })}
                         </nav>
-                        <SectionDivider className="bg-btn/60 h-1 w-full my-6" />
+                        <SectionDivider className="bg-icon h-1 w-full my-6" />
                         <img
                             src="/images/logo.png"
                             className="mx-auto w-26 mt-6"

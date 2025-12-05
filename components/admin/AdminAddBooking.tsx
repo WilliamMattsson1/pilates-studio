@@ -185,7 +185,7 @@ const AdminAddBooking = () => {
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-3 bg-btn text-white rounded-lg hover:opacity-90 hover:cursor-pointer transition font-medium"
+                    className="w-full py-3 bg-btn text-white rounded-lg hover:bg-btn-hover hover:cursor-pointer transition font-medium"
                 >
                     {isSubmitting ? 'Adding...' : 'Add Booking'}
                 </button>

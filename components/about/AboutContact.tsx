@@ -25,7 +25,7 @@ const socials = [
 
 const AboutContact = () => {
     return (
-        <section className="px-6 md:px-20 py-12 pb-2 bg-white flex flex-col mb-16">
+        <section className="px-6 md:px-20 py-12 pb-2 bg-primary-bg flex flex-col mb-16">
             <TitleHeader
                 title="Connect With Us"
                 subtitle="More questions?"
@@ -33,7 +33,7 @@ const AboutContact = () => {
             />
 
             <div className="flex flex-col lg:flex-row gap-10">
-                <div className="flex-1 flex flex-col gap-4 bg-secondary-bg p-5 rounded-lg shadow-lg min-h-[400px] lg:h-auto">
+                <div className="flex-1 flex flex-col gap-4 bg-card p-5 rounded-lg shadow-md min-h-[400px] lg:h-auto">
                     <h3 className="text-xl font-semibold text-gray-900">
                         Contact Details
                     </h3>
@@ -44,7 +44,7 @@ const AboutContact = () => {
                         you every step of the way.
                     </p>
 
-                    <SectionDivider className="w-full h-1 bg-btn/60 my-1" />
+                    <SectionDivider className="w-full h-1 bg-icon my-1" />
 
                     <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-2 font-medium text-gray-900 hover:text-btn transition">
@@ -89,7 +89,7 @@ const AboutContact = () => {
 
                     <Link
                         href="/classes/#available-classes"
-                        className="mt-2 w-fit bg-btn text-white font-medium px-5 py-2 rounded-lg flex items-center gap-2 hover:opacity-90 transition"
+                        className="mt-2 w-fit bg-btn text-white font-medium px-5 py-2 rounded-lg flex items-center gap-2 hover:bg-btn-hover transition"
                     >
                         See Available Classes
                         <ArrowRight size={22} />

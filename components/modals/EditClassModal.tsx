@@ -58,7 +58,7 @@ const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
             onClick={onClose}
         >
             <div
-                className="bg-white rounded-2xl shadow-xl w-full md:max-w-xl p-6 relative max-w-[90%]"
+                className="bg-primary-bg rounded-2xl shadow-xl w-full md:max-w-xl p-6 relative max-w-[90%]"
                 onClick={(e) => e.stopPropagation()}
             >
                 <button
@@ -182,7 +182,7 @@ const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-btn text-white rounded-lg hover:opacity-90 transition"
+                            className="px-4 py-2 bg-btn text-white rounded-lg hover:bg-btn-hover transition"
                         >
                             Save
                         </button>

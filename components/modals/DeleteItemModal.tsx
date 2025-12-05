@@ -44,7 +44,7 @@ const DeleteModal = ({
             onClick={onClose}
         >
             <div
-                className="bg-white rounded-2xl shadow-xl w-full  p-6 relative md:max-w-xl max-w-[90%]"
+                className="bg-primary-bg rounded-2xl shadow-xl w-full  p-6 relative md:max-w-xl max-w-[90%]"
                 onClick={(e) => e.stopPropagation()} // Stoppar klick inne i modal
             >
                 <button
@@ -73,7 +73,7 @@ const DeleteModal = ({
                 )}
                 {type === 'booking' && (
                     <>
-                        <SectionDivider className="h-1 w-[70%] bg-btn/60 my-5" />
+                        <SectionDivider className="h-1 w-[70%] bg-icon my-5" />
 
                         <p className="text-center font-medium">{title}</p>
                         <p className="mb-6 text-center text-gray-500 italic">

@@ -29,7 +29,7 @@ const Testimonials = () => {
                     >
                         <Quote
                             size={42}
-                            className="absolute top-4 right-4 text-btn/50"
+                            className="absolute top-4 right-4 text-btn/40"
                         />
 
                         <p className="text-gray-800 text-lg italic leading-relaxed pr-6">
@@ -40,7 +40,7 @@ const Testimonials = () => {
                             <div
                                 className="
                                     w-10 h-10 rounded-full
-                                    bg-btn/30 flex items-center justify-center
+                                    bg-btn/40 flex items-center justify-center
                                     text-btn font-semibold text-lg
                                 "
                             >

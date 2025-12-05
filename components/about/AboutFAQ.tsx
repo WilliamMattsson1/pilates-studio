@@ -58,7 +58,7 @@ const AboutFAQ = () => {
                     {faqs.map((faq, i) => (
                         <div
                             key={i}
-                            className="rounded-lg bg-[#f6f4f2] shadow-sm hover:shadow-md transition-shadow duration-300
+                            className="rounded-lg bg-card shadow-sm hover:shadow-md transition-shadow duration-300
 "
                         >
                             <button

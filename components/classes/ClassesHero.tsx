@@ -19,7 +19,7 @@ const ClassesHero = () => {
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-6">
-                    <div className="bg-white rounded-lg shadow-lg p-4 flex-1 flex flex-col gap-3">
+                    <div className="bg-primary-bg rounded-lg shadow-lg p-4 flex-1 flex flex-col gap-3">
                         <h2 className="text-2xl font-semibold tracking-widest fancy-font">
                             Reformer Pilates
                         </h2>
@@ -47,7 +47,7 @@ const ClassesHero = () => {
                         </Link>
                     </div>
 
-                    <div className="bg-white rounded-lg shadow-lg p-4 flex-1 flex flex-col gap-3">
+                    <div className="bg-primary-bg rounded-lg shadow-lg p-4 flex-1 flex flex-col gap-3">
                         <h2 className="text-2xl font-semibold tracking-widest fancy-font">
                             Core Pilates
                         </h2>

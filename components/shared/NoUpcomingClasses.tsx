@@ -7,7 +7,7 @@ const NoUpcomingClasses = () => {
                     bg-secondary-bg/40 rounded-xl
                     py-14 px-6 w-full lg:w-[60%] mx-auto shadow-md"
         >
-            <div className="w-14 h-14 rounded-full bg-white shadow flex items-center justify-center mb-4">
+            <div className="w-14 h-14 rounded-full bg-primary-bg shadow flex items-center justify-center mb-4">
                 <CalendarOff className="w-6 h-6 text-gray-400 rotate-90" />
             </div>
 

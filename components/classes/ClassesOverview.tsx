@@ -38,20 +38,20 @@ const ClassesDetailSections = () => {
                         session.
                     </p>
                     <div className="flex flex-wrap gap-2 mt-2 md:justify-start justify-center">
-                        <span className="bg-white shadow-lg px-3 py-1 rounded-full text-sm">
+                        <span className="bg-primary-bg shadow-lg px-3 py-1 rounded-full text-sm">
                             💪 Strength & Stability
                         </span>
-                        <span className="bg-white shadow-lg px-3 py-1 rounded-full text-sm">
+                        <span className="bg-primary-bg shadow-lg px-3 py-1 rounded-full text-sm">
                             🧘 Core & Posture Focus
                         </span>
-                        <span className="bg-white shadow-lg px-3 py-1 rounded-full text-sm">
+                        <span className="bg-primary-bg shadow-lg px-3 py-1 rounded-full text-sm">
                             🌟 Suitable for All Levels
                         </span>
                     </div>
                     <div className="flex justify-center lg:justify-start">
                         <Link
                             href="#available-classes"
-                            className="mt-2 w-fit h-[30px] bg-btn text-white font-medium px-4 py-6 rounded-lg transition-opacity hover:opacity-90 flex items-center gap-2"
+                            className="mt-2 w-fit h-[30px] bg-btn text-white font-medium px-4 py-6 rounded-lg transition-opacity hover:bg-btn-hover flex items-center gap-2"
                         >
                             See Available Classes
                             <ArrowRight size={22} />
@@ -99,20 +99,20 @@ const ClassesDetailSections = () => {
                         their daily activities.
                     </p>
                     <div className="flex flex-wrap gap-2 mt-2 justify-center lg:justify-start">
-                        <span className="bg-white shadow-lg px-3 py-1 rounded-full text-sm">
+                        <span className="bg-primary-bg shadow-lg px-3 py-1 rounded-full text-sm">
                             🤸 Flexibility & Balance
                         </span>
-                        <span className="bg-white shadow-lg px-3 py-1 rounded-full text-sm">
+                        <span className="bg-primary-bg shadow-lg px-3 py-1 rounded-full text-sm">
                             🧘 Alignment & Core Strength
                         </span>
-                        <span className="bg-white shadow-lg px-3 py-1 rounded-full text-sm">
+                        <span className="bg-primary-bg shadow-lg px-3 py-1 rounded-full text-sm">
                             🌟 Beginner-Friendly
                         </span>
                     </div>
                     <div className="flex justify-center md:justify-start">
                         <Link
                             href="#available-classes"
-                            className="mt-2 w-fit h-[30px] bg-btn text-white font-medium px-4 py-6 rounded-lg transition-opacity hover:opacity-90 flex items-center gap-2"
+                            className="mt-2 w-fit h-[30px] bg-btn text-white font-medium px-4 py-6 rounded-lg transition-opacity hover:bg-btn-hover flex items-center gap-2"
                         >
                             See Available Classes
                             <ArrowRight size={22} />

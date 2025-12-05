@@ -18,7 +18,7 @@ const page = () => {
             <AboutBio />
 
             <AboutFAQ />
-            <SectionDivider className="w-[90%] max-w-3xl h-1 bg-btn/60 mt-8" />
+            <SectionDivider className="w-[90%] max-w-3xl h-1 bg-icon mt-8" />
             <AboutContact />
         </>
     )

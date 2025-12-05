@@ -5,25 +5,25 @@ import Testimonials from './Testimonials'
 
 const benefits = [
     {
-        icon: <User size={62} className="text-btn/70" />,
+        icon: <User size={62} className="text-icon" />,
         title: 'Personalized Training',
         description:
             'Tailored exercises for all levels, so everyone can progress safely.'
     },
     {
-        icon: <Heart size={62} className="text-btn/70" />,
+        icon: <Heart size={62} className="text-icon" />,
         title: 'Improve Well-being',
         description:
             'Build strength, flexibility, and overall health through Pilates.'
     },
     {
-        icon: <Clock size={62} className="text-btn/70" />,
+        icon: <Clock size={62} className="text-icon" />,
         title: 'Flexible Scheduling',
         description:
             'Book classes when it suits you, with easy online management.'
     },
     {
-        icon: <User size={62} className="text-btn/70" />,
+        icon: <User size={62} className="text-icon" />,
         title: 'Expert Guidance',
         description:
             'Learn from a certified instructor with years of experience.'
@@ -33,7 +33,7 @@ const benefits = [
 const PilatesBenefits = () => {
     return (
         <section
-            className="w-full bg-white
+            className="w-full bg-primary-bg
           px-6 py-13"
         >
             <TitleHeader
@@ -45,7 +45,7 @@ const PilatesBenefits = () => {
                 {benefits.map((benefit, i) => (
                     <div
                         key={i}
-                        className="bg-secondary-bg/40 flex flex-col items-center text-center gap-3 p-6 rounded-md shadow-md hover:shadow-lg transition-shadow"
+                        className="bg-card flex flex-col items-center text-center gap-3 p-6 rounded-md shadow-md hover:shadow-lg transition-shadow"
                     >
                         {benefit.icon}
                         <h4 className="text-2xl font-semibold">
@@ -58,7 +58,7 @@ const PilatesBenefits = () => {
                 ))}
             </div>
 
-            <SectionDivider className="my-14 bg-btn/60 h-1 w-[65%]" />
+            <SectionDivider className="my-14 bg-icon h-1 w-[65%]" />
 
             <Testimonials />
         </section>

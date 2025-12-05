@@ -98,7 +98,7 @@ const BookingModal = () => {
             onClick={handleClose}
         >
             <div
-                className="bg-white rounded-xl w-full p-6 shadow-xl relative md:max-w-xl max-w-[90%]"
+                className="bg-primary-bg rounded-xl w-full p-6 shadow-xl relative md:max-w-xl max-w-[90%]"
                 onClick={(e) => e.stopPropagation()}
             >
                 <button
@@ -192,7 +192,7 @@ const BookingModal = () => {
                 <button
                     onClick={handleBooking}
                     disabled={isFull}
-                    className="w-full bg-btn text-white p-3 rounded hover:opacity-90 disabled:bg-gray-400 hover:cursor-pointer"
+                    className="w-full bg-btn text-white p-3 rounded hover:bg-btn-hover disabled:bg-gray-400 hover:cursor-pointer"
                 >
                     {isFull ? 'Class Full' : 'Confirm Booking'}
                 </button>

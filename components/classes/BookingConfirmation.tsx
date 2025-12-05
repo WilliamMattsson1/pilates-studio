@@ -34,7 +34,7 @@ const BookingConfirmation = ({
             </p>
             <button
                 onClick={onClose}
-                className="mt-4 bg-btn text-white px-6 py-2 rounded-lg w-40 font-medium hover:bg-btn/90 transition hover:cursor-pointer"
+                className="mt-4 bg-btn text-white px-6 py-2 rounded-lg w-40 font-medium hover:bg-btn-hover transition hover:cursor-pointer"
             >
                 Done
             </button>

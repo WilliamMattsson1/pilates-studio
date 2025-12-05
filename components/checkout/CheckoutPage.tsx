@@ -164,7 +164,7 @@ const CheckoutPage = ({
                 Complete Your Booking
             </h1>
             <div className="lg:max-w-5xl mx-auto rounded-xl bg-secondary-bg shadow-xl overflow-hidden flex flex-col-reverse md:flex-row min-h-[80vh]">
-                <div className=" md:w-1/2 p-8 flex flex-col justify-center items-center gap-5 bg-[#f6f4f2] ">
+                <div className=" md:w-1/2 p-8 flex flex-col justify-center items-center gap-5 bg-card ">
                     <div className="bg-btn text-white w-20 h-20 flex items-center justify-center rounded-full">
                         <Calendar className="w-10 h-10" />
                     </div>
@@ -211,7 +211,7 @@ const CheckoutPage = ({
                         {errorMessage && <div>{errorMessage}</div>}
                         <button
                             disabled={!stripe || loading}
-                            className="text-white w-full p-4 bg-btn mt-3 rounded-md font-bold hover:cursor-pointer hover:bg-btn/90 disabled:opacity-50 disabled:animate-pulse"
+                            className="text-white w-full p-4 bg-btn mt-3 rounded-md font-bold hover:cursor-pointer hover:bg-btn-hover disabled:opacity-50 disabled:animate-pulse"
                         >
                             {!loading ? `Pay ${amount}kr` : 'Processing...'}
                         </button>

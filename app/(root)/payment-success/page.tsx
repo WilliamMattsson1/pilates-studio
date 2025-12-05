@@ -66,7 +66,7 @@ const PaymentSuccess = () => {
             </div>
 
             {/* Bokningsinformation card */}
-            <div className="bg-white rounded-xl shadow-lg p-6 md:max-w-lg max-w-[90%] w-full ">
+            <div className="bg-primary-bg rounded-xl shadow-lg p-6 md:max-w-lg max-w-[90%] w-full ">
                 {cls ? (
                     <>
                         <h2 className="text-2xl font-semibold">{cls.title}</h2>
@@ -108,11 +108,11 @@ const PaymentSuccess = () => {
             <div className="flex flex-col md:flex-row gap-4 mt-8">
                 <button
                     onClick={() => router.push('/profile')}
-                    className="bg-btn text-white px-6 py-3 rounded-md font-bold hover:bg-btn/90 transition"
+                    className="bg-btn text-white px-6 py-3 rounded-md font-bold hover:bg-btn-hover transition"
                 >
                     <Link href="/profile">See Your Bookings</Link>
                 </button>
-                <button className="flex items-center justify-center gap-2 border border-black  px-6 py-3 rounded-md font-semibold hover:bg-btn hover:text-white hover:border-transparent transition">
+                <button className="flex items-center justify-center gap-2 border border-black  px-6 py-3 rounded-md font-semibold hover:bg-btn-hover hover:text-white hover:border-transparent transition">
                     <Home className="w-5 h-5" />
                     <Link href="/">Back To Start</Link>
                 </button>

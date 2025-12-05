@@ -74,7 +74,7 @@ export default function AuthForm({ initialMode = 'signIn' }: AuthFormProps) {
                                 <label htmlFor="name" className="font-medium">
                                     Name
                                 </label>
-                                <div className="flex items-center gap-3 px-3 py-3 bg-white rounded-lg focus-within:ring-2 focus-within:ring-btn/50 transition">
+                                <div className="flex items-center gap-3 px-3 py-3 bg-primary-bg rounded-lg focus-within:ring-2 focus-within:ring-btn/50 transition">
                                     <User size={20} className="text-gray-400" />
                                     <input
                                         type="text"
@@ -95,7 +95,7 @@ export default function AuthForm({ initialMode = 'signIn' }: AuthFormProps) {
                             <label htmlFor="email" className="font-medium">
                                 Email
                             </label>
-                            <div className="flex items-center gap-3 px-3 py-3 bg-white rounded-lg focus-within:ring-2 focus-within:ring-btn/50 transition">
+                            <div className="flex items-center gap-3 px-3 py-3 bg-primary-bg rounded-lg focus-within:ring-2 focus-within:ring-btn/50 transition">
                                 <Mail size={20} className="text-gray-400" />
                                 <input
                                     type="email"
@@ -115,7 +115,7 @@ export default function AuthForm({ initialMode = 'signIn' }: AuthFormProps) {
                             <label htmlFor="password" className="font-medium">
                                 Password
                             </label>
-                            <div className="flex items-center gap-3 px-3 py-3 bg-white rounded-lg focus-within:ring-2 focus-within:ring-btn/50 transition">
+                            <div className="flex items-center gap-3 px-3 py-3 bg-primary-bg rounded-lg focus-within:ring-2 focus-within:ring-btn/50 transition">
                                 <Lock size={20} className="text-gray-400" />
                                 <input
                                     type="password"
@@ -137,13 +137,13 @@ export default function AuthForm({ initialMode = 'signIn' }: AuthFormProps) {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="p-3 bg-btn text-white rounded-lg font-medium hover:opacity-90 transition"
+                            className="p-3 bg-btn text-white rounded-lg font-medium hover:bg-btn-hover transition"
                         >
                             {loading
                                 ? 'Loading...'
                                 : mode === 'signIn'
-                                ? 'Sign In'
-                                : 'Sign Up'}
+                                  ? 'Sign In'
+                                  : 'Sign Up'}
                         </button>
                     </form>
 

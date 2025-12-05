@@ -19,7 +19,7 @@ const AboutHero = () => {
 
                 <Link
                     href="/classes/#available-classes"
-                    className="mt-4 bg-btn text-white px-6 py-3 rounded-lg hover:opacity-90 transition font-medium"
+                    className="mt-4 bg-btn text-white px-6 py-3 rounded-lg hover:bg-btn-hover transition font-medium"
                 >
                     See Available Classes
                 </Link>
