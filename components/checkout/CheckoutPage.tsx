@@ -113,7 +113,7 @@ const CheckoutPage = ({
                         stripe_payment_id: paymentIntent.id
                     })
 
-                    sendBookingEmail({
+                    await sendBookingEmail({
                         guestName: user ? profile?.name : guestName,
                         guestEmail: (user ? user?.email : guestEmail)!,
                         classTitle: title,
@@ -140,6 +140,7 @@ const CheckoutPage = ({
                 } catch (err) {
                     setErrorMessage('Booking failed. Please contact support.')
                     console.error(err)
+                    router.push('/booking-error')
                 }
             }
 

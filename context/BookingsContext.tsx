@@ -113,6 +113,7 @@ export const BookingsProvider = ({
         } catch (err: any) {
             setError(err.message)
             toast.error(err.message || 'Failed to add booking.')
+            throw err
         } finally {
             setLoading(false)
         }
