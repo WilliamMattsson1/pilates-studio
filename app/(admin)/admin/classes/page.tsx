@@ -11,7 +11,7 @@ const page = () => {
                     {
                         key: 'all',
                         label: 'All Classes',
-                        content: <AdminAllClasses onSwitchToAdd={() => {}} />
+                        content: <AdminAllClasses />
                     },
                     {
                         key: 'add',

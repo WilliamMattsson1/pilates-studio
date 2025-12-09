@@ -14,11 +14,7 @@ const FILTERS = [
     { key: 'all', label: 'All Classes' }
 ]
 
-type AdminAllClassesProps = {
-    onSwitchToAdd?: () => void
-}
-
-const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
+const AdminAllClasses = () => {
     const { upcomingClasses, pastClasses, deleteClass, updateClass } =
         useClasses()
     const { bookings } = useBookings()
@@ -35,8 +31,8 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
         filter === 'upcoming'
             ? upcomingClasses
             : filter === 'past'
-            ? pastClasses
-            : [...upcomingClasses, ...pastClasses]
+              ? pastClasses
+              : [...upcomingClasses, ...pastClasses]
 
     const getBookedInfo = (cls: ClassItem) => {
         const booked = bookings.filter((b) => b.class_id === cls.id).length
@@ -75,12 +71,6 @@ const AdminAllClasses = ({ onSwitchToAdd }: AdminAllClassesProps) => {
                         <p className="text-center py-6">
                             No classes found. Change filter or add a new class.
                         </p>
-                        <button
-                            className="px-4 py-2 bg-btn w-fit mx-auto text-white rounded"
-                            onClick={onSwitchToAdd}
-                        >
-                            Add Class
-                        </button>
                     </>
                 ) : (
                     classesToShow.map((cls: ClassItem) => {
