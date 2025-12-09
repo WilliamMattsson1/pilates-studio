@@ -45,6 +45,7 @@ export const ClassesProvider = ({
                 throw new Error(data.error || 'Failed to fetch classes')
             setClasses(data.data)
         } catch (err: any) {
+            console.log('Error fetching classes', err.message)
             setError(err.message)
         } finally {
             setLoading(false)
@@ -108,6 +109,7 @@ export const ClassesProvider = ({
             const data = await res.json()
             if (!res.ok) throw new Error(data.error || 'Failed to add class')
         } catch (err: any) {
+            console.log('Error adding class', err.message)
             setError(err.message)
         } finally {
             setLoading(false)
@@ -127,6 +129,8 @@ export const ClassesProvider = ({
             const data = await res.json()
             if (!res.ok) throw new Error(data.error || 'Failed to update class')
         } catch (err: any) {
+            console.log('Error updating class', err.message)
+
             setError(err.message)
         } finally {
             setLoading(false)
@@ -144,6 +148,7 @@ export const ClassesProvider = ({
             const data = await res.json()
             if (!res.ok) throw new Error(data.error || 'Failed to delete class')
         } catch (err: any) {
+            console.log('Error deleting class', err.message)
             setError(err.message)
         } finally {
             setLoading(false)

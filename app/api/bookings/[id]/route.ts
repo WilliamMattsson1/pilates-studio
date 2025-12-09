@@ -16,11 +16,13 @@ export async function DELETE(
         .eq('id', id)
         .select()
 
-    if (error)
+    if (error) {
+        console.error(`Failed to delete booking ${id}:`, error)
         return NextResponse.json(
             { data: null, error: error.message },
             { status: 500 }
         )
+    }
 
     return NextResponse.json({ data, error: null })
 }

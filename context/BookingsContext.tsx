@@ -50,7 +50,9 @@ export const BookingsProvider = ({
                             guest_name: payload.new.guest_name,
                             guest_email: payload.new.guest_email,
                             stripe_payment_id: payload.new.stripe_payment_id,
-                            created_at: payload.new.created_at
+                            created_at: payload.new.created_at,
+                            refunded: payload.new.refunded ?? false,
+                            refunded_at: payload.new.refundedAt ?? null
                         }
                         return [...prev, newBooking]
                     })
@@ -86,6 +88,7 @@ export const BookingsProvider = ({
 
             setBookings(data.data)
         } catch (err: any) {
+            console.log('Failed to fetch booking', err)
             setError(err.message)
         } finally {
             setLoading(false)
@@ -111,6 +114,7 @@ export const BookingsProvider = ({
 
             toast.success('Booking added successfully!')
         } catch (err: any) {
+            console.log('Error adding booking', err.message)
             setError(err.message)
             toast.error(err.message || 'Failed to add booking.')
             throw err
@@ -132,6 +136,7 @@ export const BookingsProvider = ({
 
             toast.success('Booking deleted successfully!')
         } catch (err: any) {
+            console.log('Error deleting booking', err.message)
             setError(err.message)
             toast.error(err.message || 'Failed to delete booking.')
         } finally {

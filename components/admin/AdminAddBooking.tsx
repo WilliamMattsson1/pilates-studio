@@ -47,7 +47,9 @@ const AdminAddBooking = () => {
             class_id: selectedClassId,
             guest_name: guestName || 'Anonymous',
             guest_email: guestEmail || '',
-            stripe_payment_id: null
+            stripe_payment_id: null,
+            refunded: false,
+            refunded_at: null
         }
 
         addBooking(newBooking)
