@@ -3,7 +3,14 @@ import { useBookings } from '@/context/BookingsContext'
 import { useClasses } from '@/context/ClassesContext'
 import { BookingItem } from '@/types/bookings'
 import { ClassItem } from '@/types/classes'
-import { ChevronDownIcon, Calendar, Users, User } from 'lucide-react'
+import {
+    ChevronDownIcon,
+    Calendar,
+    Users,
+    User,
+    Trash2,
+    Repeat
+} from 'lucide-react'
 import { useState } from 'react'
 import DeleteModal from '../modals/DeleteItemModal'
 
@@ -47,7 +54,7 @@ const AdminAllBookings = () => {
     const classesToShow = filter === 'upcoming' ? upcomingClasses : pastClasses
 
     return (
-        <div className="flex flex-col gap-4 w-full pb-6">
+        <div className="flex flex-col gap-4 pb-6 w-full max-w-[90%] mx-auto">
             <div className="flex gap-2">
                 {FILTERS.map(({ key, label }) => (
                     <button
@@ -73,7 +80,7 @@ const AdminAllBookings = () => {
                 return (
                     <div
                         key={cls.id}
-                        className="shadow-lg rounded-md bg-primary-bg overflow-hidden"
+                        className="shadow-lg rounded-md bg-primary-bg overflow-hidden "
                     >
                         <div
                             className="flex justify-between items-center p-4 cursor-pointer"
@@ -142,16 +149,43 @@ const AdminAllBookings = () => {
                                                     </p>
                                                 </div>
                                             </div>
+                                            {b.refunded && (
+                                                <span className="px-4 py-2 text-xs font-semibold bg-red-100 text-red-800 rounded-full">
+                                                    Refunded
+                                                </span>
+                                            )}
 
-                                            <button
-                                                onClick={() => {
-                                                    setBookingToDelete(b)
-                                                    setIsDeleteModalOpen(true)
-                                                }}
-                                                className="px-3 py-1 bg-red-400 text-white rounded hover:opacity-90 transition"
-                                            >
-                                                Cancel
-                                            </button>
+                                            {!b.stripe_payment_id && (
+                                                <span className="px-4 py-2 text-xs font-semibold bg-gray-300 text-gray-800 rounded-full">
+                                                    Manual
+                                                </span>
+                                            )}
+                                            <div className="flex gap-2">
+                                                {b.stripe_payment_id &&
+                                                    !b.refunded && (
+                                                        <button
+                                                            onClick={() => {
+                                                                // Här ska en modal öppnas som bekräftar om admin vill göra refund till booking.id
+                                                            }}
+                                                            className="px-3 py-1 bg-yellow-500 text-white rounded hover:opacity-90 transition"
+                                                            aria-label="Refund booking"
+                                                        >
+                                                            <Repeat size={16} />
+                                                        </button>
+                                                    )}
+                                                <button
+                                                    onClick={() => {
+                                                        setBookingToDelete(b)
+                                                        setIsDeleteModalOpen(
+                                                            true
+                                                        )
+                                                    }}
+                                                    className="px-3 py-1 bg-red-400 text-white rounded hover:opacity-90 transition"
+                                                    aria-label="Delete booking"
+                                                >
+                                                    <Trash2 size={20} />
+                                                </button>
+                                            </div>
                                         </div>
                                     ))
                                 )}

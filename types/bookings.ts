@@ -6,6 +6,8 @@ interface BookingItem {
     guest_email?: string // text - om !user, nullable för user
     stripe_payment_id: string | null // Payment id från stripe för att koppla bokning till betalning
     created_at: string // timestamptz → ISO-datum, t.ex. "2025-10-01T10:00:00Z"
+    refunded: boolean // boolean → true om bokningen har blivit refunded, false annars
+    refunded_at?: string | null // timestamptz → ISO-datum när refund skedde, nullable om ej refunded
 }
 
 export type { BookingItem }
