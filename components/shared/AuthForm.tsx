@@ -4,6 +4,7 @@ import { useAuth } from '@/context/AuthContext'
 import { Mail, Lock, User } from 'lucide-react'
 import TitleHeader from './TitleHeader'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 type AuthFormProps = {
     initialMode?: 'signIn' | 'signUp'
@@ -146,6 +147,17 @@ export default function AuthForm({ initialMode = 'signIn' }: AuthFormProps) {
                                   : 'Sign Up'}
                         </button>
                     </form>
+
+                    {mode === 'signIn' && (
+                        <p className="mt-6 text-center">
+                            <Link
+                                href={'/auth/forgot-password'}
+                                className=" font-semibold text-sm hover:underline"
+                            >
+                                Forgot your password?
+                            </Link>
+                        </p>
+                    )}
 
                     <p className="mt-6 text-center text-sm text-gray-600">
                         {mode === 'signIn' ? (

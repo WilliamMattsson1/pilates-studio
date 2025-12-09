@@ -16,6 +16,8 @@ interface AuthContextProps {
     signIn: (email: string, password: string) => Promise<void>
     signUp: (email: string, password: string, name: string) => Promise<void>
     signOut: () => Promise<void>
+    resetPassword: (email: string) => Promise<void>
+    updatePassword: (newPassword: string) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined)
@@ -127,9 +129,33 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setLoading(false)
     }
 
+    const resetPassword = async (email: string) => {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: `${location.origin}/auth/reset-password`
+        })
+
+        if (error) throw error
+    }
+
+    const updatePassword = async (newPassword: string) => {
+        const { error } = await supabase.auth.updateUser({
+            password: newPassword
+        })
+        if (error) throw error
+    }
+
     return (
         <AuthContext.Provider
-            value={{ user, session, loading, signIn, signUp, signOut }}
+            value={{
+                user,
+                session,
+                loading,
+                signIn,
+                signUp,
+                signOut,
+                resetPassword,
+                updatePassword
+            }}
         >
             {children}
         </AuthContext.Provider>
