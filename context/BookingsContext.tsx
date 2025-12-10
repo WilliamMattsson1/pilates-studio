@@ -52,7 +52,7 @@ export const BookingsProvider = ({
                             stripe_payment_id: payload.new.stripe_payment_id,
                             created_at: payload.new.created_at,
                             refunded: payload.new.refunded ?? false,
-                            refunded_at: payload.new.refundedAt ?? null
+                            refunded_at: payload.new.refunded_at ?? null
                         }
                         return [...prev, newBooking]
                     })
@@ -65,6 +65,24 @@ export const BookingsProvider = ({
                 (payload) => {
                     setBookings((prev) =>
                         prev.filter((b) => b.id !== payload.old.id)
+                    )
+                }
+            )
+            // UPDATE
+            .on(
+                'postgres_changes',
+                { event: 'UPDATE', schema: 'public', table: 'bookings' },
+                (payload) => {
+                    setBookings((prev) =>
+                        prev.map((b) =>
+                            b.id === payload.new.id
+                                ? {
+                                      ...b,
+                                      refunded: payload.new.refunded,
+                                      refunded_at: payload.new.refunded_at
+                                  }
+                                : b
+                        )
                     )
                 }
             )

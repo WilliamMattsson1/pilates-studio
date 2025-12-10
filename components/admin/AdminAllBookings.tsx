@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 import DeleteModal from '../modals/DeleteItemModal'
+import RefundModal from '../modals/RefundModal'
 
 const FILTERS = [
     { key: 'upcoming', label: 'Upcoming' },
@@ -21,6 +22,15 @@ const FILTERS = [
 
 const AdminAllBookings = () => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+    const [isRefundModalOpen, setIsRefundModalOpen] = useState(false)
+    const [bookingToRefund, setBookingToRefund] = useState<BookingItem | null>(
+        null
+    )
+
+    const [isRefunding, setIsRefunding] = useState(false)
+    const [refundError, setRefundError] = useState<string | null>(null)
+    const [refundSuccess, setRefundSuccess] = useState(false)
+
     const { upcomingClasses, pastClasses } = useClasses()
     const { bookings, deleteBooking } = useBookings()
 
@@ -49,6 +59,41 @@ const AdminAllBookings = () => {
         deleteBooking(bookingToDelete.id)
         setIsDeleteModalOpen(false)
         setBookingToDelete(null)
+    }
+
+    const handleRefund = async (booking: BookingItem) => {
+        setIsRefunding(true)
+        setRefundError(null)
+        setRefundSuccess(false)
+
+        try {
+            const res = await fetch('/api/refund', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    payment_intent: booking.stripe_payment_id,
+                    booking_id: booking.id
+                })
+            })
+
+            const data = await res.json()
+
+            if (!res.ok) {
+                throw new Error(data.error || 'Refund failed')
+            }
+
+            if (data.alreadyRefunded) {
+                setRefundSuccess(true)
+                return
+            }
+
+            setRefundSuccess(true)
+        } catch (err: any) {
+            console.error(err)
+            setRefundError(err.message || 'Refund failed')
+        } finally {
+            setIsRefunding(false)
+        }
     }
 
     const classesToShow = filter === 'upcoming' ? upcomingClasses : pastClasses
@@ -165,12 +210,17 @@ const AdminAllBookings = () => {
                                                     !b.refunded && (
                                                         <button
                                                             onClick={() => {
-                                                                // Här ska en modal öppnas som bekräftar om admin vill göra refund till booking.id
+                                                                setBookingToRefund(
+                                                                    b
+                                                                )
+                                                                setIsRefundModalOpen(
+                                                                    true
+                                                                )
                                                             }}
-                                                            className="px-3 py-1 bg-yellow-500 text-white rounded hover:opacity-90 transition"
+                                                            className="px-3 py-2 bg-yellow-500 text-white rounded hover:opacity-90 transition"
                                                             aria-label="Refund booking"
                                                         >
-                                                            <Repeat size={16} />
+                                                            <Repeat size={14} />
                                                         </button>
                                                     )}
                                                 <button
@@ -180,10 +230,10 @@ const AdminAllBookings = () => {
                                                             true
                                                         )
                                                     }}
-                                                    className="px-3 py-1 bg-red-400 text-white rounded hover:opacity-90 transition"
+                                                    className="px-3 py-2 bg-red-400 text-white rounded hover:opacity-90 transition"
                                                     aria-label="Delete booking"
                                                 >
-                                                    <Trash2 size={20} />
+                                                    <Trash2 size={14} />
                                                 </button>
                                             </div>
                                         </div>
@@ -205,6 +255,28 @@ const AdminAllBookings = () => {
                     isOpen={isDeleteModalOpen}
                     onClose={() => setIsDeleteModalOpen(false)}
                     onConfirm={handleConfirmDelete}
+                />
+            )}
+
+            {bookingToRefund && (
+                <RefundModal
+                    booking={bookingToRefund}
+                    classInfo={classesToShow.find(
+                        (c) => c.id === bookingToRefund.class_id
+                    )}
+                    isOpen={isRefundModalOpen}
+                    onClose={() => {
+                        setIsRefundModalOpen(false)
+                        setBookingToRefund(null)
+                        setRefundError(null)
+                        setRefundSuccess(false)
+                    }}
+                    onConfirm={() =>
+                        bookingToRefund && handleRefund(bookingToRefund)
+                    }
+                    refundSuccess={refundSuccess}
+                    refundError={refundError}
+                    isRefunding={isRefunding}
                 />
             )}
         </div>
