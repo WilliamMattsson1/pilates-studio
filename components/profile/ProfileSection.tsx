@@ -9,9 +9,7 @@ import Link from 'next/link'
 
 const ProfileSection = () => {
     const { user } = useAuth()
-    const { profile, bookings, loading, cancelBooking } = useProfile(user?.id)
-
-    const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
+    const { profile, bookings, loading } = useProfile(user?.id)
 
     if (loading) return <p className="p-6 text-center">Loading...</p>
 
@@ -53,24 +51,22 @@ const ProfileSection = () => {
             )}
 
             <div className="mt-12">
-                <h2 className="text-2xl font-semibold pb-2">
-                    Upcoming Bookings
-                </h2>
+                <h2 className="text-2xl font-semibold ">Upcoming Bookings</h2>
                 {upcoming.length === 0 ? (
                     <p className="text-gray-500 text-center">
                         No upcoming bookings.
                     </p>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {upcoming.map((b) => (
-                            <BookingCard
-                                key={b.id}
-                                booking={b}
-                                onCancel={() => setSelectedBooking(b.id)}
-                                showCancel
-                            />
-                        ))}
-                    </div>
+                    <>
+                        <p className="text-sm text-gray-600 italic  mb-2">
+                            To cancel a booking, please contact your instructor.
+                        </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {upcoming.map((b) => (
+                                <BookingCard key={b.id} booking={b} />
+                            ))}
+                        </div>
+                    </>
                 )}
             </div>
 
@@ -90,23 +86,6 @@ const ProfileSection = () => {
                     </div>
                 )}
             </div>
-
-            {selectedBooking && (
-                <DeleteModal
-                    item={bookings.find((b) => b.id === selectedBooking)!}
-                    type="booking"
-                    classInfo={
-                        bookings.find((b) => b.id === selectedBooking)
-                            ?.classes || undefined
-                    }
-                    isOpen={!!selectedBooking}
-                    onClose={() => setSelectedBooking(null)}
-                    onConfirm={async () => {
-                        await cancelBooking(selectedBooking)
-                        setSelectedBooking(null)
-                    }}
-                />
-            )}
         </section>
     )
 }

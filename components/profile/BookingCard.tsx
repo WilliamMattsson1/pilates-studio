@@ -4,15 +4,9 @@ import { useBookings } from '@/context/BookingsContext'
 
 interface Props {
     booking: any
-    onCancel?: (id: string) => void
-    showCancel?: boolean
 }
 
-const BookingCard: React.FC<Props> = ({
-    booking,
-    onCancel,
-    showCancel = false
-}) => {
+const BookingCard: React.FC<Props> = ({ booking }) => {
     const { bookings } = useBookings()
 
     const bookedSpots = bookings.filter(
@@ -57,20 +51,6 @@ const BookingCard: React.FC<Props> = ({
                 >
                     {bookedSpots}/{maxSpots} booked
                 </p>
-
-                {showCancel && onCancel && (
-                    <button
-                        onClick={() => onCancel(booking.id)}
-                        className={`px-3 py-1 text-sm rounded-full font-semibold hover:cursor-pointer ${
-                            isFull
-                                ? 'bg-gray-400 text-white cursor-not-allowed'
-                                : 'bg-red-500 text-white hover:bg-red-600'
-                        }`}
-                        disabled={isFull}
-                    >
-                        Cancel
-                    </button>
-                )}
             </div>
         </div>
     )
