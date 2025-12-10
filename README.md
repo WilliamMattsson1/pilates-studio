@@ -44,6 +44,7 @@ The application’s functionality emphasizes robust UX and reliable data handlin
 * **Role-Based Access:** Secure sign-in using **Supabase Auth** with role verification enforced via **Middleware**.
 * **Management Tools:** Admins can CRUD (Create, Read, Update, Delete) classes, view key studio metrics, and manage manual bookings through a clean, tabbed interface.
 * **Data Overview:** Comprehensive filtering and views for all classes and bookings for easy management.
+* **Payment Management:** Admins can also handle **Stripe refunds directly from the admin panel**, giving full control over financial adjustments without touching the database manually.
 
 ### 3. 🎨 Custom Design & Branding
 * **Design System:** The entire visual design, including the **warm, elegant color palette**, **typography selection**, and component aesthetics (cards, grids, tab navigation), was **designed from scratch** to establish a professional & fancy Pilates brand identity.
