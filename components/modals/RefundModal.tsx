@@ -10,7 +10,7 @@ interface RefundModalProps {
     classInfo?: ClassItem
     isOpen: boolean
     onClose: () => void
-    onConfirm: () => void
+    onConfirm: (deleteAfterRefund: boolean) => void
     refundSuccess?: boolean
     refundError?: string | null
     isRefunding: boolean
@@ -28,6 +28,8 @@ const RefundModal = ({
 }: RefundModalProps) => {
     const [amount, setAmount] = useState<number | null>(null)
     const [currency, setCurrency] = useState<string | null>(null)
+
+    const [deleteAfterRefund, setDeleteAfterRefund] = useState(false)
 
     useEffect(() => {
         if (!booking || !isOpen) return
@@ -117,18 +119,47 @@ const RefundModal = ({
                     </div>
 
                     {refundError && !refundSuccess && (
-                        <p className="text-red-500 mt-2 text-sm">
-                            {refundError}
-                        </p>
+                        <div>
+                            <p className="bg-red-100 w-fit mx-auto py-2 px-4 rounded-full text-red-700 mt-2 text-sm">
+                                {refundError}adsfasdfasd
+                            </p>
+                        </div>
                     )}
                     {refundSuccess && (
-                        <p className="text-green-600 mt-2 text-sm">
-                            Refund succeeded!
-                        </p>
+                        <div>
+                            <p className="bg-green-100 w-fit mx-auto py-2 px-4 rounded-full text-green-700 mt-2 text-sm">
+                                Refund succeeded!{' '}
+                                {deleteAfterRefund
+                                    ? 'Booking also deleted successfully.'
+                                    : ''}
+                            </p>
+                        </div>
                     )}
                 </div>
 
                 <SectionDivider className="h-1 w-[70%] bg-icon my-5" />
+
+                <div className="mb-4 flex items-center justify-center gap-1">
+                    {!refundSuccess && !isRefunding && (
+                        <>
+                            <input
+                                type="checkbox"
+                                id="deleteBooking"
+                                checked={deleteAfterRefund}
+                                onChange={(e) =>
+                                    setDeleteAfterRefund(e.target.checked)
+                                }
+                                className="w-4 h-4"
+                            />
+                            <label
+                                htmlFor="deleteBooking"
+                                className="text-sm medium text-gray-700"
+                            >
+                                Remove booking from class after refund
+                            </label>
+                        </>
+                    )}
+                </div>
 
                 <div className="flex justify-center gap-4">
                     {!refundSuccess ? (
@@ -140,7 +171,7 @@ const RefundModal = ({
                                 Cancel
                             </button>
                             <button
-                                onClick={onConfirm}
+                                onClick={() => onConfirm(deleteAfterRefund)}
                                 disabled={isRefunding || !amount}
                                 className={`px-4 py-2 bg-yellow-500 text-white rounded-lg transition hover:bg-yellow-600 ${
                                     isRefunding || !amount

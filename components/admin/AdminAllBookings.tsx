@@ -61,7 +61,10 @@ const AdminAllBookings = () => {
         setBookingToDelete(null)
     }
 
-    const handleRefund = async (booking: BookingItem) => {
+    const handleRefund = async (
+        booking: BookingItem,
+        deleteAfterRefund: boolean
+    ) => {
         setIsRefunding(true)
         setRefundError(null)
         setRefundSuccess(false)
@@ -88,6 +91,11 @@ const AdminAllBookings = () => {
             }
 
             setRefundSuccess(true)
+
+            // Ta bort bokningen efter att refund gick igenom (om checkbox === checked)
+            if (deleteAfterRefund) {
+                deleteBooking(booking.id)
+            }
         } catch (err: any) {
             console.error(err)
             setRefundError(err.message || 'Refund failed')
@@ -271,9 +279,10 @@ const AdminAllBookings = () => {
                         setRefundError(null)
                         setRefundSuccess(false)
                     }}
-                    onConfirm={() =>
-                        bookingToRefund && handleRefund(bookingToRefund)
-                    }
+                    onConfirm={(deleteAfterRefund) => {
+                        if (bookingToRefund)
+                            handleRefund(bookingToRefund, deleteAfterRefund)
+                    }}
                     refundSuccess={refundSuccess}
                     refundError={refundError}
                     isRefunding={isRefunding}
