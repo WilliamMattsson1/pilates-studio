@@ -1,7 +1,5 @@
 'use client'
-import { useState } from 'react'
 import BookingCard from '@/components/profile/BookingCard'
-import DeleteModal from '@/components/modals/DeleteItemModal'
 import SectionDivider from '@/components/shared/ui/SectionDivider'
 import { useAuth } from '@/context/AuthContext'
 import { useProfile } from '@/hooks/useProfile'

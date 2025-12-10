@@ -1,12 +1,17 @@
 'use client'
-import React from 'react'
 import { useBookings } from '@/context/BookingsContext'
+import { BookingItem } from '@/types/bookings'
+import { ClassItem } from '@/types/classes'
 
-interface Props {
-    booking: any
+interface BookingWithClass extends BookingItem {
+    classes: ClassItem | null
 }
 
-const BookingCard: React.FC<Props> = ({ booking }) => {
+interface Props {
+    booking: BookingWithClass
+}
+
+const BookingCard = ({ booking }: Props) => {
     const { bookings } = useBookings()
 
     const bookedSpots = bookings.filter(
@@ -19,7 +24,7 @@ const BookingCard: React.FC<Props> = ({ booking }) => {
     return (
         <div
             className={`relative min-w-[250px] w-full sm:w-full rounded-lg shadow-md p-4 flex flex-col transition-shadow
-        ${isFull ? 'bg-gray-300' : 'bg-secondary-bg hover:shadow-lg'}`}
+            ${isFull ? 'bg-gray-300' : 'bg-secondary-bg hover:shadow-lg'}`}
         >
             <div className="mb-2">
                 <p
@@ -42,13 +47,8 @@ const BookingCard: React.FC<Props> = ({ booking }) => {
                 </p>
             </div>
 
-            {/* Footer */}
             <div className="mt-auto flex items-center justify-between">
-                <p
-                    className={`text-xs ${
-                        isFull ? 'text-gray-500' : 'text-gray-500'
-                    }`}
-                >
+                <p className={`text-xs text-gray-500`}>
                     {bookedSpots}/{maxSpots} booked
                 </p>
             </div>
