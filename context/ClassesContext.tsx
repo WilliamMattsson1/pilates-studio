@@ -111,6 +111,7 @@ export const ClassesProvider = ({
         } catch (err: any) {
             console.log('Error adding class', err.message)
             setError(err.message)
+            throw err
         } finally {
             setLoading(false)
         }
@@ -130,8 +131,8 @@ export const ClassesProvider = ({
             if (!res.ok) throw new Error(data.error || 'Failed to update class')
         } catch (err: any) {
             console.log('Error updating class', err.message)
-
             setError(err.message)
+            throw err
         } finally {
             setLoading(false)
         }
@@ -150,6 +151,7 @@ export const ClassesProvider = ({
         } catch (err: any) {
             console.log('Error deleting class', err.message)
             setError(err.message)
+            throw err
         } finally {
             setLoading(false)
         }

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
+import { requireAdmin } from '@/utils/server/auth'
 
 export async function GET() {
     const supabase = await createClient()
@@ -24,6 +25,7 @@ export async function POST(req: Request) {
     const supabase = await createClient()
 
     try {
+        await requireAdmin()
         const body = await req.json()
 
         if (
@@ -56,7 +58,7 @@ export async function POST(req: Request) {
     } catch (err: any) {
         return NextResponse.json(
             { data: null, error: err.message },
-            { status: 500 }
+            { status: 403 }
         )
     }
 }

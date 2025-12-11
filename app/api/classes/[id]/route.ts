@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
+import { requireAdmin } from '@/utils/server/auth'
 
 export async function PUT(
     req: Request,
@@ -9,22 +10,31 @@ export async function PUT(
     const { id } = resolvedParams
 
     const supabase = await createClient()
-    const body = await req.json()
 
-    const { data, error } = await supabase
-        .from('classes')
-        .update(body)
-        .eq('id', id)
-        .select()
-        .single()
+    try {
+        await requireAdmin()
+        const body = await req.json()
 
-    if (error)
+        const { data, error } = await supabase
+            .from('classes')
+            .update(body)
+            .eq('id', id)
+            .select()
+            .single()
+
+        if (error)
+            return NextResponse.json(
+                { data: null, error: error.message },
+                { status: 500 }
+            )
+
+        return NextResponse.json({ data, error: null })
+    } catch (err: any) {
         return NextResponse.json(
-            { data: null, error: error.message },
-            { status: 500 }
+            { data: null, error: err.message },
+            { status: 403 }
         )
-
-    return NextResponse.json({ data, error: null })
+    }
 }
 
 export async function DELETE(
@@ -36,17 +46,26 @@ export async function DELETE(
 
     const supabase = await createClient()
 
-    const { data, error } = await supabase
-        .from('classes')
-        .delete()
-        .eq('id', id)
-        .select()
+    try {
+        await requireAdmin()
 
-    if (error)
+        const { data, error } = await supabase
+            .from('classes')
+            .delete()
+            .eq('id', id)
+            .select()
+
+        if (error)
+            return NextResponse.json(
+                { data: null, error: error.message },
+                { status: 500 }
+            )
+
+        return NextResponse.json({ data, error: null })
+    } catch (err: any) {
         return NextResponse.json(
-            { data: null, error: error.message },
-            { status: 500 }
+            { data: null, error: err.message },
+            { status: 403 }
         )
-
-    return NextResponse.json({ data, error: null })
+    }
 }

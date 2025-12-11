@@ -148,7 +148,7 @@ const AdminAllClasses = () => {
                         deleteClass(classToDelete.id)
                         setIsDeleteModalOpen(false)
                         setClassToDelete(null)
-                        toast.success('Class deleted successfully!')
+                        toast.success('Class deleted successfully!!')
                     }}
                 />
             )}
