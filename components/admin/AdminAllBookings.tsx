@@ -14,6 +14,7 @@ import {
 import { useState } from 'react'
 import DeleteModal from '../modals/DeleteItemModal'
 import RefundModal from '../modals/RefundModal'
+import { useAdminBookings } from '@/hooks/useAdminBookings'
 
 const FILTERS = [
     { key: 'upcoming', label: 'Upcoming' },
@@ -32,7 +33,9 @@ const AdminAllBookings = () => {
     const [refundSuccess, setRefundSuccess] = useState(false)
 
     const { upcomingClasses, pastClasses } = useClasses()
-    const { bookings, deleteBooking } = useBookings()
+    const { deleteBooking } = useBookings()
+
+    const { bookings, fetchBookings } = useAdminBookings()
 
     const [expandedClasses, setExpandedClasses] = useState<string[]>([
         upcomingClasses[0]?.id || ''
@@ -54,11 +57,18 @@ const AdminAllBookings = () => {
     const getBookingsForClass = (cls: ClassItem) =>
         bookings.filter((b) => b.class_id === cls.id)
 
-    const handleConfirmDelete = () => {
+    const handleConfirmDelete = async () => {
         if (!bookingToDelete) return
-        deleteBooking(bookingToDelete.id)
-        setIsDeleteModalOpen(false)
-        setBookingToDelete(null)
+
+        try {
+            await deleteBooking(bookingToDelete.id)
+            setBookingToDelete(null)
+            setIsDeleteModalOpen(false)
+            fetchBookings()
+        } catch (err) {
+            console.error(err)
+        }
+        fetchBookings()
     }
 
     const handleRefund = async (
@@ -74,7 +84,7 @@ const AdminAllBookings = () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    payment_intent: booking.stripe_payment_id,
+                    payment_intent: booking.details.stripe_payment_id,
                     booking_id: booking.id
                 })
             })
@@ -94,8 +104,9 @@ const AdminAllBookings = () => {
 
             // Ta bort bokningen efter att refund gick igenom (om checkbox === checked)
             if (deleteAfterRefund) {
-                deleteBooking(booking.id)
+                await deleteBooking(booking.id)
             }
+            fetchBookings()
         } catch (err: any) {
             console.error(err)
             setRefundError(err.message || 'Refund failed')
@@ -188,34 +199,38 @@ const AdminAllBookings = () => {
                                                 />
                                                 <div>
                                                     <p className="font-medium">
-                                                        {b.guest_name || ''}
+                                                        {b.details
+                                                            ?.guest_name || ''}
                                                     </p>
                                                     <p
                                                         className={` ${
-                                                            b.guest_email &&
-                                                            !b.guest_name
+                                                            b.details
+                                                                ?.guest_email &&
+                                                            !b.details
+                                                                .guest_name
                                                                 ? 'font-medium text-black'
                                                                 : 'text-gray-600 text-sm'
                                                         }`}
                                                     >
-                                                        {b.guest_email || ''}
+                                                        {b.details
+                                                            ?.guest_email || ''}
                                                     </p>
                                                 </div>
                                             </div>
-                                            {b.refunded && (
+                                            {b.details.refunded && (
                                                 <span className="px-4 py-2 text-xs font-semibold bg-red-100 text-red-800 rounded-full">
                                                     Refunded
                                                 </span>
                                             )}
 
-                                            {!b.stripe_payment_id && (
+                                            {!b.details.stripe_payment_id && (
                                                 <span className="px-4 py-2 text-xs font-semibold bg-gray-300 text-gray-800 rounded-full">
                                                     Manual
                                                 </span>
                                             )}
                                             <div className="flex gap-2">
-                                                {b.stripe_payment_id &&
-                                                    !b.refunded && (
+                                                {b.details.stripe_payment_id &&
+                                                    !b.details.refunded && (
                                                         <button
                                                             onClick={() => {
                                                                 setBookingToRefund(

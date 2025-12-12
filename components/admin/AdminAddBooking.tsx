@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Menu, MenuItem, MenuItems, MenuButton } from '@headlessui/react'
 import { useBookings } from '@/context/BookingsContext'
 import { useClasses } from '@/context/ClassesContext'
-import { BookingItem } from '@/types/bookings'
+import { NewBookingDetail } from '@/types/bookings'
 import { ClassItem } from '@/types/classes'
 import { Calendar, User, Mail, ChevronDown } from 'lucide-react'
 import { toast } from 'react-toastify'
@@ -43,13 +43,10 @@ const AdminAddBooking = () => {
 
         setIsSubmitting(true)
 
-        const newBooking: Omit<BookingItem, 'id' | 'created_at'> = {
+        const newBooking: NewBookingDetail = {
             class_id: selectedClassId,
             guest_name: guestName || 'Anonymous',
-            guest_email: guestEmail || '',
-            stripe_payment_id: null,
-            refunded: false,
-            refunded_at: null
+            guest_email: guestEmail || ''
         }
 
         addBooking(newBooking)

@@ -1,3 +1,5 @@
+// Används inte just nu
+
 import { createClient } from '@/utils/supabase/server'
 
 export async function isClassFull(classId: string) {

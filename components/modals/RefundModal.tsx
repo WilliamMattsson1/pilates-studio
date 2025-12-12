@@ -43,7 +43,7 @@ const RefundModal = ({
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        payment_intent: booking.stripe_payment_id
+                        payment_intent: booking.details.stripe_payment_id
                     })
                 })
                 const data = await res.json()
@@ -87,16 +87,18 @@ const RefundModal = ({
 
                 <div className="text-center mb-6">
                     <p className="font-semibold text-lg">
-                        {booking.guest_name ||
-                            booking.guest_email ||
+                        {booking.details.guest_name ||
+                            booking.details.guest_email ||
                             'Anonymous'}
                     </p>
-                    {booking.guest_email && (
-                        <p className="text-gray-600">{booking.guest_email}</p>
+                    {booking.details.guest_email && (
+                        <p className="text-gray-600">
+                            {booking.details.guest_email}
+                        </p>
                     )}
                     {classInfo && (
                         <p className="mt-3 text-gray-500 italic">
-                            {classInfo.title} — {classInfo.date} |{' '}
+                            {classInfo.title} | {classInfo.date} |{' '}
                             {classInfo.start_time} - {classInfo.end_time}
                         </p>
                     )}
@@ -121,7 +123,7 @@ const RefundModal = ({
                     {refundError && !refundSuccess && (
                         <div>
                             <p className="bg-red-100 w-fit mx-auto py-2 px-4 rounded-full text-red-700 mt-2 text-sm">
-                                {refundError}adsfasdfasd
+                                {refundError}
                             </p>
                         </div>
                     )}

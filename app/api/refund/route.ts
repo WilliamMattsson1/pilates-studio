@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import { createClient } from '@/utils/supabase/server'
+import { requireAdmin } from '@/utils/server/auth'
 
 export async function POST(req: Request) {
     const supabase = await createClient()
+
+    await requireAdmin()
 
     try {
         const { payment_intent, booking_id } = await req.json()
@@ -16,13 +19,13 @@ export async function POST(req: Request) {
         }
 
         // Kolla om den redan är refunded
-        const { data: booking } = await supabase
-            .from('bookings')
+        const { data: details } = await supabase
+            .from('booking_details')
             .select('refunded')
-            .eq('id', booking_id)
+            .eq('booking_id', booking_id)
             .single()
 
-        if (booking?.refunded) {
+        if (details?.refunded) {
             return NextResponse.json({ success: false, alreadyRefunded: true })
         }
 
@@ -49,12 +52,12 @@ export async function POST(req: Request) {
         }
 
         const { error: dbError } = await supabase
-            .from('bookings')
+            .from('booking_details')
             .update({
                 refunded: true,
                 refunded_at: new Date().toISOString()
             })
-            .eq('id', booking_id)
+            .eq('booking_id', booking_id)
 
         if (dbError) {
             return NextResponse.json(

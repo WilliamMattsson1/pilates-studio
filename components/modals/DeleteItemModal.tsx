@@ -30,8 +30,8 @@ const DeleteModal = ({
     const title =
         type === 'class'
             ? (item as ClassItem).title
-            : (item as BookingItem).guest_name ||
-              (item as BookingItem).guest_email ||
+            : (item as BookingItem).details.guest_name ||
+              (item as BookingItem).details.guest_email ||
               'Anonymous'
 
     const date = type === 'class' ? (item as ClassItem).date : ''

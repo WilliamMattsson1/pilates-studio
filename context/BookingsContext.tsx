@@ -1,17 +1,15 @@
 'use client'
 
 import { createContext, useState, useContext, useEffect } from 'react'
-import { BookingItem } from '@/types/bookings'
+import { Booking, NewBookingDetail } from '@/types/bookings'
 import { toast } from 'react-toastify'
 import { createClient } from '@/utils/supabase/client'
 
 interface BookingsContextType {
-    bookings: BookingItem[]
+    bookings: Booking[]
     loading: boolean
     error: string | null
-    addBooking: (
-        booking: Omit<BookingItem, 'id' | 'created_at'>
-    ) => Promise<void>
+    addBooking: (booking: NewBookingDetail) => Promise<void>
     deleteBooking: (id: string) => Promise<void>
     refreshBookings: () => Promise<void>
 }
@@ -26,7 +24,7 @@ export const BookingsProvider = ({
     children: React.ReactNode
 }) => {
     const supabase = createClient()
-    const [bookings, setBookings] = useState<BookingItem[]>([])
+    const [bookings, setBookings] = useState<Booking[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
@@ -43,16 +41,10 @@ export const BookingsProvider = ({
                     setBookings((prev) => {
                         if (prev.find((b) => b.id === payload.new.id))
                             return prev
-                        const newBooking: BookingItem = {
+                        const newBooking: Booking = {
                             id: payload.new.id,
                             class_id: payload.new.class_id,
-                            user_id: payload.new.user_id,
-                            guest_name: payload.new.guest_name,
-                            guest_email: payload.new.guest_email,
-                            stripe_payment_id: payload.new.stripe_payment_id,
-                            created_at: payload.new.created_at,
-                            refunded: payload.new.refunded ?? false,
-                            refunded_at: payload.new.refunded_at ?? null
+                            created_at: payload.new.created_at
                         }
                         return [...prev, newBooking]
                     })
@@ -65,24 +57,6 @@ export const BookingsProvider = ({
                 (payload) => {
                     setBookings((prev) =>
                         prev.filter((b) => b.id !== payload.old.id)
-                    )
-                }
-            )
-            // UPDATE
-            .on(
-                'postgres_changes',
-                { event: 'UPDATE', schema: 'public', table: 'bookings' },
-                (payload) => {
-                    setBookings((prev) =>
-                        prev.map((b) =>
-                            b.id === payload.new.id
-                                ? {
-                                      ...b,
-                                      refunded: payload.new.refunded,
-                                      refunded_at: payload.new.refunded_at
-                                  }
-                                : b
-                        )
                     )
                 }
             )
@@ -113,9 +87,7 @@ export const BookingsProvider = ({
         }
     }
 
-    const addBooking = async (
-        booking: Omit<BookingItem, 'id' | 'created_at'>
-    ) => {
+    const addBooking = async (booking: NewBookingDetail) => {
         setLoading(true)
         setError(null)
 
@@ -157,6 +129,7 @@ export const BookingsProvider = ({
             console.log('Error deleting booking', err.message)
             setError(err.message)
             toast.error(err.message || 'Failed to delete booking.')
+            throw err
         } finally {
             setLoading(false)
         }
