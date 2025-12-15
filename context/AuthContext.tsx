@@ -99,17 +99,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                 throw error
             }
 
-            const user = data.user
-            if (!user) throw new Error('User was not returned')
-            const { error: profileError } = await supabase
-                .from('profiles')
-                .insert({
-                    id: user.id,
-                    name: name,
-                    email: email
-                })
+            if (!data.user) throw new Error('User was not returned')
 
-            if (profileError) throw profileError
+            const res = await fetch('/api/profiles', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email })
+            })
+            const result = await res.json()
+            if (!res.ok || result.error) {
+                throw new Error(result.error || 'Failed to create profile')
+            }
 
             setSession(data.session ?? null)
             setUser(data.session?.user ?? null)
