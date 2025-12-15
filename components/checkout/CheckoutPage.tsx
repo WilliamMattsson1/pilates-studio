@@ -43,6 +43,17 @@ const CheckoutPage = ({
     const [clientSecret, setClientSecret] = useState('')
     const [loading, setLoading] = useState(false)
 
+    const customerName = user ? profile?.name : guestName
+    const customerEmail = user ? user?.email : guestEmail
+
+    if (!customerName || !customerEmail) {
+        return (
+            <div className="p-6 text-center text-red-600">
+                Missing booking contact information
+            </div>
+        )
+    }
+
     const paymentElementOptions: StripePaymentElementOptions = {
         paymentMethodOrder: ['card'],
         layout: {
@@ -114,8 +125,8 @@ const CheckoutPage = ({
                     })
 
                     await sendBookingEmail({
-                        guestName: user ? profile?.name : guestName,
-                        guestEmail: (user ? user?.email : guestEmail)!,
+                        guestName: customerName,
+                        guestEmail: customerEmail,
                         classTitle: title,
                         classDate: date,
                         classTime: `${startTime} - ${endTime}`,

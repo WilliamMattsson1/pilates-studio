@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/utils/supabase/server'
 import { requireAdmin } from '@/utils/server/auth'
+import { supabaseAdmin } from '@/utils/supabase/admin'
 
 export async function DELETE(
     req: Request,
@@ -11,9 +11,7 @@ export async function DELETE(
     const resolvedParams = await params
     const { id } = resolvedParams
 
-    const supabase = await createClient()
-
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
         .from('bookings')
         .delete()
         .eq('id', id)

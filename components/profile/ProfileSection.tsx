@@ -41,9 +41,9 @@ const ProfileSection = () => {
                 <div className="mt-4 text-center">
                     <Link
                         href="/admin/overview"
-                        className="inline-block px-6 py-3 bg-btn text-white rounded-lg font-medium hover:bg-btn-hovertransition"
+                        className="inline-block px-6 py-3 bg-btn hover:bg-btn-hover text-white rounded-lg font-medium hover:bg-btn-hovertransition"
                     >
-                        Go to Admin Panel
+                        Admin Panel
                     </Link>
                 </div>
             )}
