@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/utils/supabase/server'
 import { requireAdmin } from '@/utils/server/auth'
+import { supabaseAdmin } from '@/utils/supabase/admin'
 
 export async function PUT(
     req: Request,
@@ -9,13 +9,11 @@ export async function PUT(
     const resolvedParams = await params
     const { id } = resolvedParams
 
-    const supabase = await createClient()
-
     try {
         await requireAdmin()
         const body = await req.json()
 
-        const { data, error } = await supabase
+        const { data, error } = await supabaseAdmin
             .from('classes')
             .update(body)
             .eq('id', id)
@@ -44,12 +42,10 @@ export async function DELETE(
     const resolvedParams = await params
     const { id } = resolvedParams
 
-    const supabase = await createClient()
-
     try {
         await requireAdmin()
 
-        const { data, error } = await supabase
+        const { data, error } = await supabaseAdmin
             .from('classes')
             .delete()
             .eq('id', id)
@@ -60,6 +56,13 @@ export async function DELETE(
                 { data: null, error: error.message },
                 { status: 500 }
             )
+
+        if (!data || data.length === 0) {
+            return NextResponse.json(
+                { data: null, error: 'Unauthorized or class not found' },
+                { status: 403 }
+            )
+        }
 
         return NextResponse.json({ data, error: null })
     } catch (err: any) {

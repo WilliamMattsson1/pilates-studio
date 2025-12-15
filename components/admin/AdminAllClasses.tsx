@@ -144,11 +144,18 @@ const AdminAllClasses = () => {
                     type="class"
                     isOpen={isDeleteModalOpen}
                     onClose={() => setIsDeleteModalOpen(false)}
-                    onConfirm={() => {
-                        deleteClass(classToDelete.id)
-                        setIsDeleteModalOpen(false)
-                        setClassToDelete(null)
-                        toast.success('Class deleted successfully!!')
+                    onConfirm={async () => {
+                        if (!classToDelete) return
+
+                        try {
+                            await deleteClass(classToDelete.id)
+                            toast.success('Class deleted successfully!!')
+                            setIsDeleteModalOpen(false)
+                            setClassToDelete(null)
+                        } catch (err: any) {
+                            toast.error(err.message || 'Failed to delete class')
+                            setIsDeleteModalOpen(false)
+                        }
                     }}
                 />
             )}

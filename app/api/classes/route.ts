@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
+import { supabaseAdmin } from '@/utils/supabase/admin'
 import { requireAdmin } from '@/utils/server/auth'
 
 export async function GET() {
@@ -22,8 +23,6 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-    const supabase = await createClient()
-
     try {
         await requireAdmin()
         const body = await req.json()
@@ -41,7 +40,7 @@ export async function POST(req: Request) {
             )
         }
 
-        const { data, error } = await supabase
+        const { data, error } = await supabaseAdmin
             .from('classes')
             .insert(body)
             .select()
