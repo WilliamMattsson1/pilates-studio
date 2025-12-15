@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
-import { createClient } from '@/utils/supabase/server'
 import { requireAdmin } from '@/utils/server/auth'
+import { supabaseAdmin } from '@/utils/supabase/admin'
 
 export async function POST(req: Request) {
-    const supabase = await createClient()
-
     await requireAdmin()
 
     try {
@@ -19,7 +17,7 @@ export async function POST(req: Request) {
         }
 
         // Kolla om den redan är refunded
-        const { data: details } = await supabase
+        const { data: details } = await supabaseAdmin
             .from('booking_details')
             .select('refunded')
             .eq('booking_id', booking_id)
@@ -51,7 +49,7 @@ export async function POST(req: Request) {
             )
         }
 
-        const { error: dbError } = await supabase
+        const { error: dbError } = await supabaseAdmin
             .from('booking_details')
             .update({
                 refunded: true,

@@ -30,17 +30,17 @@ const BookingModal = () => {
 
     const isFull = bookedSpots >= selectedClass.max_spots
 
-    const alreadyBooked = bookings.some((b) => {
-        const isSameClass = b.class_id === selectedClass.id
+    // const alreadyBooked = bookings.some((b) => {
+    //     const isSameClass = b.class_id === selectedClass.id
 
-        if (isLoggedIn) {
-            const isSameUser = b.user_id === user.id
-            return isSameClass && isSameUser
-        } else {
-            const isSameGuest = b.guest_email === guestEmail
-            return isSameClass && isSameGuest
-        }
-    })
+    //     if (isLoggedIn) {
+    //         const isSameUser = b.user_id === user.id
+    //         return isSameClass && isSameUser
+    //     } else {
+    //         const isSameGuest = b.guest_email === guestEmail
+    //         return isSameClass && isSameGuest
+    //     }
+    // })
 
     const handleBooking = async () => {
         if (isFull) {
@@ -182,13 +182,13 @@ const BookingModal = () => {
                 </p>
 
                 <CancellationPolicy className="mb-2" />
-                {alreadyBooked && !isFull && (
+                {/* {alreadyBooked && !isFull && (
                     <p className="mb-2 text-sm text-yellow-600 flex items-center gap-1">
                         <AlertTriangle size={16} />
                         You have already booked this class. Are you sure you
                         want to book again?
                     </p>
-                )}
+                )} */}
                 <button
                     onClick={handleBooking}
                     disabled={isFull}

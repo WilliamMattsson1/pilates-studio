@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
 import { Calendar, Clock, User } from 'lucide-react'
-import convertToSubcurrency from '@/utils/convertToSubcurrency'
 import { useRouter } from 'next/navigation'
 import { useBookings } from '@/context/BookingsContext'
 import { useAuth } from '@/context/AuthContext'
@@ -43,16 +42,8 @@ const CheckoutPage = ({
     const [clientSecret, setClientSecret] = useState('')
     const [loading, setLoading] = useState(false)
 
-    const customerName = user ? profile?.name : guestName
-    const customerEmail = user ? user?.email : guestEmail
-
-    if (!customerName || !customerEmail) {
-        return (
-            <div className="p-6 text-center text-red-600">
-                Missing booking contact information
-            </div>
-        )
-    }
+    const customerName = guestName || profile?.name || ''
+    const customerEmail = guestEmail || user?.email || ''
 
     const paymentElementOptions: StripePaymentElementOptions = {
         paymentMethodOrder: ['card'],
@@ -62,8 +53,8 @@ const CheckoutPage = ({
         },
         defaultValues: {
             billingDetails: {
-                name: guestName || '',
-                email: guestEmail || ''
+                name: customerName || '',
+                email: customerEmail || ''
             }
         }
     }
@@ -74,11 +65,11 @@ const CheckoutPage = ({
             headers: {
                 'Content-Type': 'Application/json'
             },
-            body: JSON.stringify({ amount: convertToSubcurrency(amount) })
+            body: JSON.stringify({ classId })
         })
             .then((res) => res.json())
             .then((data) => setClientSecret(data.clientSecret))
-    }, [amount])
+    }, [classId])
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()

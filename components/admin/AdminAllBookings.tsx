@@ -207,7 +207,7 @@ const AdminAllBookings = () => {
                                                             b.details
                                                                 ?.guest_email &&
                                                             !b.details
-                                                                .guest_name
+                                                                ?.guest_name
                                                                 ? 'font-medium text-black'
                                                                 : 'text-gray-600 text-sm'
                                                         }`}
@@ -217,20 +217,20 @@ const AdminAllBookings = () => {
                                                     </p>
                                                 </div>
                                             </div>
-                                            {b.details.refunded && (
+                                            {b.details?.refunded && (
                                                 <span className="px-4 py-2 text-xs font-semibold bg-red-100 text-red-800 rounded-full">
                                                     Refunded
                                                 </span>
                                             )}
 
-                                            {!b.details.stripe_payment_id && (
+                                            {!b.details?.stripe_payment_id && (
                                                 <span className="px-4 py-2 text-xs font-semibold bg-gray-300 text-gray-800 rounded-full">
                                                     Manual
                                                 </span>
                                             )}
                                             <div className="flex gap-2">
-                                                {b.details.stripe_payment_id &&
-                                                    !b.details.refunded && (
+                                                {b.details?.stripe_payment_id &&
+                                                    !b.details?.refunded && (
                                                         <button
                                                             onClick={() => {
                                                                 setBookingToRefund(

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { BookingItem, NewBookingDetail } from '@/types/bookings'
+import { supabaseAdmin } from '@/utils/supabase/admin'
 
 export async function GET() {
     const supabase = await createClient()
@@ -61,7 +62,7 @@ export async function POST(req: Request) {
             throw insertError || new Error('Booking insert failed')
 
         // Lägg till detaljer i booking_details
-        const { data: details, error: detailsError } = await supabase
+        const { data: details, error: detailsError } = await supabaseAdmin
             .from('booking_details')
             .insert([
                 {
