@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 const ProfileSection = () => {
     const { user } = useAuth()
-    const { profile, bookings, loading } = useProfile(user?.id)
+    const { profile, bookings, loading, isAdmin } = useProfile(user?.id)
 
     if (loading) return <p className="p-6 text-center">Loading...</p>
 
@@ -37,7 +37,7 @@ const ProfileSection = () => {
                 </p>
             </header>
 
-            {profile?.is_admin && (
+            {isAdmin && (
                 <div className="mt-4 text-center">
                     <Link
                         href="/admin/overview"
