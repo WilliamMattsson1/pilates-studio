@@ -171,7 +171,7 @@ const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
                                 onChange={(e) =>
                                     setMaxSpots(Number(e.target.value))
                                 }
-                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition"
+                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition w-full"
                                 required
                             />
                         </div>
@@ -192,7 +192,7 @@ const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
                                 onChange={(e) =>
                                     setPrice(Number(e.target.value))
                                 }
-                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition"
+                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition w-full"
                                 required
                             />
                         </div>

@@ -19,7 +19,7 @@ const TopNavbar = ({ currentNavLabel, onMenuClick }: TopNavbarProps) => {
         router.push('/')
     }
     return (
-        <header className="h-16 bg-primary-bg/60 flex items-center justify-between px-4">
+        <header className="h-16 bg-primary-bg/60 flex items-center justify-between px-4 w-full max-w-[100vw]">
             <div className="flex items-center gap-3">
                 <button className="md:hidden" onClick={onMenuClick}>
                     <Menu className="w-6 h-6" />
