@@ -4,12 +4,9 @@ import Link from 'next/link'
 const Hero = () => {
     return (
         <section
-            className=" w-full min-h-[91vh] md:min-h-[90vh] flex items-center justify-center text-white "
-            style={{
-                backgroundImage: `url('/images/hero.png')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center'
-            }}
+            className="w-full min-h-[91vh] md:min-h-[90vh] flex items-center justify-center text-white
+            bg-[url('/images/hero-mobile.png')] sm:bg-[url('/images/hero.png')]
+            bg-cover bg-center"
         >
             <div className="text-center px-6 max-w-3xl">
                 <h1 className="text-3xl md:text-6xl font-bold mb-4 md:mb-2 fancy-font tracking-wide leading-tight">
