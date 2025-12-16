@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 const ClassesHero = () => {
     return (
-        <section className="w-full bg-secondary-bg py-16 px-6 md:px-20 flex flex-col lg:flex-row items-center gap-10 lg:gap-0">
+        <section className="w-full bg-secondary-bg py-16 px-6 md:px-20 flex flex-col lg:flex-row items-center gap-10 lg:gap-0 relative">
             <div className="flex-1 flex flex-col gap-8">
                 <div>
                     <h1 className="text-4xl md:text-5xl font-extrabold text-center lg:text-left fancy-font tracking-wide leading-tight">
@@ -79,7 +79,7 @@ const ClassesHero = () => {
 
                 <Link
                     href="#available-classes"
-                    className="hidden lg:flex absolute bottom-6 left-1/2 transform -translate-x-1/2  flex-col items-center animate-bounce "
+                    className="hidden lg:flex absolute bottom-8 left-1/2 transform -translate-x-1/2 flex-col items-center animate-bounce "
                 >
                     <DownArrow color="#704f44" />
                 </Link>
