@@ -14,9 +14,7 @@ interface Profile {
 }
 
 interface ProfilesContextType {
-    profiles: Profile[]
     activeStudents: number
-    reloadProfiles: () => void
 }
 
 const ProfilesContext = createContext<ProfilesContextType | undefined>(
@@ -39,9 +37,7 @@ export const ProfilesProvider = ({ children }: { children: ReactNode }) => {
     return (
         <ProfilesContext.Provider
             value={{
-                profiles,
-                activeStudents: profiles.length,
-                reloadProfiles: fetchProfiles
+                activeStudents: profiles.length
             }}
         >
             {children}

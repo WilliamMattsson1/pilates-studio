@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
+import { supabaseAdmin } from '@/utils/supabase/admin'
 
 export async function GET() {
-    const supabase = await createClient()
-
-    const { data, error } = await supabase.from('profiles').select('*')
+    const { data, error } = await supabaseAdmin.from('profiles').select('*')
 
     if (error) {
         return NextResponse.json({ error: error.message }, { status: 500 })
@@ -36,7 +35,7 @@ export async function POST(req: Request) {
         }
 
         // Insert utan is_admin
-        const { error } = await supabase
+        const { error } = await supabaseAdmin
             .from('profiles')
             .insert({ id: user.id, name, email })
 
