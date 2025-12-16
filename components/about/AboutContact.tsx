@@ -4,6 +4,7 @@ import Link from 'next/link'
 import TitleHeader from '../shared/TitleHeader'
 import { ArrowRight, Mail, Phone, MapPin } from 'lucide-react'
 import SectionDivider from '../shared/ui/SectionDivider'
+import Image from 'next/image'
 
 const socials = [
     {
@@ -77,7 +78,7 @@ const AboutContact = () => {
                                 rel="noreferrer"
                                 className="hover:-translate-y-0.5 transition-all duration-300"
                             >
-                                <img
+                                <Image
                                     src={s.icon}
                                     alt={s.name}
                                     width={28}

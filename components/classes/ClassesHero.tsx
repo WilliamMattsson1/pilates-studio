@@ -3,6 +3,7 @@
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import DownArrow from '../shared/ui/DownArrow'
+import Image from 'next/image'
 
 const ClassesHero = () => {
     return (
@@ -85,10 +86,13 @@ const ClassesHero = () => {
             </div>
 
             <div className="flex-1 flex justify-center lg:justify-end w-full max-w-lg">
-                <img
+                <Image
                     src="/images/classes-hero.png"
                     alt="Pilates Classes Hero"
                     className="rounded-lg shadow-xl w-64 sm:w-72 md:w-80 lg:w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-sm"
+                    width={480}
+                    height={320}
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                 />
             </div>
         </section>

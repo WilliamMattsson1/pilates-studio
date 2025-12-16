@@ -5,6 +5,7 @@ import { Mail, Lock, User } from 'lucide-react'
 import TitleHeader from './TitleHeader'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 
 type AuthFormProps = {
     initialMode?: 'signIn' | 'signUp'
@@ -53,11 +54,14 @@ export default function AuthForm({ initialMode = 'signIn' }: AuthFormProps) {
                 alignment="center"
             />
             <div className="lg:max-w-4xl  mx-auto mt-6 rounded-lg bg-secondary-bg shadow-xl overflow-hidden flex flex-col md:flex-row">
-                <div className="hidden md:flex md:w-1/2 h-58 md:h-auto max-h-[70vh]">
-                    <img
+                <div className="hidden md:flex md:w-1/2 h-58 md:h-[70vh] max-h-[70vh] relative">
+                    <Image
                         src="/images/signup-image.png"
                         alt="Pilates"
-                        className="w-full h-full object-cover"
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        priority
                     />
                 </div>
 

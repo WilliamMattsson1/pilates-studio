@@ -1,5 +1,6 @@
 'use client'
 import { useAuth } from '@/context/AuthContext'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -31,7 +32,13 @@ const Navbar = () => {
         >
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 font-extrabold">
-                <img src="/images/logo.png" alt="logo" width={55} />
+                <Image
+                    src="/images/logo.png"
+                    alt="logo"
+                    width={55}
+                    height={55}
+                    priority
+                />
             </Link>
 
             {/* Desktop Nav */}

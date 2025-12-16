@@ -3,6 +3,7 @@
 import { ArrowRight } from 'lucide-react'
 import TitleHeader from '../shared/TitleHeader'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const ClassesDetailSections = () => {
     return (
@@ -60,20 +61,24 @@ const ClassesDetailSections = () => {
                 </div>
 
                 <div className="flex-[45%] flex justify-end">
-                    <img
+                    <Image
                         src="/images/reformer-pilates.png"
                         alt="Reformer Pilates"
                         className="w-full max-w-sm md:max-w-md lg:max-w-lg rounded-lg shadow-lg object-contain"
+                        width={600}
+                        height={600}
                     />
                 </div>
             </div>
 
             <div className="flex flex-col lg:flex-row items-center gap-8">
                 <div className="flex-[45%]">
-                    <img
+                    <Image
                         src="/images/core-pilates.png"
                         alt="Core Pilates"
                         className="rounded-lg shadow-lg w-full max-w-lg hidden md:block"
+                        width={600}
+                        height={600}
                     />
                 </div>
 

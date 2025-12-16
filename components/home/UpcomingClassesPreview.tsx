@@ -8,6 +8,7 @@ import SkeletonClassCard from '../shared/ui/SkeletonClassCard'
 import { ClassItem } from '@/types/classes'
 import { useClasses } from '@/context/ClassesContext'
 import NoUpcomingClasses from '../shared/NoUpcomingClasses'
+import Image from 'next/image'
 
 const UpcomingClassesPreview = () => {
     const { upcomingClasses, loading } = useClasses()
@@ -66,10 +67,14 @@ const UpcomingClassesPreview = () => {
 
                 {/* Right: Image */}
                 <div className="lg:w-[40%] flex lg:justify-end items-center mx-auto">
-                    <img
+                    <Image
                         src="/images/pilates-room.png"
                         alt="Pilates Room"
+                        width={600}
+                        height={400}
                         className="rounded-md shadow-lg w-full max-w-xl"
+                        style={{ height: 'auto' }}
+                        sizes="(max-width: 1024px) 100vw, 40vw"
                     />
                 </div>
             </div>

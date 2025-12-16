@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
 const Footer = () => {
@@ -29,7 +30,13 @@ const Footer = () => {
     return (
         <footer className="flex flex-col bg-secondary-bg items-center justify-around w-full py-8 text-black">
             <div className="flex flex-col items-center gap-8">
-                <img src="/images/logo.png" alt="logo" width={120} />
+                <Image
+                    src="/images/logo.png"
+                    alt="logo"
+                    width={120}
+                    height={120}
+                    priority
+                />
 
                 <div className="flex items-center gap-6">
                     {footerLinks.map((l, i) => (
@@ -54,7 +61,7 @@ const Footer = () => {
                             target="_blank"
                             className="hover:-translate-y-0.5 transition-all duration-300"
                         >
-                            <img
+                            <Image
                                 src={s.icon}
                                 alt={s.name}
                                 width={24}

@@ -5,6 +5,7 @@ import SectionDivider from '@/components/shared/ui/SectionDivider'
 import type { LucideIcon } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 interface SidebarProps {
     navItems: { label: string; href: string; icon: LucideIcon }[]
@@ -30,7 +31,13 @@ export const Sidebar = ({
         <>
             {/* Desktop sidebar */}
             <aside className="hidden md:flex w-64 bg-primary-bg/60 flex-col p-6">
-                <img src="/images/logo.png" className="mx-auto w-26" />
+                <Image
+                    src="/images/logo.png"
+                    alt="Logo"
+                    width={140}
+                    height={140}
+                    className="mx-auto"
+                />
                 <SectionDivider className="bg-btn/60 h-1 w-full my-6" />
                 <h2 className="text-2xl font-semibold text-left fancy-font tracking-widest">
                     <Wrench size={34} className="inline-block mr-2 " />
@@ -110,9 +117,12 @@ export const Sidebar = ({
                             })}
                         </nav>
                         <SectionDivider className="bg-icon h-1 w-full my-6" />
-                        <img
+                        <Image
                             src="/images/logo.png"
-                            className="mx-auto w-26 mt-6"
+                            alt="Logo"
+                            width={100}
+                            height={100}
+                            className="mx-auto"
                         />
                     </aside>
                 </>

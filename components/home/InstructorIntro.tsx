@@ -3,6 +3,7 @@
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import TitleHeader from '../shared/TitleHeader'
+import Image from 'next/image'
 
 const InstructorIntro = () => {
     return (
@@ -15,17 +16,23 @@ const InstructorIntro = () => {
             <div className="py-6 px-6 md:px-16 lg:px-24 flex flex-col lg:flex-row items-center gap-6">
                 {/* Bild */}
                 <div className="w-full md:w-1/2 flex justify-center">
-                    <img
+                    <Image
                         src="/images/instructor.png"
                         alt="Instructor"
-                        className="rounded-md shadow-lg md:max-w-md max-w-[90%]"
+                        width={500}
+                        height={600}
+                        className="rounded-md shadow-lg w-full max-w-md"
+                        style={{ height: 'auto' }}
+                        sizes="(max-width: 768px) 100vw, 50vw"
                     />
                 </div>
 
                 {/* Text */}
                 <div className="w-full md:w-[40%] flex flex-col justify-center gap-4 text-center lg:text-left mt-6 lg:mt-0">
-                    <h3 className="text-2xl md:text-3xl font-bol">Jane Doe</h3>
-                    <p className="text-lg font-medium text-gray-700">
+                    <h3 className="text-2xl md:text-3xl font-medium">
+                        Jane Doe
+                    </h3>
+                    <p className=" text-md md:text-lg font-medium text-left text-gray-700">
                         Certified Pilates Instructor with over 5 years of
                         experience helping clients improve strength,
                         flexibility, and overall well-being. I focus on tailored
