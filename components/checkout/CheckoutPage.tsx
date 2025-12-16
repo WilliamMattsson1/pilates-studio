@@ -54,7 +54,8 @@ const CheckoutPage = ({
         defaultValues: {
             billingDetails: {
                 name: customerName || '',
-                email: customerEmail || ''
+                email: customerEmail || '',
+                phone: 'never'
             }
         }
     }

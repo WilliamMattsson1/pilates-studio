@@ -76,7 +76,6 @@ const BookingModal = () => {
         params.set('date', bookingData.date)
         params.set('startTime', bookingData.startTime)
         params.set('endTime', bookingData.endTime)
-        params.set('price', bookingData.price.toString())
         params.set('guestName', bookingData.guestName || '')
         params.set('guestEmail', bookingData.guestEmail || '')
 
