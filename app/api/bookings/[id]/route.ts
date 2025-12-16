@@ -8,29 +8,35 @@ export async function DELETE(
 ) {
     await requireAdmin()
 
-    const resolvedParams = await params
-    const { id } = resolvedParams
+    try {
+        const resolvedParams = await params
+        const { id } = resolvedParams
 
-    const { data, error } = await supabaseAdmin
-        .from('bookings')
-        .delete()
-        .eq('id', id)
-        .select()
+        const { data, error } = await supabaseAdmin
+            .from('bookings')
+            .delete()
+            .eq('id', id)
+            .select()
 
-    if (error) {
-        console.error(`Failed to delete booking ${id}:`, error)
+        if (error) {
+            return NextResponse.json(
+                { data: null, error: error.message },
+                { status: 500 }
+            )
+        }
+
+        if (!data || data.length === 0) {
+            return NextResponse.json(
+                { data: null, error: 'Booking not found' },
+                { status: 404 }
+            )
+        }
+
+        return NextResponse.json({ data, error: null })
+    } catch (err: any) {
         return NextResponse.json(
-            { data: null, error: error.message },
-            { status: 500 }
+            { data: null, error: err.message },
+            { status: err.message === 'Unauthorized' ? 403 : 500 }
         )
     }
-
-    if (!data || data.length === 0) {
-        return NextResponse.json(
-            { data: null, error: 'Booking not found' },
-            { status: 404 }
-        )
-    }
-
-    return NextResponse.json({ data, error: null })
 }

@@ -4,9 +4,9 @@ import { requireAdmin } from '@/utils/server/auth'
 import { supabaseAdmin } from '@/utils/supabase/admin'
 
 export async function GET() {
-    try {
-        await requireAdmin()
+    await requireAdmin()
 
+    try {
         // Hämta alla bookings
         const { data: bookings, error: bookingsError } = await supabaseAdmin
             .from('bookings')

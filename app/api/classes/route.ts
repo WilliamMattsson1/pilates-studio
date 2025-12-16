@@ -23,8 +23,9 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+    await requireAdmin()
+
     try {
-        await requireAdmin()
         const body = await req.json()
 
         if (

@@ -9,8 +9,9 @@ export async function PUT(
     const resolvedParams = await params
     const { id } = resolvedParams
 
+    await requireAdmin()
+
     try {
-        await requireAdmin()
         const body = await req.json()
 
         const { data, error } = await supabaseAdmin
@@ -42,9 +43,9 @@ export async function DELETE(
     const resolvedParams = await params
     const { id } = resolvedParams
 
-    try {
-        await requireAdmin()
+    await requireAdmin()
 
+    try {
         const { data, error } = await supabaseAdmin
             .from('classes')
             .delete()
