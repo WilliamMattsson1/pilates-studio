@@ -4,11 +4,12 @@ import { useState } from 'react'
 import { useBookings } from '@/context/BookingsContext'
 import { useBookingModal } from '@/context/BookingModalContext'
 import { toast } from 'react-toastify'
-import { User, Mail, Calendar, AlertTriangle } from 'lucide-react'
+import { User, Mail, Calendar } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useProfile } from '@/hooks/useProfile'
 import { useRouter } from 'next/navigation'
 import CancellationPolicy from '../shared/CancellationPolicy'
+import { isStripeEnabled } from '@/lib/payments/stripeEnabled'
 
 const BookingModal = () => {
     const { isOpen, selectedClass, closeModal } = useBookingModal()
@@ -79,7 +80,13 @@ const BookingModal = () => {
         params.set('guestName', bookingData.guestName || '')
         params.set('guestEmail', bookingData.guestEmail || '')
 
-        router.push(`/checkout?${params.toString()}`)
+        // Frontend väljer endast vilken sida vi navigerar till.
+        // Själva valet av betalningsleverantör är alltid
+        // säkrat på serversidan via STRIPE_ENABLED-flaggan.
+        const basePath = isStripeEnabled()
+            ? '/checkout/stripe'
+            : '/checkout/swish'
+        router.push(`${basePath}?${params.toString()}`)
 
         handleClose()
     }

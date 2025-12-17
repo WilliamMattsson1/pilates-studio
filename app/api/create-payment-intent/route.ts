@@ -2,9 +2,22 @@ import { NextRequest, NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import convertToSubcurrency from '@/utils/convertToSubcurrency'
 import { supabaseAdmin } from '@/utils/supabase/admin'
+import { isStripeEnabled } from '@/lib/payments/stripeEnabled'
 
 export async function POST(request: NextRequest) {
     try {
+        // Server-auktoritativ feature flag:
+        // när STRIPE_ENABLED === 'false' får inga Stripe-betalningar
+        // påbörjas, även om någon försöker anropa API:t manuellt.
+        if (!isStripeEnabled()) {
+            return NextResponse.json(
+                {
+                    error: 'Card payments are temporarily paused. Please use Swish instead.'
+                },
+                { status: 503 }
+            )
+        }
+
         const { classId } = await request.json()
         const { data, error } = await supabaseAdmin
             .from('classes')

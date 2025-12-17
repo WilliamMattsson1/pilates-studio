@@ -1,5 +1,5 @@
 'use client'
-import CheckoutPage from '@/components/checkout/CheckoutPage'
+import StripeCheckoutPage from '@/components/checkout/StripeCheckoutPage'
 import { useClasses } from '@/context/ClassesContext'
 import convertToSubcurrency from '@/utils/convertToSubcurrency'
 import { Elements } from '@stripe/react-stripe-js'
@@ -41,7 +41,7 @@ const page = () => {
                     currency: 'sek'
                 }}
             >
-                <CheckoutPage
+                <StripeCheckoutPage
                     amount={amount}
                     classId={classId}
                     title={title}

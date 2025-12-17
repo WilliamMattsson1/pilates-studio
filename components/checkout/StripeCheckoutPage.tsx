@@ -10,7 +10,7 @@ import { StripePaymentElementOptions } from '@stripe/stripe-js'
 import CancellationPolicy from '../shared/CancellationPolicy'
 import { sendBookingEmail } from '@/utils/sendBookingEmail'
 
-interface CheckoutPageProps {
+interface StripeCheckoutPageProps {
     amount: number
     classId?: string
     title: string
@@ -21,7 +21,7 @@ interface CheckoutPageProps {
     guestEmail?: string
 }
 
-const CheckoutPage = ({
+const StripeCheckoutPage = ({
     amount,
     classId,
     title,
@@ -30,7 +30,7 @@ const CheckoutPage = ({
     endTime,
     guestName,
     guestEmail
-}: CheckoutPageProps) => {
+}: StripeCheckoutPageProps) => {
     const stripe = useStripe()
     const elements = useElements()
     const router = useRouter()
@@ -89,7 +89,6 @@ const CheckoutPage = ({
         }
 
         // confirm payment
-
         const { paymentIntent, error }: { paymentIntent?: any; error?: any } =
             await stripe.confirmPayment({
                 elements,
@@ -227,4 +226,4 @@ const CheckoutPage = ({
     )
 }
 
-export default CheckoutPage
+export default StripeCheckoutPage
