@@ -37,6 +37,7 @@ export const Sidebar = ({
                     width={140}
                     height={140}
                     className="mx-auto"
+                    loading="eager"
                 />
                 <SectionDivider className="bg-btn/60 h-1 w-full my-6" />
                 <h2 className="text-2xl font-semibold text-left fancy-font tracking-widest">
@@ -123,6 +124,7 @@ export const Sidebar = ({
                             width={100}
                             height={100}
                             className="mx-auto"
+                            loading="eager"
                         />
                     </aside>
                 </>

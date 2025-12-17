@@ -1,20 +1,3 @@
-// Gamla sättet
-// interface BookingItem {
-//     id: string // int8 i Supabase, men vi kan använda string i frontend
-//     class_id: string // uuid - referens till ClassItem.id
-//     user_id?: string // uuid om inloggad användare, nullable för gäster
-//     guest_name?: string // text - om !user, nullable för user
-//     guest_email?: string // text - om !user, nullable för user
-//     stripe_payment_id: string | null // Payment id från stripe för att koppla bokning till betalning
-//     created_at: string // timestamptz → ISO-datum, t.ex. "2025-10-01T10:00:00Z"
-//     refunded: boolean // boolean → true om bokningen har blivit refunded, false annars
-//     refunded_at?: string | null // timestamptz → ISO-datum när refund skedde, nullable om ej refunded
-// }
-
-// export type { BookingItem }
-
-// public med realtime updates för client
-
 interface Booking {
     id: string // PK int8 i supabase, använder string i frontend
     class_id: string // uuid, FK → classes.id (uuid) anger vilken klass bokningen tillhör
@@ -29,6 +12,8 @@ interface BookingDetail {
     guest_name: string | null // Gästens namn om bokning !user
     guest_email: string | null // Email för user och !user
     stripe_payment_id: string | null // stripe payment intent ID om bokningen betalats
+    payment_method: 'manual' | 'stripe' | 'swish' // ny kolumn som anger betalningsmetod
+    swish_received: boolean // ny kolumn som visar om Swish-betalning mottagits (false)
     refunded: boolean // true om refunded, false default
     refunded_at: string | null // Tid för refund
     created_at: string // timestamptz
@@ -45,6 +30,8 @@ interface NewBookingDetail {
     guest_name?: string // name oavsett om user eller !user
     guest_email?: string // --||--
     stripe_payment_id?: string // Sker via stripe
+    payment_method?: 'manual' | 'stripe' | 'swish' // ny optional vid skapande
+    swish_received?: boolean // ny optional vid skapande
 }
 
 export type { Booking, BookingDetail, BookingItem, NewBookingDetail }

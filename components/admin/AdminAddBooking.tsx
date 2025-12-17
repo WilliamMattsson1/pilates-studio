@@ -16,6 +16,7 @@ const AdminAddBooking = () => {
     const [guestName, setGuestName] = useState('')
     const [guestEmail, setGuestEmail] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [isPaid, setIsPaid] = useState(false)
 
     const selectedClass = upcomingClasses.find((c) => c.id === selectedClassId)
 
@@ -46,7 +47,9 @@ const AdminAddBooking = () => {
         const newBooking: NewBookingDetail = {
             class_id: selectedClassId,
             guest_name: guestName || 'Anonymous',
-            guest_email: guestEmail || ''
+            guest_email: guestEmail || '',
+            payment_method: 'manual',
+            swish_received: isPaid
         }
 
         addBooking(newBooking)
@@ -55,10 +58,11 @@ const AdminAddBooking = () => {
         setGuestName('')
         setGuestEmail('')
         setIsSubmitting(false)
+        setIsPaid(false)
     }
 
     return (
-        <div className="w-full max-w-lg mx-auto bg-primary-bg shadow-lg rounded-lg p-6 mt-4">
+        <div className="w-full max-w-[90%] md:max-w-lg mx-auto bg-primary-bg shadow-lg rounded-lg p-6 mt-4">
             <h2 className="text-xl font-semibold mb-4 text-center">
                 Add Booking
             </h2>
@@ -179,6 +183,19 @@ const AdminAddBooking = () => {
                             className="bg-transparent outline-none flex-1"
                         />
                     </div>
+                </div>
+
+                <div className="flex items-center gap-2 ">
+                    <input
+                        type="checkbox"
+                        id="isPaid"
+                        checked={isPaid}
+                        onChange={(e) => setIsPaid(e.target.checked)}
+                        className="h-4 w-4 accent-btn my-1 ml-1"
+                    />
+                    <label htmlFor="isPaid" className="text-sm font-medium">
+                        Customer have paid already
+                    </label>
                 </div>
 
                 <button

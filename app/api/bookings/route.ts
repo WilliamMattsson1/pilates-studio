@@ -71,6 +71,10 @@ export async function POST(req: Request) {
                     guest_name: body.guest_name ?? null,
                     guest_email: body.guest_email ?? null,
                     stripe_payment_id: body.stripe_payment_id ?? null,
+                    payment_method:
+                        body.payment_method ??
+                        (body.stripe_payment_id ? 'stripe' : 'manual'),
+                    swish_received: body.swish_received ?? false,
                     refunded: false,
                     created_at: new Date().toISOString()
                 }

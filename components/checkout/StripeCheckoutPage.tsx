@@ -112,7 +112,9 @@ const StripeCheckoutPage = ({
                         user_id: user?.id,
                         guest_name: user ? profile?.name : guestName,
                         guest_email: user ? user?.email : guestEmail,
-                        stripe_payment_id: paymentIntent.id
+                        stripe_payment_id: paymentIntent.id,
+                        payment_method: 'stripe',
+                        swish_received: false
                     })
 
                     await sendBookingEmail({

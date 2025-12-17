@@ -49,8 +49,9 @@ const SwishCheckoutPage: React.FC<SwishCheckoutPageProps> = ({
                 user_id: user?.id,
                 guest_name: customerName,
                 guest_email: customerEmail,
-                stripe_payment_id: undefined
-                // payment_method: 'swish_manual'
+                stripe_payment_id: undefined,
+                payment_method: 'swish',
+                swish_received: false
             })
 
             const params = new URLSearchParams()
