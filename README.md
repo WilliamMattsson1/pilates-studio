@@ -38,7 +38,10 @@ The application’s functionality emphasizes robust UX and reliable data handlin
 * **Seamless Booking Flow:** Multi-step booking process with strong frontend validation for simplicity and reliability.
 * **Real-Time Capacity:** Automatic handling of class maximum spots. The UI reflects available spots in real-time, disabling booking buttons when a class is full.
 * **User Experience:** Classes are displayed in a clean, week-grouped overview. Implemented **skeleton loading states** for a smooth, professional feel while data is being fetched.
-* **Payment & Confirmation:** Full **Stripe Checkout** integration followed by a confirmation page with **react-confetti** and an automated confirmation email sent via **Resend**.
+* **Payment & Confirmation:** Full **Stripe Checkout** integration with a confirmation page featuring **react-confetti** and automated email notifications via **Resend**.
+* **Admin Payment Management:** Admins can issue **refunds for completed bookings directly from the dashboard**, giving full control over financial adjustments without manually touching the database.
+* **Payment Fallback:** A **Swish payment option** has been implemented as a manual fallback. This flow is activated when the server-side feature flag `STRIPE_ENABLED` is set to `false`, allowing users to complete bookings even if card payments are temporarily disabled. Swish payments require manual verification before confirmation.
+
 
 ### 2. 🛡️ Secure & Metrics-Driven Admin Dashboard
 * **Role-Based Access:** Secure sign-in using **Supabase Auth** with role verification enforced via **Middleware**.
