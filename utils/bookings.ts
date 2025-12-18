@@ -52,7 +52,7 @@ export const getBookingStatus = (booking: BookingItem) => {
 
 export const isBookingPaid = (booking: BookingItem, isRefunded: boolean) => {
     return (
-        booking.details?.swish_received ||
+        (booking.details?.swish_received && !isRefunded) ||
         (booking.details?.stripe_payment_id != null && !isRefunded)
     )
 }
