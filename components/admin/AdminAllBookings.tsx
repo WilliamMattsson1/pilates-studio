@@ -10,6 +10,7 @@ import RefundModal from '../modals/RefundModal'
 import { useAdminBookings } from '@/hooks/useAdminBookings'
 import BookingCard from './BookingCard'
 import { getBookingStatus } from '@/utils/bookings'
+import MarkAsPaidModal from '../modals/MarkAsPaidModal'
 
 const FILTERS = [
     { key: 'upcoming', label: 'Upcoming' },
@@ -18,27 +19,36 @@ const FILTERS = [
 
 const AdminAllBookings = () => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+    const [bookingToDelete, setBookingToDelete] = useState<BookingItem | null>(
+        null
+    )
+
     const [isRefundModalOpen, setIsRefundModalOpen] = useState(false)
     const [bookingToRefund, setBookingToRefund] = useState<BookingItem | null>(
         null
     )
-
     const [isRefunding, setIsRefunding] = useState(false)
     const [refundError, setRefundError] = useState<string | null>(null)
     const [refundSuccess, setRefundSuccess] = useState(false)
 
+    const [isMarkingPaid, setIsMarkingPaid] = useState(false)
+    const [markPaidError, setMarkPaidError] = useState<string | null>(null)
+    const [markPaidSuccess, setMarkPaidSuccess] = useState(false)
+
+    const [isBookingToMarkAsPaidModalOpen, setIsBookingToMarkAsPaidModalOpen] =
+        useState(false)
+    const [bookingToMarkAsPaid, setBookingToMarkAsPaid] =
+        useState<BookingItem | null>(null)
+
     const { upcomingClasses, pastClasses } = useClasses()
     const { deleteBooking, markBookingAsPaid } = useBookings()
-
     const { bookings, fetchBookings } = useAdminBookings()
+
+    const [filter, setFilter] = useState<'upcoming' | 'past'>('upcoming')
 
     const [expandedClasses, setExpandedClasses] = useState<string[]>([
         upcomingClasses[0]?.id || ''
     ])
-    const [bookingToDelete, setBookingToDelete] = useState<BookingItem | null>(
-        null
-    )
-    const [filter, setFilter] = useState<'upcoming' | 'past'>('upcoming')
 
     const toggleExpand = (classId: string) => {
         setExpandedClasses(
@@ -108,12 +118,20 @@ const AdminAllBookings = () => {
         }
     }
 
-    const handleMarkPaid = async (bookingId: string) => {
+    const handleMarkPaid = async (booking: BookingItem) => {
+        setIsMarkingPaid(true)
+        setMarkPaidError(null)
+        setMarkPaidSuccess(false)
+
         try {
-            await markBookingAsPaid(bookingId)
+            await markBookingAsPaid(booking.id)
+            setMarkPaidSuccess(true)
             fetchBookings()
-        } catch (err) {
+        } catch (err: any) {
             console.error('Failed to mark booking as paid', err)
+            setMarkPaidError(err.message || 'Failed to mark as paid')
+        } finally {
+            setIsMarkingPaid(false)
         }
     }
 
@@ -203,7 +221,6 @@ const AdminAllBookings = () => {
                                             <BookingCard
                                                 key={b.id}
                                                 booking={b}
-                                                handleMarkPaid={handleMarkPaid}
                                                 setBookingToRefund={
                                                     setBookingToRefund
                                                 }
@@ -215,6 +232,12 @@ const AdminAllBookings = () => {
                                                 }
                                                 setIsDeleteModalOpen={
                                                     setIsDeleteModalOpen
+                                                }
+                                                setBookingToMarkAsPaid={
+                                                    setBookingToMarkAsPaid
+                                                }
+                                                setIsBookingToMarkAsPaidModalOpen={
+                                                    setIsBookingToMarkAsPaidModalOpen
                                                 }
                                                 isRefunded={isRefunded}
                                                 status={status}
@@ -261,6 +284,30 @@ const AdminAllBookings = () => {
                     refundSuccess={refundSuccess}
                     refundError={refundError}
                     isRefunding={isRefunding}
+                />
+            )}
+
+            {bookingToMarkAsPaid && (
+                <MarkAsPaidModal
+                    booking={bookingToMarkAsPaid}
+                    classInfo={classesToShow.find(
+                        (c) => c.id === bookingToMarkAsPaid.class_id
+                    )}
+                    isOpen={isBookingToMarkAsPaidModalOpen}
+                    onClose={() => {
+                        setIsBookingToMarkAsPaidModalOpen(false)
+                        setBookingToMarkAsPaid(null)
+                        setMarkPaidError(null)
+                        setMarkPaidSuccess(false)
+                        setIsMarkingPaid(false)
+                    }}
+                    onConfirm={() => {
+                        if (bookingToMarkAsPaid)
+                            handleMarkPaid(bookingToMarkAsPaid)
+                    }}
+                    success={markPaidSuccess}
+                    error={markPaidError}
+                    isProcessing={isMarkingPaid}
                 />
             )}
         </div>

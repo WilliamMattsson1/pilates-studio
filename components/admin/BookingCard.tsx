@@ -5,22 +5,25 @@ import { CheckCircle2, Repeat, Trash2, User } from 'lucide-react'
 
 interface BookingCardProps {
     booking: BookingItem
-    handleMarkPaid: (bookingId: string) => Promise<void>
     setBookingToRefund: (booking: BookingItem | null) => void
     setIsRefundModalOpen: (open: boolean) => void
     setBookingToDelete: (booking: BookingItem | null) => void
     setIsDeleteModalOpen: (open: boolean) => void
+    setBookingToMarkAsPaid: (booking: BookingItem | null) => void
+    setIsBookingToMarkAsPaidModalOpen: (open: boolean) => void
+
     isRefunded: boolean
     status: { label: string; bgColor: string; textColor: string }
 }
 
 const BookingCard = ({
     booking: b,
-    handleMarkPaid,
     setBookingToRefund,
     setIsRefundModalOpen,
     setBookingToDelete,
     setIsDeleteModalOpen,
+    setBookingToMarkAsPaid,
+    setIsBookingToMarkAsPaidModalOpen,
     isRefunded,
     status
 }: BookingCardProps) => {
@@ -29,9 +32,11 @@ const BookingCard = ({
     return (
         <div
             className={`rounded-lg px-3 py-3 border ${
-                !isPaid
-                    ? 'bg-red-100 border-red-300'
-                    : 'bg-card/70 border-secondary-bg text-black'
+                isRefunded
+                    ? 'bg-gray-200 border-gray-200 text-gray-500'
+                    : !isPaid
+                      ? 'bg-red-100 border-red-300'
+                      : 'bg-card/70 border-secondary-bg text-black'
             } shadow-sm`}
         >
             <div className="flex items-center justify-between gap-2">
@@ -65,7 +70,10 @@ const BookingCard = ({
                     <div className="flex items-center gap-2">
                         {requiresManualPaymentConfirmation && (
                             <button
-                                onClick={() => handleMarkPaid(b.id)}
+                                onClick={() => {
+                                    setBookingToMarkAsPaid(b)
+                                    setIsBookingToMarkAsPaidModalOpen(true)
+                                }}
                                 className="
                                     flex items-center justify-center
                                     w-10 h-10

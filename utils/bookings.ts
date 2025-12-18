@@ -4,8 +4,8 @@ export const getBookingStatus = (booking: BookingItem) => {
     if (booking.details?.refunded) {
         return {
             label: 'Refunded',
-            bgColor: 'bg-gray-100',
-            textColor: 'text-gray-700'
+            bgColor: 'bg-gray-300',
+            textColor: 'text-gray-800'
         }
     }
 
