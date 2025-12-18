@@ -9,7 +9,7 @@ import DeleteModal from '../modals/DeleteItemModal'
 import RefundModal from '../modals/RefundModal'
 import { useAdminBookings } from '@/hooks/useAdminBookings'
 import BookingCard from './BookingCard'
-import { getBookingStatus } from '@/utils/bookings'
+import { getBookingStatus, isBookingPaid } from '@/utils/bookings'
 import MarkAsPaidModal from '../modals/MarkAsPaidModal'
 
 const FILTERS = [
@@ -163,19 +163,33 @@ const AdminAllBookings = () => {
                 const bookedCount = clsBookings.length
                 const isFull = bookedCount >= cls.max_spots
 
+                const hasUnpaidBookings = clsBookings.some((b) => {
+                    const isRefunded = Boolean(b.details?.refunded)
+                    return !isRefunded && !isBookingPaid(b, isRefunded)
+                })
+
                 return (
                     <div
                         key={cls.id}
-                        className="shadow-lg rounded-xl bg-primary-bg overflow-hidden"
+                        className={`shadow-lg rounded-xl overflow-hidden transition bg-primary-bg
+                                        ${hasUnpaidBookings && ' border border-red-300'}`}
                     >
                         <div
-                            className="flex justify-between items-center p-4 cursor-pointer"
+                            className={`flex justify-between items-center p-4 cursor-pointer  ${hasUnpaidBookings && ' border border-red-100 bg-red-50'}`}
                             onClick={() => toggleExpand(cls.id)}
                         >
                             <div>
-                                <h3 className="font-semibold text-lg">
-                                    {cls.title}
-                                </h3>
+                                <div className="flex items-center gap-2">
+                                    <h3 className="font-semibold text-lg">
+                                        {cls.title}
+                                    </h3>
+
+                                    {hasUnpaidBookings && (
+                                        <span className="text-[10px] font-bold bg-red-400 text-white px-2 py-1 rounded-full">
+                                            Unpaid Bookings
+                                        </span>
+                                    )}
+                                </div>
                                 <p className="text-gray-600 text-sm flex items-center mt-1">
                                     <Calendar
                                         size={14}
