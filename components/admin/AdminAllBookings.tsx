@@ -9,7 +9,8 @@ import {
     Users,
     User,
     Trash2,
-    Repeat
+    Repeat,
+    CheckCircle2
 } from 'lucide-react'
 import { useState } from 'react'
 import DeleteModal from '../modals/DeleteItemModal'
@@ -33,7 +34,7 @@ const AdminAllBookings = () => {
     const [refundSuccess, setRefundSuccess] = useState(false)
 
     const { upcomingClasses, pastClasses } = useClasses()
-    const { deleteBooking } = useBookings()
+    const { deleteBooking, markBookingAsPaid } = useBookings()
 
     const { bookings, fetchBookings } = useAdminBookings()
 
@@ -64,7 +65,6 @@ const AdminAllBookings = () => {
             await deleteBooking(bookingToDelete.id)
             setBookingToDelete(null)
             setIsDeleteModalOpen(false)
-            fetchBookings()
         } catch (err) {
             console.error(err)
         }
@@ -102,7 +102,6 @@ const AdminAllBookings = () => {
 
             setRefundSuccess(true)
 
-            // Ta bort bokningen efter att refund gick igenom (om checkbox === checked)
             if (deleteAfterRefund) {
                 await deleteBooking(booking.id)
             }
@@ -112,6 +111,66 @@ const AdminAllBookings = () => {
             setRefundError(err.message || 'Refund failed')
         } finally {
             setIsRefunding(false)
+        }
+    }
+
+    const handleMarkPaid = async (bookingId: string) => {
+        try {
+            await markBookingAsPaid(bookingId)
+            fetchBookings()
+        } catch (err) {
+            console.error('Failed to mark booking as paid', err)
+        }
+    }
+
+    // Funktion för att bestämma badge-variant baserat på status
+    const getBookingStatus = (booking: BookingItem) => {
+        if (booking.details?.refunded) {
+            return {
+                label: 'Refunded',
+                bgColor: 'bg-gray-100',
+                textColor: 'text-gray-700'
+            }
+        }
+
+        if (booking.details?.stripe_payment_id) {
+            return {
+                label: 'Paid (Stripe)',
+                bgColor: 'bg-green-200',
+                textColor: 'text-green-800'
+            }
+        }
+
+        if (booking.details?.swish_received) {
+            const method = booking.details?.payment_method
+
+            if (method === 'swish') {
+                return {
+                    label: 'Paid (Swish)',
+                    bgColor: 'bg-green-200',
+                    textColor: 'text-green-700'
+                }
+            }
+
+            if (method === 'manual') {
+                return {
+                    label: 'Paid (Manual)',
+                    bgColor: 'bg-green-200',
+                    textColor: 'text-green-700'
+                }
+            }
+
+            return {
+                label: 'Paid',
+                bgColor: 'bg-green-200',
+                textColor: 'text-green-700'
+            }
+        }
+
+        return {
+            label: 'Unpaid',
+            bgColor: 'bg-red-300',
+            textColor: 'text-red-800'
         }
     }
 
@@ -144,15 +203,17 @@ const AdminAllBookings = () => {
                 return (
                     <div
                         key={cls.id}
-                        className="shadow-lg rounded-md bg-primary-bg overflow-hidden "
+                        className="shadow-lg rounded-xl bg-primary-bg overflow-hidden"
                     >
                         <div
                             className="flex justify-between items-center p-4 cursor-pointer"
                             onClick={() => toggleExpand(cls.id)}
                         >
                             <div>
-                                <h3 className="font-semibold">{cls.title}</h3>
-                                <p className="text-gray-600 text-sm flex items-center">
+                                <h3 className="font-semibold text-lg">
+                                    {cls.title}
+                                </h3>
+                                <p className="text-gray-600 text-sm flex items-center mt-1">
                                     <Calendar
                                         size={14}
                                         className="inline mr-2"
@@ -161,7 +222,7 @@ const AdminAllBookings = () => {
                                     {cls.end_time}
                                 </p>
                                 <p
-                                    className={`font-medium text-sm flex items-center ${
+                                    className={`font-medium text-sm flex items-center mt-1 ${
                                         isFull
                                             ? 'text-red-500'
                                             : 'text-green-600'
@@ -187,80 +248,147 @@ const AdminAllBookings = () => {
                                         No bookings yet.
                                     </p>
                                 ) : (
-                                    clsBookings.map((b) => (
-                                        <div
-                                            key={b.id}
-                                            className="flex justify-between items-center p-3 bg-secondary-bg/50 rounded-md"
-                                        >
-                                            <div className="flex items-center">
-                                                <User
-                                                    size={26}
-                                                    className="mr-2"
-                                                />
-                                                <div>
-                                                    <p className="font-medium">
-                                                        {b.details
-                                                            ?.guest_name || ''}
-                                                    </p>
-                                                    <p
-                                                        className={` ${
-                                                            b.details
-                                                                ?.guest_email &&
-                                                            !b.details
-                                                                ?.guest_name
-                                                                ? 'font-medium text-black'
-                                                                : 'text-gray-600 text-sm'
-                                                        }`}
-                                                    >
-                                                        {b.details
-                                                            ?.guest_email || ''}
-                                                    </p>
+                                    clsBookings.map((b) => {
+                                        const status = getBookingStatus(b)
+                                        const isPaid =
+                                            b.details?.swish_received ||
+                                            (b.details?.stripe_payment_id !=
+                                                null &&
+                                                !b.details?.refunded)
+                                        const isRefunded = b.details?.refunded
+
+                                        return (
+                                            <div
+                                                key={b.id}
+                                                className={`rounded-lg px-3 py-3 border ${!isPaid ? 'bg-red-100 border-red-300' : 'bg-card/70 border-secondary-bg text-black'} shadow-sm`}
+                                            >
+                                                <div className="flex items-center justify-between gap-2">
+                                                    {/* Guest info - left */}
+                                                    <div className="flex items-center flex-1 min-w-0">
+                                                        <div className="p-2 rounded-full shrink-0">
+                                                            <User
+                                                                size={22}
+                                                                className="text-gray-700"
+                                                            />
+                                                        </div>
+                                                        <div className="flex-1 min-w-0">
+                                                            <p className="font-semibold text-gray-900 truncate">
+                                                                {b.details
+                                                                    ?.guest_name ||
+                                                                    ''}
+                                                            </p>
+                                                            <p className="text-sm text-gray-600 break-all">
+                                                                {b.details
+                                                                    ?.guest_email ||
+                                                                    ''}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Badge + Buttons - right */}
+                                                    <div className="flex flex-col items-end gap-2 shrink-0">
+                                                        <span
+                                                            className={`
+                                                                inline-flex items-center
+                                                                px-3 py-1.5 rounded-md text-xs font-medium
+                                                                ${status.bgColor} ${status.textColor}
+                                                            `}
+                                                        >
+                                                            {status.label}
+                                                        </span>
+
+                                                        <div className="flex items-center gap-2">
+                                                            {/* TODO make better logic and name */}
+                                                            {!isPaid &&
+                                                                !b.details
+                                                                    ?.stripe_payment_id &&
+                                                                !isRefunded && (
+                                                                    <button
+                                                                        onClick={() =>
+                                                                            handleMarkPaid(
+                                                                                b.id
+                                                                            )
+                                                                        }
+                                                                        className="
+                                                                            flex items-center justify-center
+                                                                            w-10 h-10
+                                                                            bg-blue-400 hover:bg-blue-500
+                                                                            text-white
+                                                                            rounded-md
+                                                                            transition-colors
+                                                                        "
+                                                                        aria-label="Mark as paid"
+                                                                        title="Mark Paid"
+                                                                    >
+                                                                        <CheckCircle2
+                                                                            size={
+                                                                                18
+                                                                            }
+                                                                        />
+                                                                    </button>
+                                                                )}
+
+                                                            {b.details
+                                                                ?.stripe_payment_id &&
+                                                                !isRefunded && (
+                                                                    <button
+                                                                        onClick={() => {
+                                                                            setBookingToRefund(
+                                                                                b
+                                                                            )
+                                                                            setIsRefundModalOpen(
+                                                                                true
+                                                                            )
+                                                                        }}
+                                                                        className="
+                                                                            flex items-center justify-center
+                                                                            w-10 h-10
+                                                                            bg-yellow-500 hover:bg-yellow-600
+                                                                            text-white
+                                                                            rounded-md
+                                                                            transition-colors
+                                                                        "
+                                                                        aria-label="Refund booking"
+                                                                        title="Refund"
+                                                                    >
+                                                                        <Repeat
+                                                                            size={
+                                                                                18
+                                                                            }
+                                                                        />
+                                                                    </button>
+                                                                )}
+
+                                                            <button
+                                                                onClick={() => {
+                                                                    setBookingToDelete(
+                                                                        b
+                                                                    )
+                                                                    setIsDeleteModalOpen(
+                                                                        true
+                                                                    )
+                                                                }}
+                                                                className="
+                                                                    flex items-center justify-center
+                                                                    w-10 h-10
+                                                                    bg-red-400 hover:bg-red-500
+                                                                    text-white
+                                                                    rounded-md
+                                                                    transition-colors
+                                                                "
+                                                                aria-label="Delete booking"
+                                                                title="Delete"
+                                                            >
+                                                                <Trash2
+                                                                    size={18}
+                                                                />
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            {b.details?.refunded && (
-                                                <span className="px-4 py-2 text-xs font-semibold bg-red-100 text-red-800 rounded-full">
-                                                    Refunded
-                                                </span>
-                                            )}
-
-                                            {!b.details?.stripe_payment_id && (
-                                                <span className="px-4 py-2 text-xs font-semibold bg-gray-300 text-gray-800 rounded-full">
-                                                    Manual
-                                                </span>
-                                            )}
-                                            <div className="flex gap-2">
-                                                {b.details?.stripe_payment_id &&
-                                                    !b.details?.refunded && (
-                                                        <button
-                                                            onClick={() => {
-                                                                setBookingToRefund(
-                                                                    b
-                                                                )
-                                                                setIsRefundModalOpen(
-                                                                    true
-                                                                )
-                                                            }}
-                                                            className="px-3 py-2 bg-yellow-500 text-white rounded hover:opacity-90 transition"
-                                                            aria-label="Refund booking"
-                                                        >
-                                                            <Repeat size={14} />
-                                                        </button>
-                                                    )}
-                                                <button
-                                                    onClick={() => {
-                                                        setBookingToDelete(b)
-                                                        setIsDeleteModalOpen(
-                                                            true
-                                                        )
-                                                    }}
-                                                    className="px-3 py-2 bg-red-400 text-white rounded hover:opacity-90 transition"
-                                                    aria-label="Delete booking"
-                                                >
-                                                    <Trash2 size={14} />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ))
+                                        )
+                                    })
                                 )}
                             </div>
                         )}

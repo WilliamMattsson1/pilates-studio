@@ -12,6 +12,7 @@ interface BookingsContextType {
     addBooking: (booking: NewBookingDetail) => Promise<void>
     deleteBooking: (id: string) => Promise<void>
     refreshBookings: () => Promise<void>
+    markBookingAsPaid: (id: string) => Promise<void>
 }
 
 const BookingsContext = createContext<BookingsContextType | undefined>(
@@ -135,6 +136,21 @@ export const BookingsProvider = ({
         }
     }
 
+    const markBookingAsPaid = async (id: string) => {
+        try {
+            const res = await fetch(`/api/bookings/${id}/mark-paid`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            if (!res.ok) throw new Error('Failed to mark as paid')
+
+            await refreshBookings()
+        } catch (err) {
+            console.error(err)
+            throw err
+        }
+    }
+
     return (
         <BookingsContext.Provider
             value={{
@@ -143,7 +159,8 @@ export const BookingsProvider = ({
                 error,
                 addBooking,
                 deleteBooking,
-                refreshBookings
+                refreshBookings,
+                markBookingAsPaid
             }}
         >
             {children}
