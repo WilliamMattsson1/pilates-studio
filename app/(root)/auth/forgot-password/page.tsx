@@ -27,11 +27,18 @@ export default function ForgotPasswordPage() {
                 text: "We've sent you a reset link!",
                 type: 'success'
             })
-        } catch (err: any) {
-            setMessage({
-                text: err.message || 'Something went wrong',
-                type: 'error'
-            })
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setMessage({
+                    text: err.message,
+                    type: 'error'
+                })
+            } else {
+                setMessage({
+                    text: 'Something went wrong',
+                    type: 'error'
+                })
+            }
         }
     }
 

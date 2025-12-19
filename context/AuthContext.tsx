@@ -70,9 +70,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
             setSession(data.session ?? null)
             setUser(data.session?.user ?? null)
-        } catch (err: any) {
-            console.error('Sign In Error:', err.message)
-            throw new Error(err.message || 'Failed to sign in')
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                console.error('Sign In Error:', err.message)
+                throw new Error(err.message || 'Failed to sign in')
+            } else {
+                console.error('Sign In Error:', err)
+                throw new Error('Failed to sign in')
+            }
         } finally {
             setLoading(false)
         }
@@ -115,9 +120,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
             setSession(data.session ?? null)
             setUser(data.session?.user ?? null)
-        } catch (err: any) {
-            console.error('Sign Up Error:', err.message)
-            throw new Error(err.message || 'Failed to sign up')
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                console.error('Sign Up Error:', err.message)
+                throw new Error(err.message || 'Failed to sign up')
+            } else {
+                console.error('Sign Up Error:', err)
+                throw new Error('Failed to sign up')
+            }
         } finally {
             setLoading(false)
         }

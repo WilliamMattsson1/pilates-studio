@@ -36,8 +36,12 @@ export default function AuthForm({ initialMode = 'signIn' }: AuthFormProps) {
             setPassword('')
 
             router.push('/')
-        } catch (err: any) {
-            setError(err.message || 'Something went wrong')
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message)
+            } else {
+                setError('Something went wrong')
+            }
             setPassword('')
         }
     }
@@ -166,7 +170,7 @@ export default function AuthForm({ initialMode = 'signIn' }: AuthFormProps) {
                     <p className="mt-6 text-center text-sm text-gray-600">
                         {mode === 'signIn' ? (
                             <>
-                                Don't have an account?{' '}
+                                Dont have an account?{' '}
                                 <button
                                     onClick={() => {
                                         setMode('signUp')

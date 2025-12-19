@@ -55,10 +55,11 @@ export async function POST(req: Request) {
         }
 
         return NextResponse.json({ data, error: null })
-    } catch (err: any) {
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err)
         return NextResponse.json(
-            { data: null, error: err.message },
-            { status: 403 }
+            { data: null, error: message },
+            { status: 500 }
         )
     }
 }

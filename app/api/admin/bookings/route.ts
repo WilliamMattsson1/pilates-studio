@@ -16,7 +16,7 @@ export async function GET() {
         if (bookingsError) throw bookingsError
 
         // Hämta booking_details
-        const bookingIds = bookings.map((b: any) => b.id)
+        const bookingIds = bookings.map((b) => b.id)
         const { data: details, error: detailsError } = await supabaseAdmin
             .from('booking_details')
             .select('*')
@@ -25,15 +25,16 @@ export async function GET() {
         if (detailsError) throw detailsError
 
         // Kombinera bookings med deras detaljer
-        const bookingItems: BookingItem[] = bookings.map((b: any) => ({
+        const bookingItems: BookingItem[] = bookings.map((b) => ({
             ...b,
-            details: details.find((d: any) => d.booking_id === b.id)
+            details: details.find((d) => d.booking_id === b.id)
         }))
 
         return NextResponse.json({ data: bookingItems, error: null })
-    } catch (err: any) {
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unauthorized'
         return NextResponse.json(
-            { data: null, error: err.message || 'Unauthorized' },
+            { data: null, error: message },
             { status: 403 }
         )
     }

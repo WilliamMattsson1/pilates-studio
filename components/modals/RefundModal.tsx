@@ -34,11 +34,10 @@ const RefundModal = ({
     useEffect(() => {
         if (!booking || !isOpen) return
 
-        setAmount(null)
-        setCurrency(null)
-
         const fetchPayment = async () => {
             try {
+                setAmount(null)
+                setCurrency(null)
                 const res = await fetch('/api/payment-info', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },

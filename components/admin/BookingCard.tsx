@@ -11,7 +11,6 @@ interface BookingCardProps {
     setIsDeleteModalOpen: (open: boolean) => void
     setBookingToMarkAsPaid: (booking: BookingItem | null) => void
     setIsBookingToMarkAsPaidModalOpen: (open: boolean) => void
-
     isRefunded: boolean
     status: { label: string; bgColor: string; textColor: string }
 }

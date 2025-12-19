@@ -42,11 +42,9 @@ export async function POST(req: Request) {
         if (error) throw error
 
         return NextResponse.json({ success: true })
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error('Error creating profile:', err)
-        return NextResponse.json(
-            { error: err.message || 'Something went wrong' },
-            { status: 500 }
-        )
+        const message = err instanceof Error ? err.message : String(err)
+        return NextResponse.json({ error: message }, { status: 500 })
     }
 }

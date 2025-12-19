@@ -13,7 +13,7 @@ if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY === undefined) {
 }
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
-const page = () => {
+const Page = () => {
     const searchParams = useSearchParams()
     const { classes } = useClasses()
 
@@ -56,4 +56,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

@@ -1,7 +1,7 @@
 'use client'
 
 import { ClassItem } from '@/types/classes'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { X } from 'lucide-react'
 
@@ -13,24 +13,12 @@ interface EditModalProps {
 }
 
 const EditClassModal = ({ cls, isOpen, onClose, onUpdate }: EditModalProps) => {
-    const [title, setTitle] = useState('')
-    const [date, setDate] = useState('')
-    const [startTime, setStartTime] = useState('')
-    const [endTime, setEndTime] = useState('')
-    const [maxSpots, setMaxSpots] = useState(8)
-    const [price, setPrice] = useState(199)
-
-    // Fyll fälten när modal öppnas
-    useEffect(() => {
-        if (cls) {
-            setTitle(cls.title)
-            setDate(cls.date)
-            setStartTime(cls.start_time)
-            setEndTime(cls.end_time)
-            setMaxSpots(cls.max_spots ?? 8)
-            setPrice(cls.price ?? 199)
-        }
-    }, [cls])
+    const [title, setTitle] = useState(cls?.title ?? '')
+    const [date, setDate] = useState(cls?.date ?? '')
+    const [startTime, setStartTime] = useState(cls?.start_time ?? '')
+    const [endTime, setEndTime] = useState(cls?.end_time ?? '')
+    const [maxSpots, setMaxSpots] = useState(cls?.max_spots ?? 8)
+    const [price, setPrice] = useState(cls?.price ?? 199)
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()

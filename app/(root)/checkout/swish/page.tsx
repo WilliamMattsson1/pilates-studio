@@ -3,7 +3,7 @@ import { useSearchParams } from 'next/navigation'
 import { useClasses } from '@/context/ClassesContext'
 import SwishCheckoutPage from '@/components/checkout/SwishCheckoutPage'
 
-const page = () => {
+const Page = () => {
     const searchParams = useSearchParams()
     const { classes } = useClasses()
 
@@ -36,4 +36,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

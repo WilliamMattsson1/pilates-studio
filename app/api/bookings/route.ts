@@ -89,9 +89,10 @@ export async function POST(req: Request) {
         const bookingItem: BookingItem = { ...booking, details }
 
         return NextResponse.json({ data: bookingItem, error: null })
-    } catch (err: any) {
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err)
         return NextResponse.json(
-            { data: null, error: err.message || err.toString() },
+            { data: null, error: message },
             { status: 500 }
         )
     }

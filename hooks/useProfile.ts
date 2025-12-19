@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useClasses } from '@/context/ClassesContext'
 import { toast } from 'react-toastify'
+import { Booking, UserBooking } from '@/types/bookings'
 
 export const useProfile = (userId: string | undefined) => {
     const { classes } = useClasses()
@@ -9,7 +10,7 @@ export const useProfile = (userId: string | undefined) => {
         name: string
         email: string
     } | null>(null)
-    const [userBookings, setUserBookings] = useState<any[]>([])
+    const [userBookings, setUserBookings] = useState<UserBooking[]>([])
     const [loading, setLoading] = useState(true)
     const [isAdmin, setIsAdmin] = useState(false)
 
@@ -42,15 +43,17 @@ export const useProfile = (userId: string | undefined) => {
 
                 setProfile(data.profile)
                 setUserBookings(
-                    data.bookings.map((b: any) => ({
+                    data.bookings.map((b: Booking) => ({
                         ...b,
                         classes:
                             classes.find((c) => c.id === b.class_id) || null
                     }))
                 )
-            } catch (err: any) {
-                console.error('Failed to fetch profile bookings:', err)
-                toast.error(err.message || 'Failed to fetch user data')
+            } catch (err: unknown) {
+                const message =
+                    err instanceof Error ? err.message : 'Unknown error'
+                console.error('Failed to fetch profile bookings:', message)
+                toast.error(message)
             } finally {
                 setLoading(false)
             }

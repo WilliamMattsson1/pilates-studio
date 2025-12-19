@@ -1,5 +1,5 @@
 'use client'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useClasses } from '@/context/ClassesContext'
 import {
     CheckCircle,
@@ -16,7 +16,6 @@ import CancellationPolicy from '@/components/shared/CancellationPolicy'
 
 const PaymentSuccess = () => {
     const searchParams = useSearchParams()
-    const router = useRouter()
     const classId = searchParams.get('classId')
     const name = searchParams.get('name')
     const email = searchParams.get('email')
@@ -25,25 +24,27 @@ const PaymentSuccess = () => {
     const { classes } = useClasses()
     const cls = classes.find((c) => c.id === classId)
 
-    const [showConfetti, setShowConfetti] = useState(false)
+    const [showConfetti, setShowConfetti] = useState(true)
     const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
 
     useEffect(() => {
-        setShowConfetti(true)
         const timer = setTimeout(() => setShowConfetti(false), 6500)
 
-        const handleResize = () =>
+        return () => clearTimeout(timer)
+    }, [])
+
+    useEffect(() => {
+        const handleResize = () => {
             setWindowSize({
                 width: window.innerWidth,
                 height: window.innerHeight
             })
+        }
+
         handleResize()
         window.addEventListener('resize', handleResize)
 
-        return () => {
-            clearTimeout(timer)
-            window.removeEventListener('resize', handleResize)
-        }
+        return () => window.removeEventListener('resize', handleResize)
     }, [])
 
     return (
@@ -105,16 +106,20 @@ const PaymentSuccess = () => {
 
             {/* Knappar */}
             <div className="flex flex-col md:flex-row gap-4 mt-8">
-                <button
-                    onClick={() => router.push('/profile')}
-                    className="bg-btn text-white px-6 py-3 rounded-md font-bold hover:bg-btn-hover transition"
+                <Link
+                    href="/profile"
+                    className="bg-btn text-white px-6 py-3 rounded-md font-bold hover:bg-btn-hover transition text-center"
                 >
-                    <Link href="/profile">See Your Bookings</Link>
-                </button>
-                <button className="flex items-center justify-center gap-2 border border-black  px-6 py-3 rounded-md font-semibold hover:bg-btn-hover hover:text-white hover:border-transparent transition">
+                    See Your Bookings
+                </Link>
+
+                <Link
+                    href="/"
+                    className="flex items-center justify-center gap-2 border border-black px-6 py-3 rounded-md font-semibold hover:bg-btn-hover hover:text-white hover:border-transparent transition"
+                >
                     <Home className="w-5 h-5" />
-                    <Link href="/">Back To Start</Link>
-                </button>
+                    Back To Start
+                </Link>
             </div>
             <SectionDivider className="h-1 w-[60%] mt-24 bg-btn" />
         </section>

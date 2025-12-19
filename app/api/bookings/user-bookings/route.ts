@@ -43,10 +43,11 @@ export async function GET() {
             profile,
             bookings: bookingsData
         })
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error('Failed to fetch user bookings:', err)
+        const message = err instanceof Error ? err.message : String(err)
         return NextResponse.json(
-            { error: err.message || 'Something went wrong' },
+            { error: message || 'Something went wrong' },
             { status: 500 }
         )
     }

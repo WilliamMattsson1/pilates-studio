@@ -33,10 +33,10 @@ export async function DELETE(
         }
 
         return NextResponse.json({ data, error: null })
-    } catch (err: any) {
-        return NextResponse.json(
-            { data: null, error: err.message },
-            { status: err.message === 'Unauthorized' ? 403 : 500 }
-        )
+    } catch (err: unknown) {
+        const message =
+            err instanceof Error ? err.message : 'Something went wrong'
+        const status = message === 'Unauthorized' ? 403 : 500
+        return NextResponse.json({ data: null, error: message }, { status })
     }
 }

@@ -35,11 +35,18 @@ export default function NewPasswordPage() {
             })
             setPassword('')
             setConfirmPassword('')
-        } catch (err: any) {
-            setMessage({
-                text: err.message || 'Something went wrong',
-                type: 'error'
-            })
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setMessage({
+                    text: err.message,
+                    type: 'error'
+                })
+            } else {
+                setMessage({
+                    text: 'Something went wrong',
+                    type: 'error'
+                })
+            }
         }
     }
 

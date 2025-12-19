@@ -44,9 +44,14 @@ export const ClassesProvider = ({
             if (!res.ok)
                 throw new Error(data.error || 'Failed to fetch classes')
             setClasses(data.data)
-        } catch (err: any) {
-            console.log('Error fetching classes', err.message)
-            setError(err.message)
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                console.log('Error fetching classes', err.message)
+                setError(err.message)
+            } else {
+                console.log('Error fetching classes', err)
+                setError('Unknown error occurred')
+            }
         } finally {
             setLoading(false)
         }
@@ -94,7 +99,7 @@ export const ClassesProvider = ({
         return () => {
             supabase.removeChannel(classesChannel)
         }
-    }, [])
+    }, [supabase])
 
     const addClass = async (cls: Omit<ClassItem, 'id' | 'created_at'>) => {
         setLoading(true)
@@ -108,10 +113,16 @@ export const ClassesProvider = ({
             })
             const data = await res.json()
             if (!res.ok) throw new Error(data.error || 'Failed to add class')
-        } catch (err: any) {
-            console.log('Error adding class', err.message)
-            setError(err.message)
-            throw err
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                console.log('Error adding class', err.message)
+                setError(err.message)
+                throw err
+            } else {
+                console.log('Error adding class', err)
+                setError('Unknown error occurred')
+                throw new Error('Unknown error occurred')
+            }
         } finally {
             setLoading(false)
         }
@@ -129,10 +140,16 @@ export const ClassesProvider = ({
             })
             const data = await res.json()
             if (!res.ok) throw new Error(data.error || 'Failed to update class')
-        } catch (err: any) {
-            console.log('Error updating class', err.message)
-            setError(err.message)
-            throw err
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                console.log('Error updating class', err.message)
+                setError(err.message)
+                throw err
+            } else {
+                console.log('Error updating class', err)
+                setError('Unknown error occurred')
+                throw new Error('Unknown error occurred')
+            }
         } finally {
             setLoading(false)
         }
@@ -148,10 +165,16 @@ export const ClassesProvider = ({
             })
             const data = await res.json()
             if (!res.ok) throw new Error(data.error || 'Failed to delete class')
-        } catch (err: any) {
-            console.log('Error deleting class', err.message)
-            setError(err.message)
-            throw err
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                console.log('Error deleting class', err.message)
+                setError(err.message)
+                throw err
+            } else {
+                console.log('Error deleting class', err)
+                setError('Unknown error occurred')
+                throw new Error('Unknown error occurred')
+            }
         } finally {
             setLoading(false)
         }

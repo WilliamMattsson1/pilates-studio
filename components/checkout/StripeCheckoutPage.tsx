@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
+import { PaymentIntent, StripeError } from '@stripe/stripe-js'
 import { Calendar, Clock, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useBookings } from '@/context/BookingsContext'
@@ -89,7 +90,10 @@ const StripeCheckoutPage = ({
         }
 
         // confirm payment
-        const { paymentIntent, error }: { paymentIntent?: any; error?: any } =
+        const {
+            paymentIntent,
+            error
+        }: { paymentIntent?: PaymentIntent; error?: StripeError } =
             await stripe.confirmPayment({
                 elements,
                 clientSecret,

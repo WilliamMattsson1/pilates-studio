@@ -45,6 +45,21 @@ const AdminAllClasses = () => {
         setIsModalOpen(false)
     }
 
+    const handleConfirmDelete = async () => {
+        if (!classToDelete) return
+
+        try {
+            await deleteClass(classToDelete.id)
+            toast.success('Class deleted successfully!')
+            setIsDeleteModalOpen(false)
+            setClassToDelete(null)
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : String(err)
+            toast.error(message || 'Failed to delete class')
+            setIsDeleteModalOpen(false)
+        }
+    }
+
     return (
         <div className="w-[90%] max-w-xl py-6 mx-auto">
             {/* Filter buttons */}
@@ -132,6 +147,7 @@ const AdminAllClasses = () => {
             </div>
             {selectedClass && (
                 <EditClassModal
+                    key={selectedClass.id}
                     cls={selectedClass}
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
@@ -144,19 +160,7 @@ const AdminAllClasses = () => {
                     type="class"
                     isOpen={isDeleteModalOpen}
                     onClose={() => setIsDeleteModalOpen(false)}
-                    onConfirm={async () => {
-                        if (!classToDelete) return
-
-                        try {
-                            await deleteClass(classToDelete.id)
-                            toast.success('Class deleted successfully!!')
-                            setIsDeleteModalOpen(false)
-                            setClassToDelete(null)
-                        } catch (err: any) {
-                            toast.error(err.message || 'Failed to delete class')
-                            setIsDeleteModalOpen(false)
-                        }
-                    }}
+                    onConfirm={handleConfirmDelete}
                 />
             )}
         </div>

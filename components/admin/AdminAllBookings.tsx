@@ -110,9 +110,10 @@ const AdminAllBookings = () => {
                 await deleteBooking(booking.id)
             }
             fetchBookings()
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err)
-            setRefundError(err.message || 'Refund failed')
+            const message = err instanceof Error ? err.message : String(err)
+            setRefundError(message)
         } finally {
             setIsRefunding(false)
         }
@@ -127,9 +128,10 @@ const AdminAllBookings = () => {
             await markBookingAsPaid(booking.id)
             setMarkPaidSuccess(true)
             fetchBookings()
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error('Failed to mark booking as paid', err)
-            setMarkPaidError(err.message || 'Failed to mark as paid')
+            const message = err instanceof Error ? err.message : String(err)
+            setMarkPaidError(message || 'Failed to mark as paid')
         } finally {
             setIsMarkingPaid(false)
         }

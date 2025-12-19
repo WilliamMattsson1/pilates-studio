@@ -65,11 +65,9 @@ export async function POST(req: Request) {
         }
 
         return NextResponse.json({ success: true })
-    } catch (e: any) {
-        console.error('Refund API error:', e)
-        return NextResponse.json(
-            { error: 'Internal server error' },
-            { status: 500 }
-        )
+    } catch (err: unknown) {
+        console.error('Refund API error:', err)
+        const message = err instanceof Error ? err.message : String(err)
+        return NextResponse.json({ error: message }, { status: 500 })
     }
 }

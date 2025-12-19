@@ -24,14 +24,18 @@ const ProfilesContext = createContext<ProfilesContextType | undefined>(
 export const ProfilesProvider = ({ children }: { children: ReactNode }) => {
     const [profiles, setProfiles] = useState<Profile[]>([])
 
-    const fetchProfiles = async () => {
-        const res = await fetch('/api/profiles')
-        const data = await res.json()
-        setProfiles(data.profiles || [])
-    }
-
     useEffect(() => {
-        fetchProfiles()
+        const fetchData = async () => {
+            try {
+                const res = await fetch('/api/profiles')
+                const data: { profiles?: Profile[] } = await res.json()
+                setProfiles(data.profiles || [])
+            } catch (err) {
+                console.error('Failed to fetch profiles', err)
+            }
+        }
+
+        fetchData()
     }, [])
 
     return (

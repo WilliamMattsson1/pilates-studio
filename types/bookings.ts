@@ -1,3 +1,5 @@
+import { ClassItem } from './classes'
+
 interface Booking {
     id: string // PK int8 i supabase, använder string i frontend
     class_id: string // uuid, FK → classes.id (uuid) anger vilken klass bokningen tillhör
@@ -34,4 +36,17 @@ interface NewBookingDetail {
     swish_received?: boolean // ny optional vid skapande
 }
 
-export type { Booking, BookingDetail, BookingItem, NewBookingDetail }
+interface UserBooking {
+    id: number
+    class_id: string
+    created_at: string
+    classes: ClassItem | null
+}
+
+export type {
+    Booking,
+    BookingDetail,
+    BookingItem,
+    NewBookingDetail,
+    UserBooking
+}
