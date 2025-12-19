@@ -1,15 +1,15 @@
 'use client'
-import { BookingItem } from '@/types/bookings'
+import { BookingWithDetails } from '@/types/bookings'
 import { isBookingPaid, needsManualPayment } from '@/utils/bookings'
 import { CheckCircle2, Repeat, Trash2, User } from 'lucide-react'
 
 interface BookingCardProps {
-    booking: BookingItem
-    setBookingToRefund: (booking: BookingItem | null) => void
+    booking: BookingWithDetails
+    setBookingToRefund: (booking: BookingWithDetails | null) => void
     setIsRefundModalOpen: (open: boolean) => void
-    setBookingToDelete: (booking: BookingItem | null) => void
+    setBookingToDelete: (booking: BookingWithDetails | null) => void
     setIsDeleteModalOpen: (open: boolean) => void
-    setBookingToMarkAsPaid: (booking: BookingItem | null) => void
+    setBookingToMarkAsPaid: (booking: BookingWithDetails | null) => void
     setIsBookingToMarkAsPaidModalOpen: (open: boolean) => void
     isRefunded: boolean
     status: { label: string; bgColor: string; textColor: string }

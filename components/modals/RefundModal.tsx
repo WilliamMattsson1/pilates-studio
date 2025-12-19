@@ -1,12 +1,12 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { BookingItem } from '@/types/bookings'
+import { BookingWithDetails } from '@/types/bookings'
 import { ClassItem } from '@/types/classes'
 import { X, RotateCcw } from 'lucide-react'
 import SectionDivider from '../shared/ui/SectionDivider'
 
 interface RefundModalProps {
-    booking: BookingItem
+    booking: BookingWithDetails
     classInfo?: ClassItem
     isOpen: boolean
     onClose: () => void

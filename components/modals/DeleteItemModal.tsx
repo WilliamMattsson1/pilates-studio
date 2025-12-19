@@ -1,6 +1,6 @@
 'use client'
 
-import { BookingItem } from '@/types/bookings'
+import { BookingWithDetails } from '@/types/bookings'
 import { ClassItem } from '@/types/classes'
 import { MessageCircleWarning, X } from 'lucide-react'
 import SectionDivider from '../shared/ui/SectionDivider'
@@ -8,7 +8,7 @@ import SectionDivider from '../shared/ui/SectionDivider'
 type DeleteType = 'class' | 'booking'
 
 interface DeleteModalProps {
-    item: ClassItem | BookingItem
+    item: ClassItem | BookingWithDetails
     type: DeleteType
     classInfo?: ClassItem // Endast för bokningar, för att visa klassinfo
     isOpen: boolean
@@ -30,8 +30,8 @@ const DeleteModal = ({
     const title =
         type === 'class'
             ? (item as ClassItem).title
-            : (item as BookingItem).details.guest_name ||
-              (item as BookingItem).details.guest_email ||
+            : (item as BookingWithDetails).details.guest_name ||
+              (item as BookingWithDetails).details.guest_email ||
               'Anonymous'
 
     const date = type === 'class' ? (item as ClassItem).date : ''

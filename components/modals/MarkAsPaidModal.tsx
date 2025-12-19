@@ -1,11 +1,11 @@
 'use client'
-import { BookingItem } from '@/types/bookings'
+import { BookingWithDetails } from '@/types/bookings'
 import { ClassItem } from '@/types/classes'
 import { X, CheckCircle2 } from 'lucide-react'
 import SectionDivider from '../shared/ui/SectionDivider'
 
 interface MarkPaidModalProps {
-    booking: BookingItem
+    booking: BookingWithDetails
     classInfo?: ClassItem
     isOpen: boolean
     onClose: () => void

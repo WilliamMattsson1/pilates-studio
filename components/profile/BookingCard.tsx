@@ -1,14 +1,9 @@
 'use client'
 import { useBookings } from '@/context/BookingsContext'
-import { BookingItem } from '@/types/bookings'
-import { ClassItem } from '@/types/classes'
-
-interface BookingWithClass extends BookingItem {
-    classes: ClassItem | null
-}
+import { UserBooking } from '@/types/bookings'
 
 interface Props {
-    booking: BookingWithClass
+    booking: UserBooking
 }
 
 const BookingCard = ({ booking }: Props) => {

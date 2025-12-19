@@ -1,7 +1,7 @@
 'use client'
 import { useBookings } from '@/context/BookingsContext'
 import { useClasses } from '@/context/ClassesContext'
-import { BookingItem } from '@/types/bookings'
+import { BookingWithDetails } from '@/types/bookings'
 import { ClassItem } from '@/types/classes'
 import { ChevronDownIcon, Calendar, Users } from 'lucide-react'
 import { useState } from 'react'
@@ -19,14 +19,12 @@ const FILTERS = [
 
 const AdminAllBookings = () => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-    const [bookingToDelete, setBookingToDelete] = useState<BookingItem | null>(
-        null
-    )
+    const [bookingToDelete, setBookingToDelete] =
+        useState<BookingWithDetails | null>(null)
 
     const [isRefundModalOpen, setIsRefundModalOpen] = useState(false)
-    const [bookingToRefund, setBookingToRefund] = useState<BookingItem | null>(
-        null
-    )
+    const [bookingToRefund, setBookingToRefund] =
+        useState<BookingWithDetails | null>(null)
     const [isRefunding, setIsRefunding] = useState(false)
     const [refundError, setRefundError] = useState<string | null>(null)
     const [refundSuccess, setRefundSuccess] = useState(false)
@@ -38,7 +36,7 @@ const AdminAllBookings = () => {
     const [isBookingToMarkAsPaidModalOpen, setIsBookingToMarkAsPaidModalOpen] =
         useState(false)
     const [bookingToMarkAsPaid, setBookingToMarkAsPaid] =
-        useState<BookingItem | null>(null)
+        useState<BookingWithDetails | null>(null)
 
     const { upcomingClasses, pastClasses } = useClasses()
     const { deleteBooking, markBookingAsPaid } = useBookings()
@@ -76,7 +74,7 @@ const AdminAllBookings = () => {
     }
 
     const handleRefund = async (
-        booking: BookingItem,
+        booking: BookingWithDetails,
         deleteAfterRefund: boolean
     ) => {
         setIsRefunding(true)
@@ -119,7 +117,7 @@ const AdminAllBookings = () => {
         }
     }
 
-    const handleMarkPaid = async (booking: BookingItem) => {
+    const handleMarkPaid = async (booking: BookingWithDetails) => {
         setIsMarkingPaid(true)
         setMarkPaidError(null)
         setMarkPaidSuccess(false)

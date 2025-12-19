@@ -1,11 +1,11 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { BookingItem } from '@/types/bookings'
+import { BookingWithDetails } from '@/types/bookings'
 import { toast } from 'react-toastify'
 import { createClient } from '@/utils/supabase/client'
 
 export const useAdminBookings = () => {
-    const [bookings, setBookings] = useState<BookingItem[]>([])
+    const [bookings, setBookings] = useState<BookingWithDetails[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 

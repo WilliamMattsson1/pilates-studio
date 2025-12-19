@@ -1,6 +1,6 @@
-import { BookingItem } from '@/types/bookings'
+import { BookingWithDetails } from '@/types/bookings'
 
-export const getBookingStatus = (booking: BookingItem) => {
+export const getBookingStatus = (booking: BookingWithDetails) => {
     if (booking.details?.refunded) {
         return {
             label: 'Refunded',
@@ -50,7 +50,10 @@ export const getBookingStatus = (booking: BookingItem) => {
     }
 }
 
-export const isBookingPaid = (booking: BookingItem, isRefunded: boolean) => {
+export const isBookingPaid = (
+    booking: BookingWithDetails,
+    isRefunded: boolean
+) => {
     return (
         (booking.details?.swish_received && !isRefunded) ||
         (booking.details?.stripe_payment_id != null && !isRefunded)
@@ -58,7 +61,7 @@ export const isBookingPaid = (booking: BookingItem, isRefunded: boolean) => {
 }
 
 export const needsManualPayment = (
-    booking: BookingItem,
+    booking: BookingWithDetails,
     isRefunded: boolean
 ) => {
     return (

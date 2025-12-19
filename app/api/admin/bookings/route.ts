@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { BookingItem } from '@/types/bookings'
+import { BookingWithDetails } from '@/types/bookings'
 import { requireAdmin } from '@/utils/server/auth'
 import { supabaseAdmin } from '@/utils/supabase/admin'
 
@@ -25,12 +25,12 @@ export async function GET() {
         if (detailsError) throw detailsError
 
         // Kombinera bookings med deras detaljer
-        const bookingItems: BookingItem[] = bookings.map((b) => ({
+        const bookingsWithDetails: BookingWithDetails[] = bookings.map((b) => ({
             ...b,
             details: details.find((d) => d.booking_id === b.id)
         }))
 
-        return NextResponse.json({ data: bookingItems, error: null })
+        return NextResponse.json({ data: bookingsWithDetails, error: null })
     } catch (err: unknown) {
         const message = err instanceof Error ? err.message : 'Unauthorized'
         return NextResponse.json(

@@ -22,7 +22,7 @@ interface BookingDetail {
 }
 
 // Om du vill kombinera en booking med dess detaljer
-interface BookingItem extends Booking {
+interface BookingWithDetails extends Booking {
     details: BookingDetail // Se ovan
 }
 
@@ -46,7 +46,7 @@ interface UserBooking {
 export type {
     Booking,
     BookingDetail,
-    BookingItem,
+    BookingWithDetails,
     NewBookingDetail,
     UserBooking
 }
