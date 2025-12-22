@@ -1,26 +1,12 @@
-import AdminAddBooking from '@/components/admin/AdminAddBooking'
-import AdminAllBookings from '@/components/admin/AdminAllBookings'
-import AdminTabs from '@/components/admin/AdminTabs'
+import { Metadata } from 'next'
+import AdminBookingsWrapper from './AdminBookingsWrapper'
 
+export const metadata: Metadata = {
+    title: 'Admin Bookings | Pilates Studio',
+    description: 'Manage classes and bookings as an instructor.'
+}
 const page = () => {
-    return (
-        <>
-            <AdminTabs
-                tabs={[
-                    {
-                        key: 'all',
-                        label: 'All Bookings',
-                        content: <AdminAllBookings />
-                    },
-                    {
-                        key: 'add',
-                        label: 'Add Booking',
-                        content: <AdminAddBooking />
-                    }
-                ]}
-            />
-        </>
-    )
+    return <AdminBookingsWrapper />
 }
 
 export default page

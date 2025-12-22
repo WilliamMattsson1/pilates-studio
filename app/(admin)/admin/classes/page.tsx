@@ -1,27 +1,12 @@
-'use client'
-import AdminAddClass from '@/components/admin/AdminAddClass'
-import AdminAllClasses from '@/components/admin/AdminAllClasses'
-import AdminTabs from '@/components/admin/AdminTabs'
+import { Metadata } from 'next'
+import AdminClassesWrapper from './AdminClassesWrapper'
 
-const page = () => {
-    return (
-        <>
-            <AdminTabs
-                tabs={[
-                    {
-                        key: 'all',
-                        label: 'All Classes',
-                        content: <AdminAllClasses />
-                    },
-                    {
-                        key: 'add',
-                        label: 'Add Class',
-                        content: <AdminAddClass />
-                    }
-                ]}
-            />
-        </>
-    )
+export const metadata: Metadata = {
+    title: 'Admin Classes | Pilates Studio',
+    description: 'Manage classes and bookings as an instructor.'
+}
+const Page = () => {
+    return <AdminClassesWrapper />
 }
 
-export default page
+export default Page
