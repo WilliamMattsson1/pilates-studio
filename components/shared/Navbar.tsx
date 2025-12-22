@@ -3,7 +3,7 @@ import { useAuth } from '@/context/AuthContext'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import { useState } from 'react'
 
 const Navbar = () => {
     const { user, signOut } = useAuth()
@@ -15,7 +15,7 @@ const Navbar = () => {
         { name: 'About', path: '/about' }
     ]
 
-    const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     const handleClick = async () => {
         setIsMenuOpen(false)
