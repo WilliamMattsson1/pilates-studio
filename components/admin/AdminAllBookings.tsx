@@ -18,10 +18,13 @@ const FILTERS = [
 ]
 
 const AdminAllBookings = () => {
+    // DeleteModal states
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [bookingToDelete, setBookingToDelete] =
         useState<BookingWithDetails | null>(null)
+    const [isDeleting, setIsDeleting] = useState(false)
 
+    // RefundModal states
     const [isRefundModalOpen, setIsRefundModalOpen] = useState(false)
     const [bookingToRefund, setBookingToRefund] =
         useState<BookingWithDetails | null>(null)
@@ -29,14 +32,14 @@ const AdminAllBookings = () => {
     const [refundError, setRefundError] = useState<string | null>(null)
     const [refundSuccess, setRefundSuccess] = useState(false)
 
-    const [isMarkingPaid, setIsMarkingPaid] = useState(false)
-    const [markPaidError, setMarkPaidError] = useState<string | null>(null)
-    const [markPaidSuccess, setMarkPaidSuccess] = useState(false)
-
+    // BookingToMarkAsPaid states
     const [isBookingToMarkAsPaidModalOpen, setIsBookingToMarkAsPaidModalOpen] =
         useState(false)
     const [bookingToMarkAsPaid, setBookingToMarkAsPaid] =
         useState<BookingWithDetails | null>(null)
+    const [isMarkingPaid, setIsMarkingPaid] = useState(false)
+    const [markPaidError, setMarkPaidError] = useState<string | null>(null)
+    const [markPaidSuccess, setMarkPaidSuccess] = useState(false)
 
     const { upcomingClasses, pastClasses } = useClasses()
     const { deleteBooking, markBookingAsPaid } = useBookings()
@@ -62,6 +65,7 @@ const AdminAllBookings = () => {
 
     const handleConfirmDelete = async () => {
         if (!bookingToDelete) return
+        setIsDeleting(true)
 
         try {
             await deleteBooking(bookingToDelete.id)
@@ -69,6 +73,8 @@ const AdminAllBookings = () => {
             setIsDeleteModalOpen(false)
         } catch (err) {
             console.error(err)
+        } finally {
+            setIsDeleting(false)
         }
         fetchBookings()
     }
@@ -273,6 +279,7 @@ const AdminAllBookings = () => {
                         (c) => c.id === bookingToDelete.class_id
                     )}
                     isOpen={isDeleteModalOpen}
+                    isDeleting={isDeleting}
                     onClose={() => setIsDeleteModalOpen(false)}
                     onConfirm={handleConfirmDelete}
                 />

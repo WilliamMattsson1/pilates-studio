@@ -26,6 +26,7 @@ const AdminAllClasses = () => {
 
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [classToDelete, setClassToDelete] = useState<ClassItem | null>(null)
+    const [isDeleting, setIsDeleting] = useState(false)
 
     const classesToShow: ClassItem[] =
         filter === 'upcoming'
@@ -48,6 +49,8 @@ const AdminAllClasses = () => {
     const handleConfirmDelete = async () => {
         if (!classToDelete) return
 
+        setIsDeleting(true)
+
         try {
             await deleteClass(classToDelete.id)
             toast.success('Class deleted successfully!')
@@ -57,6 +60,8 @@ const AdminAllClasses = () => {
             const message = err instanceof Error ? err.message : String(err)
             toast.error(message || 'Failed to delete class')
             setIsDeleteModalOpen(false)
+        } finally {
+            setIsDeleting(false)
         }
     }
 
@@ -159,6 +164,7 @@ const AdminAllClasses = () => {
                     item={classToDelete}
                     type="class"
                     isOpen={isDeleteModalOpen}
+                    isDeleting={isDeleting}
                     onClose={() => setIsDeleteModalOpen(false)}
                     onConfirm={handleConfirmDelete}
                 />

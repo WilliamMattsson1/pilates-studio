@@ -12,6 +12,7 @@ interface DeleteModalProps {
     type: DeleteType
     classInfo?: ClassItem // Endast för bokningar, för att visa klassinfo
     isOpen: boolean
+    isDeleting: boolean
     onClose: () => void
     onConfirm: () => void
 }
@@ -21,6 +22,7 @@ const DeleteModal = ({
     type,
     classInfo,
     isOpen,
+    isDeleting,
     onClose,
     onConfirm
 }: DeleteModalProps) => {
@@ -93,9 +95,10 @@ const DeleteModal = ({
                     </button>
                     <button
                         onClick={onConfirm}
-                        className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 hover:cursor-pointer transition-colors"
+                        disabled={isDeleting}
+                        className={`px-4 py-2 ${isDeleting ? 'bg-red-300 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600'}  text-white rounded-lg hover:bg-red-600 hover:cursor-pointer transition-colors`}
                     >
-                        Delete
+                        {isDeleting ? 'Deleting...' : 'Delete Booking'}
                     </button>
                 </div>
             </div>
