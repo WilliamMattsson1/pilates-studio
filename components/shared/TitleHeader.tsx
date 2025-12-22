@@ -6,11 +6,11 @@ interface TitleHeaderProps {
     alignment?: 'left' | 'center' | 'right'
 }
 
-const TitleHeader: React.FC<TitleHeaderProps> = ({
+const TitleHeader = ({
     title,
     subtitle,
     alignment = 'center'
-}) => {
+}: TitleHeaderProps) => {
     const alignClass = {
         left: 'text-left',
         center: 'text-center',

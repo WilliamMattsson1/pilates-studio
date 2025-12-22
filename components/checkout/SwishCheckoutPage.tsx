@@ -20,7 +20,7 @@ interface SwishCheckoutPageProps {
     amount?: number
 }
 
-const SwishCheckoutPage: React.FC<SwishCheckoutPageProps> = ({
+const SwishCheckoutPage = ({
     classId,
     title,
     date,
@@ -29,7 +29,7 @@ const SwishCheckoutPage: React.FC<SwishCheckoutPageProps> = ({
     guestName,
     guestEmail,
     amount
-}) => {
+}: SwishCheckoutPageProps) => {
     const { addBooking } = useBookings()
     const { user } = useAuth()
     const { profile } = useProfile(user?.id)

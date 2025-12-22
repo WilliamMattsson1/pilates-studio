@@ -1,39 +1,20 @@
-'use client'
-import { useSearchParams } from 'next/navigation'
-import { useClasses } from '@/context/ClassesContext'
-import SwishCheckoutPage from '@/components/checkout/SwishCheckoutPage'
+import type { Metadata } from 'next'
+import { Suspense } from 'react'
+import SwishCheckoutWrapper from './SwishCheckoutWrapper'
 
-const Page = () => {
-    const searchParams = useSearchParams()
-    const { classes } = useClasses()
+export const metadata: Metadata = {
+    title: 'Swish Checkout | Pilates Studio',
+    description: 'Proceed with your Swish payment for your class booking.'
+}
 
-    const classId = searchParams.get('classId') || ''
-    const selectedClass = classes.find((c) => c.id === classId)
-    if (!selectedClass) return <div>Class not found</div>
+export const dynamic = 'force-dynamic'
 
-    const amount = selectedClass?.price
-
-    const title = searchParams.get('title') || selectedClass.title
-    const date = searchParams.get('date') || ''
-    const startTime = searchParams.get('startTime') || ''
-    const endTime = searchParams.get('endTime') || ''
-    const guestName = searchParams.get('guestName') || undefined
-    const guestEmail = searchParams.get('guestEmail') || undefined
-
+const SwishCheckoutPage = () => {
     return (
-        <>
-            <SwishCheckoutPage
-                amount={amount}
-                classId={classId}
-                title={title}
-                date={date}
-                startTime={startTime}
-                endTime={endTime}
-                guestName={guestName}
-                guestEmail={guestEmail}
-            />
-        </>
+        <Suspense fallback={<div>Loading checkout...</div>}>
+            <SwishCheckoutWrapper />
+        </Suspense>
     )
 }
 
-export default Page
+export default SwishCheckoutPage
