@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
-import { Lock } from 'lucide-react'
+import { Lock, Eye, EyeOff } from 'lucide-react'
 import TitleHeader from '@/components/shared/TitleHeader'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
@@ -15,6 +15,8 @@ const ResetPasswordPage = () => {
         text: string
         type: MessageType
     } | null>(null)
+    const [showPassword, setShowPassword] = useState(false)
+
     const { updatePassword } = useAuth()
     const router = useRouter()
 
@@ -81,7 +83,7 @@ const ResetPasswordPage = () => {
                             <div className="flex items-center gap-3 px-3 py-3 bg-primary-bg rounded-lg focus-within:ring-2 focus-within:ring-btn/50 transition">
                                 <Lock size={20} className="text-gray-400" />
                                 <input
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                     id="password"
                                     placeholder="New Password"
                                     value={password}
@@ -91,6 +93,19 @@ const ResetPasswordPage = () => {
                                     required
                                     className="flex-1 bg-transparent outline-none text-gray-700"
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        setShowPassword((prev) => !prev)
+                                    }
+                                    className="text-gray-400 hover:text-gray-600"
+                                >
+                                    {showPassword ? (
+                                        <EyeOff size={18} />
+                                    ) : (
+                                        <Eye size={18} />
+                                    )}
+                                </button>
                             </div>
                         </div>
 
@@ -104,7 +119,7 @@ const ResetPasswordPage = () => {
                             <div className="flex items-center gap-3 px-3 py-3 bg-primary-bg rounded-lg focus-within:ring-2 focus-within:ring-btn/50 transition">
                                 <Lock size={20} className="text-gray-400" />
                                 <input
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                     id="confirmPassword"
                                     placeholder="Confirm Password"
                                     value={confirmPassword}
@@ -114,6 +129,19 @@ const ResetPasswordPage = () => {
                                     required
                                     className="flex-1 bg-transparent outline-none text-gray-700"
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        setShowPassword((prev) => !prev)
+                                    }
+                                    className="text-gray-400 hover:text-gray-600"
+                                >
+                                    {showPassword ? (
+                                        <EyeOff size={18} />
+                                    ) : (
+                                        <Eye size={18} />
+                                    )}
+                                </button>
                             </div>
                         </div>
 
