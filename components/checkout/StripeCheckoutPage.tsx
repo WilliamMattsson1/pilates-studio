@@ -148,6 +148,30 @@ const StripeCheckoutPage = ({
                 } catch (err) {
                     setErrorMessage('Booking failed. Please contact support.')
                     console.error(err)
+
+                    // lägg in i databas att något blev fel
+                    // Förbered data att skicka till servern
+                    const failedBookingData = {
+                        class_id: classId,
+                        user_id: user?.id ?? null,
+                        guest_name: user ? profile?.name : guestName,
+                        guest_email: user ? user?.email : guestEmail,
+                        stripe_payment_id: paymentIntent?.id,
+                        payment_method: 'stripe', // alltid stripe i detta fall
+                        error_message:
+                            err instanceof Error ? err.message : String(err)
+                    }
+
+                    // Skicka till server-side route för failed bookings
+                    fetch('/api/bookings/log-failed-booking', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(failedBookingData)
+                    }).catch((logErr) => {
+                        console.error('Failed to log failed booking', logErr)
+                    })
                     router.push('/booking-error')
                 }
             }
