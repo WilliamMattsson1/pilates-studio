@@ -1,14 +1,16 @@
 'use client'
 import Link from 'next/link'
 import { useClasses } from '@/context/ClassesContext'
-import { Calendar, Users } from 'lucide-react'
+import { Calendar, Users, AlertCircle } from 'lucide-react'
 import { useProfiles } from '@/context/ProfilesContext'
 import { useAdminBookings } from '@/hooks/useAdminBookings'
+import { useFailedBookings } from '@/hooks/useFailedBookings'
 import { isBookingPaid } from '@/utils/bookings'
 
 const AdminOverview = () => {
     const { upcomingClasses } = useClasses()
     const { bookings } = useAdminBookings()
+    const { failedBookings } = useFailedBookings()
     const { activeStudents } = useProfiles()
 
     const today = new Date()
@@ -44,19 +46,29 @@ const AdminOverview = () => {
 
     const bookingsStats = [
         {
+            label: 'Failed Bookings',
+            value: failedBookings.length,
+            icon: <AlertCircle className="w-6 h-6 text-red-500" />,
+            urgent: true
+        },
+
+        {
             label: 'Unpaid Bookings',
             value: unpaidBookingsCount,
-            icon: <Users className="w-6 h-6 text-red-500" />
+            icon: <Users className="w-6 h-6 text-red-500" />,
+            urgent: false
         },
         {
             label: 'Total Bookings',
             value: bookings.length,
-            icon: <Users className="w-6 h-6 text-btn" />
+            icon: <Users className="w-6 h-6 text-btn" />,
+            urgent: false
         },
         {
             label: 'Members',
             value: activeStudents,
-            icon: <Users className="w-6 h-6 text-btn" />
+            icon: <Users className="w-6 h-6 text-btn" />,
+            urgent: false
         }
     ]
 
@@ -94,22 +106,34 @@ const AdminOverview = () => {
             {/* Bookings Stats */}
             <h2 className="text-xl font-semibold text-gray-700">Bookings</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                {bookingsStats.map((stat) => (
-                    <div
-                        key={stat.label}
-                        className={`flex flex-col items-center justify-center p-6 rounded-lg shadow-lg transition ${
-                            stat.label === 'Unpaid Bookings' && stat.value > 0
-                                ? 'bg-red-100/50 hover:bg-red-200'
-                                : 'bg-primary-bg/50 hover:shadow-xl'
-                        }`}
-                    >
-                        <div className="mb-2">{stat.icon}</div>
-                        <p className="text-xl font-semibold text-gray-800">
-                            {stat.value}
-                        </p>
-                        <p className="text-sm text-gray-600">{stat.label}</p>
-                    </div>
-                ))}
+                {bookingsStats
+                    .filter((stat) => stat.value > 0) // visa bara de som har mer än 0
+                    .map((stat) => (
+                        <div
+                            key={stat.label}
+                            className={`flex flex-col items-center justify-center p-6 rounded-lg shadow-lg transition
+                ${
+                    stat.urgent && stat.value > 0
+                        ? 'bg-red-300/70 hover:bg-red-300'
+                        : stat.label === 'Unpaid Bookings' && stat.value > 0
+                          ? 'bg-red-100/50 hover:bg-red-200'
+                          : 'bg-primary-bg/50 hover:shadow-xl'
+                }`}
+                        >
+                            <div className="mb-2">{stat.icon}</div>
+                            <p className="text-xl font-semibold text-gray-800">
+                                {stat.value}
+                            </p>
+                            <p className="text-sm text-gray-700">
+                                {stat.label}
+                            </p>
+                            <p className="text-sm text-red-500 font-bold">
+                                {stat.urgent &&
+                                    stat.value > 0 &&
+                                    ' Fix this ASAP!'}
+                            </p>
+                        </div>
+                    ))}
             </div>
 
             {/* Buttons */}
