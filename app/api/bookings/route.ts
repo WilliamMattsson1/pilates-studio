@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { BookingWithDetails, NewBookingDetail } from '@/types/bookings'
 import { supabaseAdmin } from '@/utils/supabase/admin'
+import { stripe } from '@/lib/stripe'
 
 export async function GET() {
     const supabase = await createClient()
@@ -24,9 +25,20 @@ export async function POST(req: Request) {
     const supabase = await createClient()
     const body: NewBookingDetail = await req.json()
 
-    const { class_id } = body
+    const { class_id, stripe_payment_id, payment_method } = body
 
     try {
+        if (stripe_payment_id && payment_method === 'stripe') {
+            const paymentIntent =
+                await stripe.paymentIntents.retrieve(stripe_payment_id)
+            if (paymentIntent.status !== 'succeeded') {
+                return NextResponse.json(
+                    { data: null, error: 'Payment not completed' },
+                    { status: 400 }
+                )
+            }
+        }
+
         // Kontrollera antal bokningar för klassen
         const { data: existingBookings, error: fetchError } = await supabase
             .from('bookings')
