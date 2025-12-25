@@ -163,7 +163,7 @@ const StripeCheckoutPage = ({
                     }
 
                     // Skicka till server-side route för failed bookings
-                    fetch('/api/bookings/log-failed-booking', {
+                    fetch('/api/bookings/failed-bookings', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

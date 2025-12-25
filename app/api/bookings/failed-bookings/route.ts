@@ -7,6 +7,8 @@ export async function GET() {
         const { data, error } = await supabaseAdmin
             .from('failed_bookings')
             .select('*')
+            .eq('payment_method', 'stripe')
+            .eq('stripe_paid', true)
             .eq('refunded', false)
             .order('created_at', { ascending: false })
 

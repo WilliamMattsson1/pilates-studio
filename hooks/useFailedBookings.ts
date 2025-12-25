@@ -5,7 +5,7 @@ export const useFailedBookings = () => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetch('/api/bookings/log-failed-booking')
+        fetch('/api/bookings/failed-bookings')
             .then((res) => res.json())
             .then((data) => {
                 if (data?.data) setFailedBookings(data.data)
