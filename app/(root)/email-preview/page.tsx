@@ -11,7 +11,7 @@ export default function EmailPreview() {
             price="200kr"
             tiktokUrl="https://tiktok.com/"
             instagramUrl="https://instagram.com/"
-            linkUrl="http://localhost:3000/classes"
+            linkUrl="http://pilates-studio-xi.vercel.app"
         />
     )
 }

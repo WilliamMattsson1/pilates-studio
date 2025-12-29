@@ -23,7 +23,7 @@ export async function POST(req: Request) {
 
     try {
         const data = await resend.emails.send({
-            from: 'Pilates Team <onboarding@resend.dev>',
+            from: 'Pilates Team <kontakt@williammattsson.se>',
             to: [body.guestEmail],
             subject: 'Your Pilates Booking is Confirmed!',
             react: EmailTemplate(body)

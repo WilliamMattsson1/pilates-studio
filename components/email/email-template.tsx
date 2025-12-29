@@ -35,7 +35,7 @@ export const EmailTemplate = ({
 }: EmailTemplateProps) => {
     const baseUrl = process.env.VERCEL_URL
         ? `https://${process.env.VERCEL_URL}`
-        : 'http://localhost:3000'
+        : 'https://pilates-studio-xi.vercel.app'
 
     return (
         <Html>
