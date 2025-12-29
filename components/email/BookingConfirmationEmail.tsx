@@ -12,7 +12,7 @@ import {
     Text
 } from '@react-email/components'
 
-interface EmailTemplateProps {
+interface BookingConfirmationEmailProps {
     guestName: string
     classTitle: string
     classDate: string
@@ -23,7 +23,7 @@ interface EmailTemplateProps {
     instagramUrl?: string
 }
 
-export const EmailTemplate = ({
+export const BookingConfirmationEmail = ({
     guestName,
     classTitle,
     classDate,
@@ -32,19 +32,20 @@ export const EmailTemplate = ({
     linkUrl,
     tiktokUrl = 'https://tiktok.com/',
     instagramUrl = 'https://instagram.com/'
-}: EmailTemplateProps) => {
-    const baseUrl = process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : 'https://pilates-studio-xi.vercel.app'
-
+}: BookingConfirmationEmailProps) => {
     return (
         <Html>
             <Head />
             <Tailwind>
-                <Body className="bg-white font-raycast p-4">
-                    <Container className="mx-auto my-0 pt-5 px-[25px] pb-1 bg-secondary-bg max-w-[90%]">
+                <Body
+                    className="bg-white font-raycast p-4"
+                    style={{
+                        backgroundColor: '#ebe5e0'
+                    }}
+                >
+                    <Container className="mx-auto my-0 pt-5 px-1 pb-1 bg-secondary-bg max-w-[650px]">
                         <Img
-                            src={`${baseUrl}/images/logo.png`}
+                            src="https://pilates-studio-xi.vercel.app/images/logo.png"
                             width={54}
                             height={54}
                             alt="Pilates Logo"
@@ -59,7 +60,7 @@ export const EmailTemplate = ({
                             with us!
                         </Text>
 
-                        <Section className="mt-6 p-4 flex justify-center">
+                        <Section className="mt-6 p-3 flex justify-center">
                             <Text className="text-base leading-6">
                                 <strong>Class:</strong> {classTitle}
                             </Text>
@@ -96,19 +97,50 @@ export const EmailTemplate = ({
                             </div>
                         </Section>
 
-                        <Section className="mt-6 flex justify-center">
+                        <Section className="mt-10 flex justify-center">
                             <Link
                                 className="text-white text-center bg-btn rounded-lg p-4"
+                                style={{
+                                    backgroundColor: '#704f44'
+                                }}
                                 href={linkUrl}
                             >
                                 Click here to see all classes
                             </Link>
                         </Section>
 
-                        <Text className="text-base leading-6.5 flex justify-center mt-10">
-                            Best,
-                            <br />- Pilates Team
-                        </Text>
+                        <Section className="mt-10 flex justify-center">
+                            <table
+                                role="presentation"
+                                style={{ borderCollapse: 'collapse' }}
+                            >
+                                <tbody>
+                                    <tr>
+                                        <td
+                                            style={{
+                                                paddingRight: '8px',
+                                                verticalAlign: 'middle'
+                                            }}
+                                        >
+                                            <Img
+                                                src="https://pilates-studio-xi.vercel.app/images/logo.png"
+                                                width={30}
+                                                height={30}
+                                                alt="Pilates Logo"
+                                                style={{ display: 'block' }}
+                                            />
+                                        </td>
+                                        <td style={{ verticalAlign: 'middle' }}>
+                                            <Text className="text-base leading-6.5">
+                                                Best,
+                                                <br />- Pilates Team
+                                            </Text>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Section>
+
                         <Hr className="border-[#dddddd] mt-12" />
                     </Container>
                 </Body>
@@ -117,4 +149,4 @@ export const EmailTemplate = ({
     )
 }
 
-export default EmailTemplate
+export default BookingConfirmationEmail

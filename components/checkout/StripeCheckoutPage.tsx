@@ -128,7 +128,8 @@ const StripeCheckoutPage = ({
                         classDate: date,
                         classTime: `${startTime} - ${endTime}`,
                         price: `${amount}kr`,
-                        linkUrl: `${window.location.origin}/classes`
+                        linkUrl:
+                            'https://pilates-studio-xi.vercel.app/classes#available-classes'
                     }).catch((err) =>
                         console.error('Failed to send booking email', err)
                     )

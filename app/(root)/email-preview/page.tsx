@@ -1,9 +1,9 @@
 // Enbart för att testa hur mejl kommer att se ut
-import EmailTemplate from '@/components/email/email-template'
+import BookingConfirmationEmailate from '@/components/email/BookingConfirmationEmail'
 
 export default function EmailPreview() {
     return (
-        <EmailTemplate
+        <BookingConfirmationEmailate
             guestName="Alice Svensson"
             classTitle="Morning Pilates Flow"
             classDate="2025-12-05"
@@ -11,7 +11,7 @@ export default function EmailPreview() {
             price="200kr"
             tiktokUrl="https://tiktok.com/"
             instagramUrl="https://instagram.com/"
-            linkUrl="http://pilates-studio-xi.vercel.app"
+            linkUrl="https://pilates-studio-xi.vercel.app/classes#available-classes"
         />
     )
 }

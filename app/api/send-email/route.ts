@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
-import { EmailTemplate } from '@/components/email/email-template'
+import { BookingConfirmationEmail } from '@/components/email/BookingConfirmationEmail'
 
 if (!process.env.RESEND_API_KEY) {
     throw new Error('RESEND_API_KEY is missing')
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
             from: 'Pilates Team <kontakt@williammattsson.se>',
             to: [body.guestEmail],
             subject: 'Your Pilates Booking is Confirmed!',
-            react: EmailTemplate(body)
+            react: BookingConfirmationEmail(body)
         })
 
         return NextResponse.json(data)
