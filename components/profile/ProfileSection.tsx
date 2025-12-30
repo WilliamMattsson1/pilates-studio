@@ -29,12 +29,20 @@ const ProfileSection = () => {
 
     return (
         <section className="max-w-4xl mx-auto p-6 mb-16">
-            <header className="space-y-2 text-center">
-                <h1 className="text-4xl md:text-5xl font-extrabold text-center fancy-font tracking-wide leading-tight">
-                    Welcome To Your Profile {profile?.name}
+            <header className="text-center">
+                <p className="flex items-center justify-center gap-3 text-6xl md:text-7xl font-extrabold fancy-font tracking-widest leading-tight">
+                    {profile?.name}
+                </p>
+
+                <SectionDivider className="w-[30%] max-w-3xl h-1 bg-btn my-4" />
+
+                <h1 className="text-3xl md:text-4xl font-extrabold text-center fancy-font tracking-wide leading-tight">
+                    Welcome To Your Profile
                 </h1>
-                <p className="md:mt-1 text-md md:text-xl text-center mt-3 text-black uppercase leading-tight italic">
-                    Manage your bookings and stay ready for your next class.
+
+                <p className="mt-2 md:mt-3  text-lg md:text-2xl text-center text-black uppercase leading-snug italic">
+                    Manage your bookings and <br />
+                    stay ready for your next class.
                 </p>
             </header>
 
