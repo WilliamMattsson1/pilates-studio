@@ -1,5 +1,6 @@
 'use client'
 import StripeCheckoutPage from '@/components/checkout/StripeCheckoutPage'
+import Loader from '@/components/shared/ui/Loader'
 import { useClasses } from '@/context/ClassesContext'
 import convertToSubcurrency from '@/utils/convertToSubcurrency'
 import { Elements } from '@stripe/react-stripe-js'
@@ -20,8 +21,9 @@ const StripeCheckoutWrapper = () => {
     const classId = searchParams.get('classId') || ''
     const selectedClass = classes.find((c) => c.id === classId)
     const amount = selectedClass?.price
-    if (!amount || amount <= 0) {
-        return <div>Invalid amount</div>
+
+    if (!selectedClass || !amount || amount <= 0) {
+        return <Loader />
     }
 
     const title = searchParams.get('title') || ''

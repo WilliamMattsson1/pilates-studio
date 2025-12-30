@@ -15,6 +15,7 @@ import SectionDivider from '@/components/shared/ui/SectionDivider'
 import Link from 'next/link'
 import CancellationPolicy from '@/components/shared/CancellationPolicy'
 import { toast } from 'react-toastify'
+import Loader from '@/components/shared/ui/Loader'
 
 const PaymentSuccess = () => {
     const router = useRouter()
@@ -96,9 +97,8 @@ const PaymentSuccess = () => {
     }, [paymentIntentId, router])
 
     if (loading) {
-        return <p className="text-center mt-12">Loading...</p>
+        return <Loader />
     }
-
     return (
         verified && (
             <section className="min-h-[80vh] flex flex-col items-center justify-start px-4 py-8 bg-secondary-bg relative">

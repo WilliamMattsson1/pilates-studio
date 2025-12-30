@@ -43,7 +43,7 @@ const AdminAllBookings = () => {
 
     const { upcomingClasses, pastClasses } = useClasses()
     const { deleteBooking, markBookingAsPaid } = useBookings()
-    const { bookings, fetchBookings } = useAdminBookings()
+    const { bookings, fetchBookings, loading: isLoading } = useAdminBookings()
 
     const [filter, setFilter] = useState<'upcoming' | 'past'>('upcoming')
 
@@ -204,16 +204,30 @@ const AdminAllBookings = () => {
                                     {cls.date} | {cls.start_time} -{' '}
                                     {cls.end_time}
                                 </p>
-                                <p
-                                    className={`font-medium text-sm flex items-center mt-1 ${
-                                        isFull
-                                            ? 'text-red-500'
-                                            : 'text-green-600'
-                                    }`}
-                                >
-                                    <Users size={16} className="inline mr-2" />
-                                    {'Booked'}: {bookedCount}/{cls.max_spots}
-                                    {isFull ? ' (Full)' : ''}
+                                <p className="font-medium text-sm flex items-center mt-1">
+                                    {isLoading ? (
+                                        <span className="animate-pulse text-gray-500">
+                                            Loading...
+                                        </span>
+                                    ) : (
+                                        <>
+                                            <Users
+                                                size={16}
+                                                className="inline mr-2"
+                                            />
+                                            <span
+                                                className={
+                                                    isFull
+                                                        ? 'text-red-500'
+                                                        : 'text-green-600'
+                                                }
+                                            >
+                                                {'Booked'}: {bookedCount}/
+                                                {cls.max_spots}
+                                                {isFull ? ' (Full)' : ''}
+                                            </span>
+                                        </>
+                                    )}
                                 </p>
                             </div>
 
@@ -226,7 +240,11 @@ const AdminAllBookings = () => {
 
                         {isExpanded && (
                             <div className="p-4 border-t flex flex-col gap-3">
-                                {clsBookings.length === 0 ? (
+                                {isLoading ? (
+                                    <p className="text-gray-700 text-sm animate-pulse">
+                                        Loading...
+                                    </p>
+                                ) : clsBookings.length === 0 ? (
                                     <p className="text-gray-700 text-sm">
                                         No bookings yet.
                                     </p>

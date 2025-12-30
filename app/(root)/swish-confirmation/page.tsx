@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import SwishConfirmation from './SwishConfirmation'
 import { Metadata } from 'next'
+import Loader from '@/components/shared/ui/Loader'
 
 export const metadata: Metadata = {
     title: 'Booking Received | Pilates Studio',
@@ -12,7 +13,7 @@ export const dynamic = 'force-dynamic'
 
 const SwishConfirmationPage = () => {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader />}>
             <SwishConfirmation />
         </Suspense>
     )

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import PaymentSuccess from './PaymentSuccess'
 import { Suspense } from 'react'
+import Loader from '@/components/shared/ui/Loader'
 
 export const metadata: Metadata = {
     title: 'Booking Confirmed | Pilates Studio',
@@ -12,7 +13,7 @@ export const dynamic = 'force-dynamic'
 
 const PaymentSuccessPage = () => {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader />}>
             <PaymentSuccess />
         </Suspense>
     )

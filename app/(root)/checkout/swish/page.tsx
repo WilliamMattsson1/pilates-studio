@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import SwishCheckoutWrapper from './SwishCheckoutWrapper'
+import Loader from '@/components/shared/ui/Loader'
 
 export const metadata: Metadata = {
     title: 'Swish Checkout | Pilates Studio',
@@ -11,7 +12,7 @@ export const dynamic = 'force-dynamic'
 
 const SwishCheckoutPage = () => {
     return (
-        <Suspense fallback={<div>Loading checkout...</div>}>
+        <Suspense fallback={<Loader />}>
             <SwishCheckoutWrapper />
         </Suspense>
     )

@@ -10,6 +10,7 @@ import { useProfile } from '@/hooks/useProfile'
 import { StripePaymentElementOptions } from '@stripe/stripe-js'
 import CancellationPolicy from '../shared/CancellationPolicy'
 import { sendBookingEmail } from '@/utils/sendBookingEmail'
+import Loader from '../shared/ui/Loader'
 
 interface StripeCheckoutPageProps {
     amount: number
@@ -183,14 +184,7 @@ const StripeCheckoutPage = ({
     }
 
     if (!clientSecret || !stripe || !elements) {
-        return (
-            <div className="fixed inset-0 flex items-center justify-center  z-50">
-                <div className="flex flex-col items-center gap-4">
-                    <div className="h-12 w-12 border-4 border-t-4 border-t-btn border-gray-200 rounded-full animate-spin"></div>
-                    <span className="text-lg font-medium">Loading...</span>
-                </div>
-            </div>
-        )
+        return <Loader />
     }
 
     return (
