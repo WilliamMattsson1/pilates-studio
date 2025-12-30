@@ -144,6 +144,7 @@ const StripeCheckoutPage = ({
                         if (guestName) params.set('name', guestName)
                         if (guestEmail) params.set('email', guestEmail)
                     }
+                    params.set('payment_intent', paymentIntent.id)
 
                     router.push(`/payment-success?${params.toString()}`)
                 } catch (err) {
