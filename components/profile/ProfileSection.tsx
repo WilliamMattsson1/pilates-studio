@@ -4,12 +4,13 @@ import SectionDivider from '@/components/shared/ui/SectionDivider'
 import { useAuth } from '@/context/AuthContext'
 import { useProfile } from '@/hooks/useProfile'
 import Link from 'next/link'
+import Loader from '../shared/ui/Loader'
 
 const ProfileSection = () => {
     const { user } = useAuth()
     const { profile, bookings, loading, isAdmin } = useProfile(user?.id)
 
-    if (loading) return <p className="p-6 text-center">Loading...</p>
+    if (loading) return <Loader />
 
     const now = new Date()
 
