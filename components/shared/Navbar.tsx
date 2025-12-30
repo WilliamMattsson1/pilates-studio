@@ -35,8 +35,8 @@ const Navbar = () => {
                 <Image
                     src="/images/logo.png"
                     alt="logo"
-                    width={55}
-                    height={55}
+                    width={400}
+                    height={140}
                     className="h-8 w-auto"
                     priority
                 />
