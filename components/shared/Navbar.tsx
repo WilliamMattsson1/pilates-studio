@@ -31,12 +31,13 @@ const Navbar = () => {
             className={`sticky top-0 bg-secondary-bg w-full flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 transition-all duration-500 z-50 py-4 md:py-3`}
         >
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 font-extrabold">
+            <Link href="/" className="flex items-center py-3 font-extrabold">
                 <Image
                     src="/images/logo.png"
                     alt="logo"
                     width={55}
                     height={55}
+                    className="h-8 w-auto"
                     priority
                 />
             </Link>
