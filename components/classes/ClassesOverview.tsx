@@ -60,7 +60,7 @@ const ClassesDetailSections = () => {
                     </div>
                 </div>
 
-                <div className="flex-[45%] flex justify-end">
+                <div className="flex-[45%] flex justify-end mt-8 lg:mt-0">
                     <Image
                         src="/images/reformer-pilates.png"
                         alt="Reformer Pilates"
