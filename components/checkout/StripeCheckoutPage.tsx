@@ -77,6 +77,7 @@ const StripeCheckoutPage = ({
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         setLoading(true)
+        setErrorMessage('')
 
         if (!stripe || !elements) {
             return
@@ -107,6 +108,7 @@ const StripeCheckoutPage = ({
         if (error) {
             // This point is only reached if there's an immediate error when confirming the payment. Show the error to customer ("Payment details incomplete")
             setErrorMessage(error.message)
+            setLoading(false)
         } else {
             // The payment UI automatically closes with success animation. Customer is redirected to return url
             // Om betalningen lyckades, skapa bokning
@@ -150,6 +152,7 @@ const StripeCheckoutPage = ({
                     router.push(`/payment-success?${params.toString()}`)
                 } catch (err) {
                     setErrorMessage('Booking failed. Please contact support.')
+                    setLoading(false)
                     console.error(err)
 
                     // lägg in i databas att något blev fel
