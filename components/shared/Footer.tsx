@@ -33,8 +33,9 @@ const Footer = () => {
                 <Image
                     src="/images/logo.png"
                     alt="logo"
-                    width={120}
+                    width={300}
                     height={120}
+                    className="w-auto h-14"
                     priority
                 />
 
