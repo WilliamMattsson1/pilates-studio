@@ -2,6 +2,7 @@
 
 import { useSearchParams } from 'next/navigation'
 import { useClasses } from '@/context/ClassesContext'
+import { useAuth } from '@/context/AuthContext'
 import {
     Calendar as CalendarIcon,
     User,
@@ -21,6 +22,7 @@ const SwishConfirmation = () => {
     const amount = searchParams.get('amount')
 
     const { classes } = useClasses()
+    const { user } = useAuth()
     const cls = classes.find((c) => c.id === classId)
 
     return (
@@ -73,12 +75,14 @@ const SwishConfirmation = () => {
 
             {/* Knappar */}
             <div className="flex flex-col md:flex-row gap-4 mt-8">
-                <Link
-                    href="/profile"
-                    className="bg-btn text-white px-6 py-3 rounded-md font-bold hover:bg-btn-hover transition text-center"
-                >
-                    See Your Bookings
-                </Link>
+                {user && (
+                    <Link
+                        href="/profile"
+                        className="bg-btn text-white px-6 py-3 rounded-md font-bold hover:bg-btn-hover transition text-center"
+                    >
+                        See Your Bookings
+                    </Link>
+                )}
                 <Link
                     href="/"
                     className="flex items-center justify-center gap-2 border border-black px-6 py-3 rounded-md font-semibold hover:bg-btn-hover hover:text-white hover:border-transparent transition"

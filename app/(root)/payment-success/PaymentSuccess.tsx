@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useClasses } from '@/context/ClassesContext'
+import { useAuth } from '@/context/AuthContext'
 import {
     CheckCircle,
     Home,
@@ -19,6 +20,7 @@ import Loader from '@/components/shared/ui/Loader'
 
 const PaymentSuccess = () => {
     const router = useRouter()
+    const { user } = useAuth()
 
     const searchParams = useSearchParams()
     const classId = searchParams.get('classId')
@@ -163,12 +165,14 @@ const PaymentSuccess = () => {
 
                 {/* Knappar */}
                 <div className="flex flex-col md:flex-row gap-4 mt-8">
-                    <Link
-                        href="/profile"
-                        className="bg-btn text-white px-6 py-3 rounded-md font-bold hover:bg-btn-hover transition text-center"
-                    >
-                        See Your Bookings
-                    </Link>
+                    {user && (
+                        <Link
+                            href="/profile"
+                            className="bg-btn text-white px-6 py-3 rounded-md font-bold hover:bg-btn-hover transition text-center"
+                        >
+                            See Your Bookings
+                        </Link>
+                    )}
 
                     <Link
                         href="/"
