@@ -67,20 +67,31 @@ const PaymentSuccess = () => {
 
         const verifyPayment = async () => {
             try {
-                const res = await fetch('/api/verify-payment', {
+                // Verify payment AND booking existence
+                const res = await fetch('/api/verify-booking', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        paymentIntentId
+                        payment_intent: paymentIntentId
                     })
                 })
 
                 const data = await res.json()
 
-                if (!res.ok || !data.ok) {
-                    throw new Error('Payment not verified')
+                if (!res.ok || !data.verified) {
+                    if (!data.bookingExists) {
+                        toast.error(
+                            'Payment received but booking not found. Please contact support.'
+                        )
+                    } else {
+                        toast.error(
+                            'We could not verify your payment. Please contact support.'
+                        )
+                    }
+                    router.push('/booking-error')
+                    return
                 }
 
                 setVerified(true)

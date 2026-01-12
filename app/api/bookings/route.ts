@@ -63,6 +63,55 @@ export async function POST(req: Request) {
             )
         }
 
+        // Idempotency check: If Stripe payment, check if booking already exists
+        if (stripe_payment_id && payment_method === 'stripe') {
+            const { data: existingBooking } = await supabaseAdmin
+                .from('booking_details')
+                .select('booking_id')
+                .eq('stripe_payment_id', stripe_payment_id)
+                .single()
+
+            if (existingBooking) {
+                // Return existing booking
+                const { data: booking } = await supabase
+                    .from('bookings')
+                    .select('*')
+                    .eq('id', existingBooking.booking_id)
+                    .single()
+
+                if (booking) {
+                    const { data: details } = await supabaseAdmin
+                        .from('booking_details')
+                        .select('*')
+                        .eq('booking_id', booking.id)
+                        .single()
+
+                    if (details) {
+                        return NextResponse.json({
+                            data: { ...booking, details },
+                            error: null
+                        })
+                    }
+                }
+            }
+        }
+
+        // Double-check capacity right before insert (race condition protection)
+        const { data: finalCheck } = await supabase
+            .from('bookings')
+            .select('id')
+            .eq('class_id', class_id)
+
+        if ((finalCheck?.length || 0) >= (classData.max_spots || 0)) {
+            return NextResponse.json(
+                {
+                    data: null,
+                    error: 'Class became full. Please try another class.'
+                },
+                { status: 400 }
+            )
+        }
+
         // Lägg till publika booking
         const { data: booking, error: insertError } = await supabase
             .from('bookings')
