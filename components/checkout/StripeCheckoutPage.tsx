@@ -1,15 +1,12 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
-import { PaymentIntent, StripeError } from '@stripe/stripe-js'
+import { StripeError } from '@stripe/stripe-js'
 import { Calendar, Clock, User } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useBookings } from '@/context/BookingsContext'
 import { useAuth } from '@/context/AuthContext'
 import { useProfile } from '@/hooks/useProfile'
 import { StripePaymentElementOptions } from '@stripe/stripe-js'
 import CancellationPolicy from '../shared/CancellationPolicy'
-import { sendBookingEmail } from '@/utils/sendBookingEmail'
 import Loader from '../shared/ui/Loader'
 
 interface StripeCheckoutPageProps {
@@ -35,8 +32,6 @@ const StripeCheckoutPage = ({
 }: StripeCheckoutPageProps) => {
     const stripe = useStripe()
     const elements = useElements()
-    const router = useRouter()
-    const { addBooking } = useBookings()
     const { user } = useAuth()
     const { profile } = useProfile(user?.id)
 
@@ -55,24 +50,51 @@ const StripeCheckoutPage = ({
         },
         defaultValues: {
             billingDetails: {
-                name: customerName || '',
-                email: customerEmail || '',
+                name: customerName,
+                email: customerEmail,
                 phone: 'never'
             }
         }
     }
 
     useEffect(() => {
+        if (!classId || clientSecret) return
+        if (!customerEmail) return
+
         fetch('/api/create-payment-intent', {
             method: 'POST',
             headers: {
                 'Content-Type': 'Application/json'
             },
-            body: JSON.stringify({ classId })
+            body: JSON.stringify({
+                classId,
+                userId: user?.id || null,
+                guestName: customerName,
+                guestEmail: customerEmail,
+                classTitle: title,
+                classDate: date,
+                classTime: `${startTime} - ${endTime}`,
+                amount: String(amount)
+            })
         })
             .then((res) => res.json())
-            .then((data) => setClientSecret(data.clientSecret))
-    }, [classId])
+            .then((data) => {
+                if (data.error) {
+                    console.error('Payment intent creation failed:', data.error)
+                    setErrorMessage(data.error)
+                } else {
+                    setClientSecret(data.clientSecret)
+                }
+            })
+            .catch((err) => {
+                console.error('Payment intent creation error:', err)
+                setErrorMessage(
+                    'Failed to initialize payment. Please try again.'
+                )
+            })
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [classId, clientSecret, customerEmail])
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -91,99 +113,24 @@ const StripeCheckoutPage = ({
             return
         }
 
-        // confirm payment
-        const {
-            paymentIntent,
-            error
-        }: { paymentIntent?: PaymentIntent; error?: StripeError } =
-            await stripe.confirmPayment({
-                elements,
-                clientSecret,
-                confirmParams: {
-                    return_url: `${window.location.origin}/payment-success?amount=${amount}`
-                },
-                redirect: 'if_required' // så att vi kan hantera redirect manuellt
-            })
+        // Confirm payment - Stripe will handle redirect automatically
+        // Stripe will append payment_intent parameter to return_url automatically
+        const { error }: { error?: StripeError } = await stripe.confirmPayment({
+            elements,
+            clientSecret,
+            confirmParams: {
+                return_url: `${window.location.origin}/payment-success?amount=${amount}`
+            }
+            // Removed redirect: 'if_required' to allow Stripe's native redirect flow
+            // Webhook will handle booking creation asynchronously
+        })
 
         if (error) {
-            // This point is only reached if there's an immediate error when confirming the payment. Show the error to customer ("Payment details incomplete")
+            // This point is only reached if there's an immediate error when confirming the payment
             setErrorMessage(error.message)
             setLoading(false)
-        } else {
-            // The payment UI automatically closes with success animation. Customer is redirected to return url
-            // Om betalningen lyckades, skapa bokning
-            if (paymentIntent?.status === 'succeeded' && classId) {
-                try {
-                    await addBooking({
-                        class_id: classId,
-                        user_id: user?.id,
-                        guest_name: user ? profile?.name : guestName,
-                        guest_email: user ? user?.email : guestEmail,
-                        stripe_payment_id: paymentIntent.id,
-                        payment_method: 'stripe',
-                        swish_received: false
-                    })
-
-                    await sendBookingEmail({
-                        guestName: customerName,
-                        guestEmail: customerEmail,
-                        classTitle: title,
-                        classDate: date,
-                        classTime: `${startTime} - ${endTime}`,
-                        price: `${amount}kr`,
-                        linkUrl:
-                            'https://pilates-studio-xi.vercel.app/classes#available-classes'
-                    }).catch((err) =>
-                        console.error('Failed to send booking email', err)
-                    )
-
-                    const params = new URLSearchParams()
-                    params.set('classId', classId)
-                    params.set('amount', String(amount))
-                    if (user) {
-                        if (profile?.name) params.set('name', profile.name)
-                        if (user.email) params.set('email', user.email)
-                    } else {
-                        if (guestName) params.set('name', guestName)
-                        if (guestEmail) params.set('email', guestEmail)
-                    }
-                    params.set('payment_intent', paymentIntent.id)
-
-                    router.push(`/payment-success?${params.toString()}`)
-                } catch (err) {
-                    setErrorMessage('Booking failed. Please contact support.')
-                    setLoading(false)
-                    console.error(err)
-
-                    // lägg in i databas att något blev fel
-                    // Förbered data att skicka till servern
-                    const failedBookingData = {
-                        class_id: classId,
-                        user_id: user?.id ?? null,
-                        guest_name: user ? profile?.name : guestName,
-                        guest_email: user ? user?.email : guestEmail,
-                        stripe_payment_id: paymentIntent?.id,
-                        payment_method: 'stripe', // alltid stripe i detta fall
-                        error_message:
-                            err instanceof Error ? err.message : String(err)
-                    }
-
-                    // Skicka till server-side route för failed bookings
-                    fetch('/api/bookings/failed-bookings', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(failedBookingData)
-                    }).catch((logErr) => {
-                        console.error('Failed to log failed booking', logErr)
-                    })
-                    router.push('/booking-error')
-                }
-            }
-
-            setLoading(false)
         }
+        // If successful, Stripe will redirect to return_url automatically
     }
 
     if (!clientSecret || !stripe || !elements) {
