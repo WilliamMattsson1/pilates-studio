@@ -154,8 +154,7 @@ const PaymentSuccess = () => {
                     </p>
                     <p className="text-sm text-gray-500 mb-6">
                         You&apos;ll receive a confirmation email once your
-                        booking is confirmed. This usually takes just a few
-                        seconds.
+                        booking is confirmed.
                     </p>
                     <div className="flex flex-col md:flex-row gap-4 justify-center">
                         {user && (
