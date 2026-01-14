@@ -2,16 +2,18 @@
 import Link from 'next/link'
 import { useClasses } from '@/context/ClassesContext'
 import { Calendar, Users, AlertCircle } from 'lucide-react'
-import { useProfiles } from '@/context/ProfilesContext'
 import { useAdminBookings } from '@/hooks/useAdminBookings'
 import { useFailedBookings } from '@/hooks/useFailedBookings'
 import { isBookingPaid } from '@/utils/bookings'
 
-const AdminOverview = () => {
+interface AdminOverviewProps {
+    activeStudents: number
+}
+
+const AdminOverview = ({ activeStudents }: AdminOverviewProps) => {
     const { upcomingClasses } = useClasses()
     const { bookings } = useAdminBookings()
     const { failedBookings } = useFailedBookings()
-    const { activeStudents } = useProfiles()
 
     const today = new Date()
     const startOfWeek = new Date(today)

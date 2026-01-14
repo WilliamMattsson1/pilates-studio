@@ -156,8 +156,10 @@ const PaymentSuccess = () => {
                     </p>
                     <p className="text-sm text-gray-500 mb-6">
                         You&apos;ll receive a confirmation email once your
-                        booking is confirmed.
+                        booking is confirmed. If you don&apos;t receive an
+                        email, please check your spam folder.
                     </p>
+
                     <div className="flex flex-col md:flex-row gap-4 justify-center">
                         {user && (
                             <Link
@@ -175,6 +177,16 @@ const PaymentSuccess = () => {
                             Back To Start
                         </Link>
                     </div>
+                    <p className="mt-10 text-[10px] text-gray-400 uppercase tracking-widest italic">
+                        If no email arrives within 1 hour, contact
+                        <br />
+                        <a
+                            href="mailto:kontakt@williammattsson.se"
+                            className="text-gray-600 font-bold hover:underline"
+                        >
+                            kontakt@williammattsson.se
+                        </a>
+                    </p>
                 </div>
             </section>
         )
@@ -230,7 +242,8 @@ const PaymentSuccess = () => {
                             <MailCheck className="w-5 h-5" />
                             <span>
                                 A confirmation email has been sent to your
-                                inbox.
+                                inbox. If you don&apos;t receive an email,
+                                please check your spam folder.
                             </span>
                         </div>
 
