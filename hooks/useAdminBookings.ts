@@ -21,10 +21,11 @@ export const useAdminBookings = () => {
                 throw new Error(data.error || 'Failed to fetch bookings')
             setBookings(data.data)
         } catch (err: unknown) {
-            const message = err instanceof Error ? err.message : 'Unknown error'
-            console.error(message)
-            setError(message)
-            toast.error(message)
+            console.error('[useAdminBookings] fetchBookings:', err)
+
+            const displayError = 'Failed to load bookings. Please try again.'
+            setError(displayError)
+            toast.error(displayError)
         } finally {
             setLoading(false)
         }

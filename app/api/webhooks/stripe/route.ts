@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
             err instanceof Error ? err.message : 'Unknown error'
         console.error('[Webhook] Signature verification failed:', errorMessage)
         return NextResponse.json(
-            { error: `Webhook signature verification failed: ${errorMessage}` },
+            { error: 'Webhook signature verification failed' },
             { status: 401 }
         )
     }
@@ -187,7 +187,7 @@ export async function POST(request: NextRequest) {
 
             // Return 500 for unexpected errors
             return NextResponse.json(
-                { error: `Webhook processing failed: ${errorMessage}` },
+                { error: 'Webhook processing failed' },
                 { status: 500 }
             )
         }

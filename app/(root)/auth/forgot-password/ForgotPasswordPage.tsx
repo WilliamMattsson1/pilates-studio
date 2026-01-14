@@ -29,8 +29,9 @@ const ForgotPasswordPage = () => {
             })
         } catch (err: unknown) {
             if (err instanceof Error) {
+                console.error('Reset password error:', err)
                 setMessage({
-                    text: err.message,
+                    text: 'Failed to reset password. Please try again or contact support.',
                     type: 'error'
                 })
             } else {

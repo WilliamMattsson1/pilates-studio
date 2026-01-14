@@ -20,8 +20,8 @@ export const useProfile = (userId: string | undefined) => {
                 const res = await fetch('/api/profiles/is-admin')
                 const data = await res.json()
                 setIsAdmin(data.admin) // lokal state i hooken
-            } catch (err) {
-                console.error(err)
+            } catch (err: unknown) {
+                console.error('[useProfile] fetchAdmin:', err)
                 setIsAdmin(false)
             }
         }
@@ -39,7 +39,7 @@ export const useProfile = (userId: string | undefined) => {
                 const res = await fetch('/api/bookings/user-bookings')
                 const data = await res.json()
 
-                if (data.error) throw new Error(data.error)
+                if (!res.ok) throw new Error(data.error || 'Failed to fetch')
 
                 setProfile(data.profile)
                 setUserBookings(
@@ -50,10 +50,10 @@ export const useProfile = (userId: string | undefined) => {
                     }))
                 )
             } catch (err: unknown) {
-                const message =
-                    err instanceof Error ? err.message : 'Unknown error'
-                console.error('Failed to fetch profile bookings:', message)
-                toast.error(message)
+                console.error('[useProfile] fetchProfileAndBookings:', err)
+
+                const displayError = 'Could not load profile or bookings.'
+                toast.error(displayError)
             } finally {
                 setLoading(false)
             }

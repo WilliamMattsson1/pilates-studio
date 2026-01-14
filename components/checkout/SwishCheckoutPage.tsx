@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { Calendar, User, ArrowRight, Clock } from 'lucide-react'
 import CancellationPolicy from '@/components/shared/CancellationPolicy'
 import Image from 'next/image'
+import { toast } from 'react-toastify'
 
 interface SwishCheckoutPageProps {
     classId: string
@@ -57,17 +58,19 @@ const SwishCheckoutPage = ({
             const params = new URLSearchParams()
             params.set('classId', classId)
             params.set('amount', String(amount))
-            if (user) {
-                if (profile?.name) params.set('name', profile.name)
-                if (user.email) params.set('email', user.email)
-            } else {
-                if (guestName) params.set('name', guestName)
-                if (guestEmail) params.set('email', guestEmail)
-            }
+
+            // Säker hantering av parametrar för confirmation-sidan
+            if (customerName) params.set('name', customerName)
+            if (customerEmail) params.set('email', customerEmail)
 
             router.push(`/swish-confirmation?${params.toString()}`)
         } catch (err) {
-            console.error('Failed to create booking', err)
+            console.error('[SwishCheckout] Failed to create booking:', err)
+            const message =
+                err instanceof Error
+                    ? err.message
+                    : 'Kunde inte skapa bokning. Försök igen.'
+            toast.error(message)
         } finally {
             setSubmitting(false)
         }

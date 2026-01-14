@@ -71,13 +71,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             setSession(data.session ?? null)
             setUser(data.session?.user ?? null)
         } catch (err: unknown) {
+            console.error('[AuthContext] Sign In Error:', err)
+
             if (err instanceof Error) {
-                console.error('Sign In Error:', err.message)
-                throw new Error(err.message || 'Failed to sign in')
-            } else {
-                console.error('Sign In Error:', err)
-                throw new Error('Failed to sign in')
+                if (err.message.includes('invalid login credentials')) {
+                    throw new Error('Invalid email or password')
+                }
+                throw new Error(err.message)
             }
+            throw new Error('Failed to sign in')
         } finally {
             setLoading(false)
         }
@@ -121,13 +123,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             setSession(data.session ?? null)
             setUser(data.session?.user ?? null)
         } catch (err: unknown) {
+            console.error('[AuthContext] Sign Up Error:', err)
+
             if (err instanceof Error) {
-                console.error('Sign Up Error:', err.message)
-                throw new Error(err.message || 'Failed to sign up')
-            } else {
-                console.error('Sign Up Error:', err)
-                throw new Error('Failed to sign up')
+                if (err.message.includes('already registered')) {
+                    throw new Error('This email is already in use')
+                }
+                throw new Error(err.message)
             }
+            throw new Error('Failed to sign up')
         } finally {
             setLoading(false)
         }

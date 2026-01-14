@@ -45,13 +45,9 @@ export const ClassesProvider = ({
                 throw new Error(data.error || 'Failed to fetch classes')
             setClasses(data.data)
         } catch (err: unknown) {
-            if (err instanceof Error) {
-                console.log('Error fetching classes', err.message)
-                setError(err.message)
-            } else {
-                console.log('Error fetching classes', err)
-                setError('Unknown error occurred')
-            }
+            console.error('[ClassesContext] refreshClasses:', err)
+
+            setError('Could not load classes. Please refresh the page.')
         } finally {
             setLoading(false)
         }
@@ -114,15 +110,13 @@ export const ClassesProvider = ({
             const data = await res.json()
             if (!res.ok) throw new Error(data.error || 'Failed to add class')
         } catch (err: unknown) {
-            if (err instanceof Error) {
-                console.log('Error adding class', err.message)
-                setError(err.message)
-                throw err
-            } else {
-                console.log('Error adding class', err)
-                setError('Unknown error occurred')
-                throw new Error('Unknown error occurred')
-            }
+            console.error('[ClassesContext] addClass:', err)
+
+            const displayError =
+                'Failed to create class. Please check the details.'
+
+            setError(displayError)
+            throw new Error(displayError)
         } finally {
             setLoading(false)
         }
@@ -141,15 +135,12 @@ export const ClassesProvider = ({
             const data = await res.json()
             if (!res.ok) throw new Error(data.error || 'Failed to update class')
         } catch (err: unknown) {
-            if (err instanceof Error) {
-                console.log('Error updating class', err.message)
-                setError(err.message)
-                throw err
-            } else {
-                console.log('Error updating class', err)
-                setError('Unknown error occurred')
-                throw new Error('Unknown error occurred')
-            }
+            console.error('[ClassesContext] updateClass:', err)
+
+            const displayError = 'Failed to update class. Please try again.'
+
+            setError(displayError)
+            throw new Error(displayError)
         } finally {
             setLoading(false)
         }
@@ -164,17 +155,26 @@ export const ClassesProvider = ({
                 method: 'DELETE'
             })
             const data = await res.json()
-            if (!res.ok) throw new Error(data.error || 'Failed to delete class')
-        } catch (err: unknown) {
-            if (err instanceof Error) {
-                console.log('Error deleting class', err.message)
-                setError(err.message)
-                throw err
-            } else {
-                console.log('Error deleting class', err)
-                setError('Unknown error occurred')
-                throw new Error('Unknown error occurred')
+            if (!res.ok) {
+                // Kolla om felet beror på att det finns bokningar (hantera dessa först)
+                if (data.error?.includes('foreign key constraint')) {
+                    throw new Error(
+                        'Kan inte radera: Det finns deltagare bokade på detta pass. Hantera bokningarna först.'
+                    )
+                }
+                throw new Error('Failed to delete class. Please try again.')
             }
+        } catch (err: unknown) {
+            console.error('[ClassesContext] deleteClass:', err)
+
+            const isCustomError =
+                err instanceof Error && err.message.includes('Kan inte radera')
+            const displayError = isCustomError
+                ? (err as Error).message
+                : 'Failed to delete class. Please try again.'
+
+            setError(displayError)
+            throw new Error(displayError)
         } finally {
             setLoading(false)
         }

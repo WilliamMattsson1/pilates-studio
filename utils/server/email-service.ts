@@ -26,9 +26,7 @@ interface SendBookingEmailError {
     error: string
 }
 
-type SendBookingEmailResponse =
-    | SendBookingEmailSuccess
-    | SendBookingEmailError
+type SendBookingEmailResponse = SendBookingEmailSuccess | SendBookingEmailError
 
 /**
  * Send a booking confirmation email using Resend.
@@ -46,13 +44,12 @@ export async function sendBookingEmail(
         })
 
         return { success: true }
-    } catch (error) {
-        const errorMessage =
-            error instanceof Error ? error.message : String(error)
-        console.error('[EmailService] Email sending failed:', errorMessage)
+    } catch (error: unknown) {
+        console.error('[EmailService] Email sending failed:', error)
+
         return {
             success: false,
-            error: errorMessage
+            error: 'Failed to send confirmation email. Please check your dashboard.'
         }
     }
 }

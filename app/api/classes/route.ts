@@ -13,8 +13,9 @@ export async function GET() {
         .order('start_time', { ascending: true })
 
     if (error) {
+        console.error('Fetch classes error:', error)
         return NextResponse.json(
-            { data: null, error: error.message },
+            { data: null, error: 'Failed to fetch classes' },
             { status: 500 }
         )
     }
@@ -23,9 +24,8 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-    await requireAdmin()
-
     try {
+        await requireAdmin()
         const body = await req.json()
 
         if (
@@ -48,18 +48,26 @@ export async function POST(req: Request) {
             .single()
 
         if (error) {
+            console.error('Create class error:', error)
             return NextResponse.json(
-                { data: null, error: error.message },
+                { data: null, error: 'Failed to create class' },
                 { status: 500 }
             )
         }
 
         return NextResponse.json({ data, error: null })
     } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : String(err)
+        console.error('POST class error:', err)
+        const message = err instanceof Error ? err.message : ''
+        const isAuth =
+            message === 'Unauthorized' || message === 'Not authenticated'
+
         return NextResponse.json(
-            { data: null, error: message },
-            { status: 500 }
+            {
+                data: null,
+                error: isAuth ? 'Unauthorized' : 'Internal Server Error'
+            },
+            { status: isAuth ? 403 : 500 }
         )
     }
 }

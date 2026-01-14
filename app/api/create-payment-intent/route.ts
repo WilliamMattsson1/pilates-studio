@@ -64,11 +64,9 @@ export async function POST(request: NextRequest) {
             amount: amountFromBody ?? String(classData.price)
         }
 
-        console.log('[PaymentIntent] Creating with metadata:', {
-            paymentIntentId: 'pending',
+        console.log('[PaymentIntent] Creating:', {
             classId: metadata.classId,
-            userId: metadata.userId,
-            guestEmail: metadata.guestEmail
+            email: metadata.guestEmail
         })
 
         const paymentIntent = await stripe.paymentIntents.create({
@@ -96,8 +94,9 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ clientSecret: paymentIntent.client_secret })
     } catch (error) {
         console.error('[PaymentIntent] Internal Server Error:', error)
+
         return NextResponse.json(
-            { error: `Internal Server Error: ${error}` },
+            { error: 'Internal Server Error' },
             { status: 500 }
         )
     }

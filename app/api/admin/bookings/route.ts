@@ -4,9 +4,9 @@ import { requireAdmin } from '@/utils/server/auth'
 import { supabaseAdmin } from '@/utils/supabase/admin'
 
 export async function GET() {
-    await requireAdmin()
-
     try {
+        await requireAdmin()
+
         // Hämta alla bookings
         const { data: bookings, error: bookingsError } = await supabaseAdmin
             .from('bookings')
@@ -32,10 +32,23 @@ export async function GET() {
 
         return NextResponse.json({ data: bookingsWithDetails, error: null })
     } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : 'Unauthorized'
+        console.error('Detailed Admin Error:', err)
+
+        const errorMessage = err instanceof Error ? err.message : ''
+
+        if (
+            errorMessage === 'Unauthorized' ||
+            errorMessage === 'Not authenticated'
+        ) {
+            return NextResponse.json(
+                { data: null, error: 'Unauthorized' },
+                { status: 403 }
+            )
+        }
+
         return NextResponse.json(
-            { data: null, error: message },
-            { status: 403 }
+            { data: null, error: 'Internal Server Error' },
+            { status: 500 }
         )
     }
 }

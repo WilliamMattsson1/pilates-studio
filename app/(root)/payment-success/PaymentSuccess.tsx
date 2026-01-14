@@ -111,8 +111,10 @@ const PaymentSuccess = () => {
                         setLoading(false)
                         return
                     }
-                } catch (err) {
-                    console.error('Polling error:', err)
+                } catch {
+                    console.warn(
+                        'Temporary connection issue, retrying booking sync...'
+                    )
                 }
 
                 // Wait before next attempt (except on last attempt)

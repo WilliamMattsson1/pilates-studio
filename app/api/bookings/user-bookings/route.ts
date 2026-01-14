@@ -21,14 +21,22 @@ export async function GET() {
             .select('id, name, email')
             .eq('id', user.id)
             .maybeSingle()
-        if (profileError) throw profileError
+
+        if (profileError) {
+            console.error('Profile fetch error:', profileError)
+            throw new Error('Database error')
+        }
 
         // Hämta booking_details för användaren
         const { data: detailsData, error: detailsError } = await supabase
             .from('booking_details')
             .select('booking_id')
             .eq('user_id', user.id)
-        if (detailsError) throw detailsError
+
+        if (detailsError) {
+            console.error('Booking details error:', detailsError)
+            throw new Error('Database error')
+        }
 
         const bookingIds = detailsData?.map((d) => d.booking_id) || []
 
@@ -37,17 +45,28 @@ export async function GET() {
             .from('bookings')
             .select('id, class_id, created_at')
             .in('id', bookingIds)
-        if (bookingsError) throw bookingsError
+
+        if (bookingsError) {
+            console.error('Bookings error:', bookingsError)
+            throw new Error('Database error')
+        }
 
         return NextResponse.json({
             profile,
             bookings: bookingsData
         })
     } catch (err: unknown) {
-        console.error('Failed to fetch user bookings:', err)
-        const message = err instanceof Error ? err.message : String(err)
+        console.error('Detailed fetch error:', err)
+
+        const message = err instanceof Error ? err.message : ''
+        const isDbError = message === 'Database error'
+
         return NextResponse.json(
-            { error: message || 'Something went wrong' },
+            {
+                error: isDbError
+                    ? 'Failed to load your account data'
+                    : 'Something went wrong'
+            },
             { status: 500 }
         )
     }

@@ -23,12 +23,33 @@ export async function POST(
             .select()
             .single()
 
-        if (error) throw error
+        if (error) {
+            console.error('Swish confirmation error:', error)
+            return NextResponse.json(
+                { data: null, error: 'Failed to update payment status' },
+                { status: 500 }
+            )
+        }
 
-        return NextResponse.json({ data })
+        return NextResponse.json({ data, error: null })
     } catch (err: unknown) {
-        const message =
-            err instanceof Error ? err.message : 'Something went wrong'
-        return NextResponse.json({ error: message }, { status: 500 })
+        console.error('Detailed Swish POST Error:', err)
+
+        const errorMessage = err instanceof Error ? err.message : ''
+
+        if (
+            errorMessage === 'Unauthorized' ||
+            errorMessage === 'Not authenticated'
+        ) {
+            return NextResponse.json(
+                { data: null, error: 'Unauthorized' },
+                { status: 403 }
+            )
+        }
+
+        return NextResponse.json(
+            { data: null, error: 'Internal Server Error' },
+            { status: 500 }
+        )
     }
 }

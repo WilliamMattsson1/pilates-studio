@@ -7,6 +7,8 @@ import { toast } from 'react-toastify'
 const AdminAddClass = () => {
     const { addClass } = useClasses()
 
+    const [isLoading, setIsLoading] = useState(false)
+
     const [title, setTitle] = useState('')
     const [date, setDate] = useState('')
     const [startTime, setStartTime] = useState('')
@@ -16,6 +18,7 @@ const AdminAddClass = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+        setIsLoading(true)
 
         try {
             await addClass({
@@ -32,11 +35,14 @@ const AdminAddClass = () => {
             setStartTime('')
             setEndTime('')
             setMaxSpots(8)
+            setPrice(199)
 
             toast.success('Class added successfully!')
         } catch (error) {
-            console.error(error)
+            console.error('[AdminAddClass] Submit error:', error)
             toast.error('Failed to add class. Please try again.')
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -61,9 +67,10 @@ const AdminAddClass = () => {
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition"
+                            className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition disabled:opacity-50"
                             placeholder="Matte Pilates"
                             required
+                            disabled={isLoading}
                         />
                     </div>
 
@@ -80,9 +87,11 @@ const AdminAddClass = () => {
                             name="date"
                             type="date"
                             value={date}
+                            min={new Date().toISOString().split('T')[0]}
                             onChange={(e) => setDate(e.target.value)}
-                            className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition"
+                            className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition disabled:opacity-50"
                             required
+                            disabled={isLoading}
                         />
                     </div>
 
@@ -97,13 +106,14 @@ const AdminAddClass = () => {
                             </label>
                             <input
                                 id="startTime"
-                                name="startTime"
                                 type="text"
+                                name="startTime"
                                 value={startTime}
                                 onChange={(e) => setStartTime(e.target.value)}
-                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition w-full"
+                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition w-full disabled:opacity-50"
                                 placeholder="14:00"
                                 required
+                                disabled={isLoading}
                             />
                         </div>
                         <div className="flex-1 flex flex-col gap-1">
@@ -115,13 +125,14 @@ const AdminAddClass = () => {
                             </label>
                             <input
                                 id="endTime"
-                                name="endTime"
                                 type="text"
+                                name="endTime"
                                 value={endTime}
                                 onChange={(e) => setEndTime(e.target.value)}
-                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition w-full"
-                                placeholder="15:00"
+                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition w-full disabled:opacity-50"
+                                placeholder="16:00"
                                 required
+                                disabled={isLoading}
                             />
                         </div>
                     </div>
@@ -144,8 +155,9 @@ const AdminAddClass = () => {
                                 onChange={(e) =>
                                     setMaxSpots(Number(e.target.value))
                                 }
-                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition w-full"
+                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition w-full disabled:opacity-50"
                                 required
+                                disabled={isLoading}
                             />
                         </div>
                         <div className="flex-1 flex flex-col gap-1">
@@ -164,17 +176,19 @@ const AdminAddClass = () => {
                                 onChange={(e) =>
                                     setPrice(Number(e.target.value))
                                 }
-                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition w-full"
+                                className="px-4 py-3 rounded-lg bg-secondary-bg/50 outline-none focus:ring-2 focus:ring-btn/50 transition w-full disabled:opacity-50"
                                 required
+                                disabled={isLoading}
                             />
                         </div>
                     </div>
 
                     <button
                         type="submit"
-                        className="bg-btn text-white py-3 rounded-lg text-sm font-semibold hover:bg-btn-hover transition"
+                        disabled={isLoading}
+                        className="bg-btn text-white py-3 rounded-lg text-sm font-semibold hover:bg-btn-hover transition disabled:bg-gray-400 disabled:cursor-not-allowed"
                     >
-                        Add Class
+                        {isLoading ? 'Adding...' : 'Add Class'}
                     </button>
                 </form>
             </div>

@@ -29,9 +29,7 @@ export async function GET() {
 
         // Find orphans
         const orphans =
-            allBookings?.filter(
-                (b) => !bookingIdsWithDetails.has(b.id)
-            ) || []
+            allBookings?.filter((b) => !bookingIdsWithDetails.has(b.id)) || []
 
         return NextResponse.json({
             total: allBookings?.length || 0,
@@ -39,9 +37,15 @@ export async function GET() {
             orphanBookings: orphans
         })
     } catch (err: unknown) {
-        const message =
-            err instanceof Error ? err.message : 'Something went wrong'
-        const status = message === 'Unauthorized' ? 403 : 500
-        return NextResponse.json({ error: message }, { status })
+        console.error('Integrity Check Error:', err)
+
+        const message = err instanceof Error ? err.message : ''
+        const isAuth =
+            message === 'Unauthorized' || message === 'Not authenticated'
+
+        return NextResponse.json(
+            { error: isAuth ? 'Unauthorized' : 'Internal Server Error' },
+            { status: isAuth ? 403 : 500 }
+        )
     }
 }

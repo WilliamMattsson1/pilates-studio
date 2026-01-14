@@ -39,11 +39,13 @@ const ResetPasswordPage = () => {
             setConfirmPassword('')
         } catch (err: unknown) {
             if (err instanceof Error) {
+                console.error('Reset password error:', err)
                 setMessage({
-                    text: err.message,
+                    text: 'Failed to reset password. Please try again or contact support.',
                     type: 'error'
                 })
             } else {
+                console.error('Reset password error:', err)
                 setMessage({
                     text: 'Something went wrong',
                     type: 'error'

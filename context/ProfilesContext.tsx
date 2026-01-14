@@ -29,9 +29,12 @@ export const ProfilesProvider = ({ children }: { children: ReactNode }) => {
             try {
                 const res = await fetch('/api/profiles')
                 const data: { profiles?: Profile[] } = await res.json()
+
+                if (!res.ok) throw new Error('Failed to fetch')
+
                 setProfiles(data.profiles || [])
-            } catch (err) {
-                console.error('Failed to fetch profiles', err)
+            } catch (err: unknown) {
+                console.error('[ProfilesContext] fetchData:', err)
             }
         }
 

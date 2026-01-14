@@ -54,11 +54,12 @@ export async function processBooking(
             paymentIntentId: paymentIntent.id,
             error: fetchError.message
         })
-        const errorMessage = `Failed to fetch existing bookings: ${fetchError.message}`
-        await logFailedBooking(paymentIntent, metadata, errorMessage)
+        // SÄKERHET: Vi loggar detaljfelet internt men returnerar ett städat fel
+        const internalError = `Failed to fetch existing bookings: ${fetchError.message}`
+        await logFailedBooking(paymentIntent, metadata, internalError)
         return {
             success: false,
-            error: errorMessage
+            error: 'Failed to verify class capacity. Please contact support.'
         }
     }
 
@@ -75,11 +76,11 @@ export async function processBooking(
             classId: metadata.classId,
             error: classError.message
         })
-        const errorMessage = `Failed to fetch class data: ${classError.message}`
-        await logFailedBooking(paymentIntent, metadata, errorMessage)
+        const internalError = `Failed to fetch class data: ${classError.message}`
+        await logFailedBooking(paymentIntent, metadata, internalError)
         return {
             success: false,
-            error: errorMessage
+            error: 'Failed to verify class details.'
         }
     }
 
@@ -106,14 +107,12 @@ export async function processBooking(
         .eq('class_id', metadata.classId)
 
     if ((finalCheck?.length || 0) >= (classData.max_spots || 0)) {
-        console.error(
-            '[BookingService] Class became full during processing:',
-            {
-                paymentIntentId: paymentIntent.id,
-                classId: metadata.classId
-            }
-        )
-        const errorMessage = 'Class became full during processing (race condition)'
+        console.error('[BookingService] Class became full during processing:', {
+            paymentIntentId: paymentIntent.id,
+            classId: metadata.classId
+        })
+        const errorMessage =
+            'Class became full during processing (race condition)'
         await logFailedBooking(paymentIntent, metadata, errorMessage)
         return {
             success: false,
@@ -129,16 +128,16 @@ export async function processBooking(
         .single()
 
     if (insertError || !booking) {
-        const errorMessage = insertError?.message || 'Unknown error'
+        const dbError = insertError?.message || 'Unknown error'
         console.error('[BookingService] Booking insert failed:', {
             paymentIntentId: paymentIntent.id,
-            error: errorMessage
+            error: dbError
         })
-        const fullErrorMessage = `Booking insert failed: ${errorMessage}`
-        await logFailedBooking(paymentIntent, metadata, fullErrorMessage)
+        const internalError = `Booking insert failed: ${dbError}`
+        await logFailedBooking(paymentIntent, metadata, internalError)
         return {
             success: false,
-            error: fullErrorMessage
+            error: 'Database error while creating booking.'
         }
     }
 
@@ -168,19 +167,16 @@ export async function processBooking(
         .single()
 
     if (detailsError || !details) {
-        const errorMessage = detailsError?.message || 'Unknown error'
+        const dbError = detailsError?.message || 'Unknown error'
         console.error('[BookingService] Booking details insert failed:', {
             paymentIntentId: paymentIntent.id,
             bookingId: booking.id,
-            error: errorMessage
+            error: dbError
         })
 
         // Try to clean up the orphaned booking
         try {
-            await supabaseAdmin
-                .from('bookings')
-                .delete()
-                .eq('id', booking.id)
+            await supabaseAdmin.from('bookings').delete().eq('id', booking.id)
         } catch (cleanupErr) {
             console.error(
                 '[BookingService] Failed to cleanup orphaned booking:',
@@ -188,11 +184,11 @@ export async function processBooking(
             )
         }
 
-        const fullErrorMessage = `Booking details insert failed: ${errorMessage}`
-        await logFailedBooking(paymentIntent, metadata, fullErrorMessage)
+        const internalError = `Booking details insert failed: ${dbError}`
+        await logFailedBooking(paymentIntent, metadata, internalError)
         return {
             success: false,
-            error: fullErrorMessage
+            error: 'Failed to save booking details.'
         }
     }
 

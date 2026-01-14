@@ -81,11 +81,10 @@ export const BookingsProvider = ({
 
             setBookings(data.data)
         } catch (err: unknown) {
+            console.error('[BookingsContext] refreshBookings:', err)
             if (err instanceof Error) {
-                console.log('Failed to fetch booking', err.message)
-                setError(err.message)
+                setError('Failed to fetch bookings')
             } else {
-                console.log('Failed to fetch booking', err)
                 setError('Unknown error occurred')
             }
         } finally {
@@ -110,17 +109,14 @@ export const BookingsProvider = ({
 
             toast.success('Booking added successfully!')
         } catch (err: unknown) {
-            if (err instanceof Error) {
-                console.log('Error adding booking', err.message)
-                setError(err.message)
-                toast.error(err.message || 'Failed to add booking.')
-                throw err
-            } else {
-                console.log('Error adding booking', err)
-                setError('Unknown error occurred')
-                toast.error('Unknown error occurred')
-                throw new Error('Unknown error occurred')
-            }
+            console.error('[BookingsContext] addBooking:', err)
+
+            const displayError = 'Failed to add booking. Please try again.'
+
+            setError(displayError)
+            toast.error(displayError)
+
+            throw new Error(displayError)
         } finally {
             setLoading(false)
         }
@@ -139,17 +135,14 @@ export const BookingsProvider = ({
 
             toast.success('Booking deleted successfully!')
         } catch (err: unknown) {
-            if (err instanceof Error) {
-                console.log('Error deleting booking', err.message)
-                setError(err.message)
-                toast.error(err.message || 'Failed to delete booking.')
-                throw err
-            } else {
-                console.log('Error deleting booking', err)
-                setError('Unknown error occurred')
-                toast.error('Unknown error occurred')
-                throw new Error('Unknown error occurred')
-            }
+            console.error('[BookingsContext] deleteBooking:', err)
+
+            const displayError = 'Failed to delete booking. Please try again.'
+
+            setError(displayError)
+            toast.error(displayError)
+
+            throw new Error(displayError)
         } finally {
             setLoading(false)
         }
@@ -164,9 +157,13 @@ export const BookingsProvider = ({
             if (!res.ok) throw new Error('Failed to mark as paid')
 
             await refreshBookings()
-        } catch (err) {
-            console.error(err)
-            throw err
+        } catch (err: unknown) {
+            console.error('[BookingsContext] markBookingAsPaid:', err)
+
+            const displayError =
+                'Could not update payment status. Please try again.'
+
+            throw new Error(displayError)
         }
     }
 

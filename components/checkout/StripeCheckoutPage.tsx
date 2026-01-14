@@ -64,7 +64,7 @@ const StripeCheckoutPage = ({
         fetch('/api/create-payment-intent', {
             method: 'POST',
             headers: {
-                'Content-Type': 'Application/json'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 classId,

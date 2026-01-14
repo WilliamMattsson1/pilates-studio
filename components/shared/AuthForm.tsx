@@ -38,11 +38,24 @@ export default function AuthForm({ initialMode = 'signIn' }: AuthFormProps) {
 
             router.push('/')
         } catch (err: unknown) {
+            console.error('[AuthForm Error]:', err)
+
+            let message = 'Something went wrong. Please try again.'
+
             if (err instanceof Error) {
-                setError(err.message)
-            } else {
-                setError('Something went wrong')
+                const rawMsg = err.message.toLowerCase()
+
+                if (rawMsg.includes('invalid login credentials')) {
+                    message = 'Invalid email or password.'
+                } else if (rawMsg.includes('rate limit')) {
+                    message = 'Too many attempts. Please wait a moment.'
+                } else {
+                    message =
+                        'Authentication failed. Please check your details.'
+                }
             }
+
+            setError(message)
             setPassword('')
         }
     }

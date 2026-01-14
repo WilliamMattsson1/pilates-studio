@@ -3,6 +3,7 @@ import { createClient } from '@/utils/supabase/server'
 import { BookingWithDetails, NewBookingDetail } from '@/types/bookings'
 import { supabaseAdmin } from '@/utils/supabase/admin'
 import { stripe } from '@/lib/stripe'
+import { requireAdmin } from '@/utils/server/auth'
 
 export async function GET() {
     const supabase = await createClient()
@@ -12,12 +13,13 @@ export async function GET() {
         .select('*')
         .order('created_at', { ascending: false })
 
-    if (error)
+    if (error) {
+        console.error('Fetch bookings error:', error)
         return NextResponse.json(
-            { data: null, error: error.message },
+            { data: null, error: 'Failed to retrieve bookings' },
             { status: 500 }
         )
-
+    }
     return NextResponse.json({ data, error: null })
 }
 
@@ -25,10 +27,32 @@ export async function POST(req: Request) {
     const supabase = await createClient()
     const body: NewBookingDetail = await req.json()
 
-    const { class_id, stripe_payment_id, payment_method } = body
+    const { class_id, stripe_payment_id, payment_method, swish_received } = body
 
     try {
-        if (stripe_payment_id && payment_method === 'stripe') {
+        const isStripeBooking = stripe_payment_id && payment_method === 'stripe'
+
+        const isSwishBooking =
+            payment_method === 'swish' && swish_received === false
+
+        const isAuthorizedPublicFlow = isStripeBooking || isSwishBooking
+
+        if (!isAuthorizedPublicFlow) {
+            // Om det inte är Stripe eller en obetald Swish, krävs Admin
+            try {
+                await requireAdmin()
+            } catch {
+                return NextResponse.json(
+                    {
+                        data: null,
+                        error: 'Unauthorized: Manual bookings require admin privileges.'
+                    },
+                    { status: 403 }
+                )
+            }
+        }
+
+        if (isStripeBooking) {
             const paymentIntent =
                 await stripe.paymentIntents.retrieve(stripe_payment_id)
             if (paymentIntent.status !== 'succeeded') {
@@ -150,10 +174,14 @@ export async function POST(req: Request) {
         const bookingWithDetails: BookingWithDetails = { ...booking, details }
 
         return NextResponse.json({ data: bookingWithDetails, error: null })
-    } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : String(err)
+    } catch (err) {
+        console.error('Booking creation failed:', err)
+
         return NextResponse.json(
-            { data: null, error: message },
+            {
+                data: null,
+                error: 'An unexpected error occurred during booking.'
+            },
             { status: 500 }
         )
     }

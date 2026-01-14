@@ -19,8 +19,9 @@ export async function DELETE(
             .select()
 
         if (error) {
+            console.error('Delete booking database error:', error)
             return NextResponse.json(
-                { data: null, error: error.message },
+                { data: null, error: 'Failed to delete booking from database' },
                 { status: 500 }
             )
         }
@@ -33,10 +34,13 @@ export async function DELETE(
         }
 
         return NextResponse.json({ data, error: null })
-    } catch (err: unknown) {
-        const message =
-            err instanceof Error ? err.message : 'Something went wrong'
-        const status = message === 'Unauthorized' ? 403 : 500
-        return NextResponse.json({ data: null, error: message }, { status })
+    } catch {
+        return NextResponse.json(
+            {
+                data: null,
+                error: 'An unexpected error occurred during booking deletion.'
+            },
+            { status: 500 }
+        )
     }
 }

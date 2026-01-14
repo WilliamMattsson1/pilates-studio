@@ -4,9 +4,9 @@ import { requireAdmin } from '@/utils/server/auth'
 import { supabaseAdmin } from '@/utils/supabase/admin'
 
 export async function POST(req: Request) {
-    await requireAdmin()
-
     try {
+        await requireAdmin()
+
         const { payment_intent, booking_id } = await req.json()
 
         if (!payment_intent || !booking_id) {
@@ -17,11 +17,19 @@ export async function POST(req: Request) {
         }
 
         // Kolla om den redan är refunded
-        const { data: details } = await supabaseAdmin
+        const { data: details, error: fetchError } = await supabaseAdmin
             .from('booking_details')
             .select('refunded')
             .eq('booking_id', booking_id)
             .single()
+
+        if (fetchError) {
+            console.error('Fetch booking error:', fetchError)
+            return NextResponse.json(
+                { error: 'Booking not found' },
+                { status: 404 }
+            )
+        }
 
         if (details?.refunded) {
             return NextResponse.json({ success: false, alreadyRefunded: true })
@@ -44,7 +52,7 @@ export async function POST(req: Request) {
 
         if (status !== 'succeeded') {
             return NextResponse.json(
-                { error: 'Refund did not complete in time' },
+                { error: 'Refund processing - please check back later' },
                 { status: 500 }
             )
         }
@@ -58,8 +66,9 @@ export async function POST(req: Request) {
             .eq('booking_id', booking_id)
 
         if (dbError) {
+            console.error('DB Update Error after successful refund:', dbError)
             return NextResponse.json(
-                { error: 'Refund succeeded but DB update failed' },
+                { error: 'Refund succeeded but system update failed' },
                 { status: 500 }
             )
         }
@@ -67,7 +76,14 @@ export async function POST(req: Request) {
         return NextResponse.json({ success: true })
     } catch (err: unknown) {
         console.error('Refund API error:', err)
-        const message = err instanceof Error ? err.message : String(err)
-        return NextResponse.json({ error: message }, { status: 500 })
+
+        const message = err instanceof Error ? err.message : ''
+        const isAuth =
+            message === 'Unauthorized' || message === 'Not authenticated'
+
+        return NextResponse.json(
+            { error: isAuth ? 'Unauthorized' : 'Internal Server Error' },
+            { status: isAuth ? 403 : 500 }
+        )
     }
 }

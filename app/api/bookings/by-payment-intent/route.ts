@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/utils/supabase/admin'
+import { createClient } from '@/utils/supabase/server'
 
 export async function GET(request: NextRequest) {
     try {
@@ -41,6 +42,21 @@ export async function GET(request: NextRequest) {
                 found: false,
                 booking: null
             })
+        }
+
+        const supabase = await createClient()
+        const {
+            data: { user }
+        } = await supabase.auth.getUser()
+
+        // Om bokningen är kopplad till ett user_id, kräv att det är rätt användare
+        if (bookingDetail.user_id && bookingDetail.user_id !== user?.id) {
+            return NextResponse.json(
+                {
+                    error: 'Unauthorized: This booking belongs to another account'
+                },
+                { status: 403 }
+            )
         }
 
         // Get class details
