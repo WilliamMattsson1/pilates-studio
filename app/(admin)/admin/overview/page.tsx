@@ -2,6 +2,8 @@ import AdminOverview from '@/components/admin/AdminOverview'
 import { Metadata } from 'next'
 import { getProfilesCount } from '@/utils/server/profiles-service'
 
+export const dynamic = 'force-dynamic' // Lägg till denna!
+
 export const metadata: Metadata = {
     title: 'Admin Overview | Pilates Studio',
     description: 'Manage classes and bookings as an instructor.'
