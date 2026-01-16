@@ -1,14 +1,23 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const Hero = () => {
     return (
-        <section
-            className="w-full min-h-[91vh] md:min-h-[90vh] flex items-center justify-center text-white
-            bg-[url('/images/hero-mobile.png')] sm:bg-[url('/images/hero.png')]
-            bg-cover bg-center"
-        >
-            <div className="text-center px-6 max-w-3xl">
+        <section className="relative w-full min-h-[91vh] md:min-h-[90vh] flex items-center justify-center text-white overflow-hidden">
+            <Image
+                src="/images/hero.png"
+                alt="Professional Pilates training background"
+                fill
+                priority
+                fetchPriority="high"
+                className="object-cover object-center z-0"
+                sizes="100vw"
+            />
+
+            {/* <div className="absolute inset-0 bg-black/30 z-10" /> */}
+
+            <div className="relative z-20 text-center px-6 max-w-3xl">
                 <h1 className="text-3xl md:text-6xl font-bold mb-4 md:mb-2 fancy-font tracking-wide leading-tight">
                     Strengthen Your Body.
                     <br /> Move With Confidence.

@@ -35,8 +35,8 @@ const Navbar = () => {
                 <Image
                     src="/images/logo.png"
                     alt="logo"
-                    width={400}
-                    height={140}
+                    width={160}
+                    height={40}
                     className="h-8 w-auto"
                     priority
                 />
@@ -56,9 +56,12 @@ const Navbar = () => {
                         />
                     </Link>
                 ))}
-                <button className="border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all duration-300 hover:bg-btn hover:text-white">
-                    <Link href="/classes/#available-classes">Book Now</Link>
-                </button>
+                <Link
+                    href="/classes/#available-classes"
+                    className="border px-6 py-2.5 text-sm font-light rounded-full cursor-pointer transition-all duration-300 hover:bg-btn hover:text-white inline-block text-center"
+                >
+                    Book Now
+                </Link>
             </div>
 
             {/* Desktop Right */}
@@ -96,6 +99,7 @@ const Navbar = () => {
                 {/* Hamburger Menu */}
                 <svg
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    aria-label="Open menu"
                     className="h-6 w-6 cursor-pointer"
                     fill="none"
                     stroke="currentColor"
@@ -116,6 +120,7 @@ const Navbar = () => {
             >
                 <button
                     className="absolute top-4 right-4"
+                    aria-label="Close menu"
                     onClick={() => setIsMenuOpen(false)}
                 >
                     <svg
@@ -140,14 +145,13 @@ const Navbar = () => {
                     </a>
                 ))}
 
-                <button className="border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all">
-                    <Link
-                        href="/classes/#available-classes"
-                        onClick={() => setIsMenuOpen(false)}
-                    >
-                        Book Now
-                    </Link>
-                </button>
+                <Link
+                    href="/classes/#available-classes"
+                    className="border px-6 py-2.5 text-sm font-light rounded-full cursor-pointer transition-all duration-300 hover:bg-btn hover:text-white inline-block text-center"
+                    onClick={() => setIsMenuOpen(false)}
+                >
+                    Book Now
+                </Link>
 
                 <button
                     onClick={handleClick}
